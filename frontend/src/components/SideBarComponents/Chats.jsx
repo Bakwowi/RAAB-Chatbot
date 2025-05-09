@@ -1,10 +1,10 @@
 import React from "react";
+import "../../css/SideBarStyles/Chats.css";
 
 
 class ChatsHistory extends React.Component {
     render() {
         return (
-            <div className="chats">
                 <div className="chat active">
                     <div className="chat-title-time">
                         <div className="chat-title">
@@ -19,7 +19,6 @@ class ChatsHistory extends React.Component {
                     </div>
 
                 </div>
-            </div>
         );
     };
 };

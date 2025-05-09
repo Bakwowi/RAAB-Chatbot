@@ -1,0 +1,12 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.chat{
+    width: 100%;
+    background-color: burlywood;
+    margin-top: 5px;
+    padding: 5px 0 5px 8px;
+    border-radius: 5px;
+}

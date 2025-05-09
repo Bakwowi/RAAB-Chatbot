@@ -1,5 +1,5 @@
 import React from "react";
-import ChatsHistory from "./ChatsHistory.jsx";
+import Chats from "./Chats.jsx";
 import "../../css/SideBarStyles/SideBar.css";
 
 
@@ -18,9 +18,17 @@ class SideBar extends React.Component {
                         New chat
                     </button>
                 </div>
+                <div className="label">Chats</div>
                 <div className="conversation-history">
-                    <div className="label">Chats</div>
-                    <ChatsHistory />
+                        <Chats />
+                        <Chats />
+                        <Chats />
+                        <Chats />
+                        <Chats />
+                        <Chats />
+                        <Chats />
+                        <Chats />
+                        
                 </div>
                 <div className="settings">
                     <button id="settings-btn">
