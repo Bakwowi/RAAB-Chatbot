@@ -1,4 +1,5 @@
 import React from "react";
+import "../../css/ChatWindowStyles/ChatWindow.css";
 
 
 class ChatWindow extends React.Component {

@@ -1,6 +1,6 @@
 import React from "react";
-import ChatsHistory from "./ChatsHistory.jsx"
-import "../../css/SideBar.css";
+import ChatsHistory from "./ChatsHistory.jsx";
+import "../../css/SideBarStyles/SideBar.css";
 
 
 
