@@ -2,6 +2,11 @@ import React from "react";
 import "../../css/ChatWindowStyles/ChatWindow.css";
 import MessageBubble from "./MessageBubble";
 import ArrowDownSvg from "../../assets/svgs/ArrowDownIcon.svg";
+import AddFileSvg from "../../assets/svgs/AddFileIcon.svg";
+import MicSvg from "../../assets/svgs/MicIcon.svg";
+import SendSvg from "../../assets/svgs/SendIcon.svg";
+import ChatHeader from "./ChatHeader.jsx";
+import MessageInput from "./MessageInput.jsx";
 
 
 class ChatWindow extends React.Component {
@@ -9,14 +14,7 @@ class ChatWindow extends React.Component {
         return (
             <div className="chat-window">
                 <div className="chat-area">
-                    <div className="chat-header">
-                        <div className="chat-title">The current chat title appears here</div>
-                        <div className="share">
-                            <button id="share-btn">
-                                svg Share
-                            </button>
-                        </div>
-                    </div>
+                    <ChatHeader chatTitle="This is were the chat title will appear"/>
                     <div className="chat-body">
                         <MessageBubble
                             id="user-message"
@@ -62,30 +60,7 @@ class ChatWindow extends React.Component {
                         </button>
                     </div>
                 </div>
-                <div className="message-input">
-                    <div className="input">
-                        <textarea name="input-field" id="input-field" rows={1} placeholder="Ask anything"></textarea>
-                    </div>
-                    <div className="input-options">
-                        <div className="left-options">
-                        <div className="add-file">
-                            <button id="add-file-btn">
-                                svg add
-                            </button>
-                        </div>
-                        <div className="use-mic">
-                            <button id="use-mic-btn">
-                                svg mic
-                            </button>
-                        </div>
-                        </div>
-                        <div className="send-message">
-                            <button id="send-btn">
-                                svg send
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <MessageInput />
             </div>
         );
     };

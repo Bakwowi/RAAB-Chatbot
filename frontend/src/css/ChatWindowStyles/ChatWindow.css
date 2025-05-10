@@ -10,60 +10,14 @@
 .chat-window{
     width: 75%;
     height: 100%;
-    /* background-color: brown; */
     border-left: 1px solid rgba(0, 0, 0, 0.2);
 }
 .chat-window .chat-area{
     position: relative;
     width: 100%;
-    height: 80%;
+    height: 82%;
     /* background-color: aquamarine; */
     /* padding: 0 10px 0 10px; */
-}
-.chat-window .chat-area .chat-header{
-    /* position: absolute;
-    top: 0; */
-    width: 100%;
-    height: 12%;
-    background-color: rgb(255, 255, 255);
-    padding: 0px 10px 0px 10px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.chat-window .chat-area .chat-header .chat-title{
-    width: 80%;
-    height: 100%;
-    color: #000000;
-    font-family: "Figtree", sans-serif;
-    font-size: 1.2rem;
-    font-weight: 400;
-    /* background-color: bisque; */
-    display: flex;
-    align-items: center;
-}
-.chat-window .chat-area .chat-header .share{
-    width: 20%;
-    height: 100%;
-    /* background-color: aquamarine; */
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-.chat-window .chat-area .chat-header .share #share-btn{
-    color: #0047B7;
-    padding: 5px 10px;
-    font-family: "Figtree", sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
-    outline: none;
-    border: 2px solid #0047B7;
-    border-radius: 5px;
-    background-color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 .chat-window .chat-area .chat-body{
     width: 100%;
@@ -105,40 +59,4 @@
 .chat-window .chat-area .scroll-to-bottom #scroll-to-bottom-btn img{
     width: 25px;
     height: 25px;
-}
-
-.chat-window .message-input{
-    /* background-color: #f75353; */
-    padding: 20px 20px 20px 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.2);
-}
-.chat-window .message-input .input{
-    width: 100%;
-    background: linear-gradient(rgba(1, 83, 218, 0.48), rgba(0, 71, 183, 0.7));
-    border-radius: 5px;
-    padding: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.chat-window .message-input .input #input-field{
-    width: 100%;
-    font-family: "Figtree", sans-serif;
-    font-size: 0.9rem;
-    padding: 5px 10px;
-    outline: none;
-    border: 2px solid transparent;
-    border-radius: 5px;
-    resize: none;
-}
-.chat-window .message-input .input-options{
-    width: 100%;
-    display: flex;
-}
-.chat-window .message-input .input-options .left-options{
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
 }

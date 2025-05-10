@@ -17,11 +17,10 @@ button {
     cursor: pointer;
 }
 .side-bar{
-    width: 25%;
+    width: 350px;
     height: 100%;
     background-color: #FFFFFF;
-   
-    /* border: 1px rgba(0, 0, 0, 0.2); */
+    border-right: 1px rgba(0, 0, 0, 0.2);
 }
 .side-bar .side-bar-header{
     width: 100%;
@@ -92,6 +91,9 @@ button {
     outline: none;
     background-color: rgba(0, 0, 0, 0.06);
     gap: 5px;
+}
+.side-bar .new-chat #new-chat-btn:hover{
+    background-color: rgba(0, 0, 0, 0.08);
 }
 .side-bar .new-chat #new-chat-btn #new-chat-svg{
     width: 25px;

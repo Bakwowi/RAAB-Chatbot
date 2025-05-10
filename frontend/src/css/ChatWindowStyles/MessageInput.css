@@ -1,0 +1,78 @@
+
+.chat-window .message-input{
+    width: 100%;
+    height: 18%;
+    /* background-color: #f75353; */
+    padding: 20px 20px 20px 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+.chat-window .message-input .input{
+    width: 100%;
+    background: #00000018;
+    border-radius: 5px;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.chat-window .message-input .input #input-field{
+    width: 100%;
+    font-family: "Figtree", sans-serif;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    outline: none;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background-color: #FCFCFC;
+    resize: none;
+}
+.chat-window .message-input .input:focus-within {
+    background: linear-gradient(rgba(1, 83, 218, 0.48), rgba(0, 71, 183, 0.7));
+}
+.chat-window .message-input .input-options{
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+}
+.chat-window .message-input .input-options .left-options{
+    width: 50%;
+    /* background-color: aquamarine; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.chat-window .message-input .input-options button{
+    width: 35px;
+    height: 35px;
+    border-radius: 50px;
+    padding: 10px;
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.chat-window .message-input .input-options button img{
+    width: 20px;
+    height: 20px;
+}
+.chat-window .message-input .input-options .left-options button{
+    background-color: transparent;
+}
+.chat-window .message-input .input-options .left-options button:hover{
+    background-color: rgba(0, 0, 0, 0.06);
+}
+.chat-window .message-input .input-options .send-message{
+    width: 50%;
+    /* background-color: aquamarine; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.chat-window .message-input .input-options .send-message #send-btn{
+    background: linear-gradient(#0153DA, #0047B7);
+}
+.chat-window .message-input .input-options .send-message #send-btn:hover{
+    background: linear-gradient(#024fcc, #003283);
+}

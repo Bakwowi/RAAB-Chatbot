@@ -3,12 +3,13 @@ import "../../css/ChatWindowStyles/MessageBubble.css";
 
 
 class MessageBubble extends React.Component{
-    constructor(props){
+    constructor(props) {
         super(props);
-    };
+        
+    }
     render(){
         return(
-            <div className="message-bubble-wrapper" id={this.props.id}>
+            <div className={this.props.id} id="message-bubble-wrapper" >
                 <span className="message-bubble-tail"></span>
                 <div className="message-bubble">{this.props.message}</div>
             </div>

@@ -1,10 +1,10 @@
-.message-bubble-wrapper{
+#message-bubble-wrapper{
     position: relative;
     width: 100%;
     /* background-color: aquamarine; */
     display: flex;
 }
-.message-bubble-wrapper .message-bubble{
+#message-bubble-wrapper .message-bubble{
     max-width: 50%;
     /* background-color: bisque; */
     padding: 8px 12px;
@@ -18,18 +18,18 @@
     justify-content: flex-start;
     z-index: 20;
 }
-#user-message{
+.user-message{
     /* background-color: burlywood; */
     padding-right: 20px;
     align-items: center;
     justify-content: flex-end;
 }
-#user-message .message-bubble{
+.user-message .message-bubble{
     background: linear-gradient(140deg,#0153DA, #0047B7);
     color: #FFFFFF;
     border-radius: 5px 0px 5px 5px;
 }
-#user-message .message-bubble-tail{
+.user-message .message-bubble-tail{
     position: absolute;
     right: 10px;
     top: 30px;
@@ -41,18 +41,18 @@
     /* margin-top: 12px; */
     z-index: 10;
 }
-#chatbot-message{
+.chatbot-message{
     /* position: relative; */
     padding-left: 20px;
     /* background-color: darkgoldenrod; */
     align-items: center;
     justify-content: flex-start;
 }
-#chatbot-message .message-bubble{
+.chatbot-message .message-bubble{
     background-color: #FFFFFF;
     border-radius: 0px 5px 5px 5px;
 }
-#chatbot-message .message-bubble-tail{
+.chatbot-message .message-bubble-tail{
     position: absolute;
     left: 10px;
     top: 30px;

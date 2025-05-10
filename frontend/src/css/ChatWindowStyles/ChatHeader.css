@@ -1,0 +1,53 @@
+.chat-window .chat-area .chat-header{
+    /* position: absolute;
+    top: 0; */
+    width: 100%;
+    height: 12%;
+    background-color: rgb(255, 255, 255);
+    padding: 0px 10px 0px 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.chat-window .chat-area .chat-header .chat-title{
+    width: 80%;
+    height: 100%;
+    color: #000000;
+    font-family: "Figtree", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    /* background-color: bisque; */
+    display: flex;
+    align-items: center;
+}
+.chat-window .chat-area .chat-header .share{
+    width: 20%;
+    height: 100%;
+    /* background-color: aquamarine; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.chat-window .chat-area .chat-header .share #share-btn{
+    color: #0047B7;
+    padding: 5px 10px;
+    font-family: "Figtree", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    outline: none;
+    border: 2px solid #0047B7;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.chat-window .chat-area .chat-header .share #share-btn img{
+    width: 20px;
+    height: 20px;
+}
+.chat-window .chat-area .chat-header .share #share-btn:hover{
+    background-color: rgba(0, 0, 0, 0.06);
+}
