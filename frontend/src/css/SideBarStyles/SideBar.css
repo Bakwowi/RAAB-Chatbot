@@ -18,13 +18,16 @@ button {
 }
 .side-bar{
     width: 25%;
+    height: 100%;
     background-color: #FFFFFF;
-    padding: 10px;
+   
+    /* border: 1px rgba(0, 0, 0, 0.2); */
 }
 .side-bar .side-bar-header{
     width: 100%;
     height: 15%;
     font-family: "Konkhmer Sleokchher", system-ui;
+     padding: 0px 10px 0px 10px;
     /* background-color: aquamarine; */
     /* display: flex; */
     /* align-items: center; */
@@ -43,6 +46,7 @@ button {
     color: transparent;
     background: linear-gradient(#0153DA, #0047B7);
     background-clip: text;
+    user-select: none;
 }
 .side-bar .side-bar-header .sub-side-bar-header #close-side-bar-btn{
     width: 40px;
@@ -69,6 +73,7 @@ button {
 .side-bar .new-chat{
     width: 100%;
     height: 10%;
+    padding: 0px 10px 0px 10px;
     /* background-color: bisque; */
 }
 .side-bar .new-chat #new-chat-btn{
@@ -78,8 +83,9 @@ button {
     align-items: center;
     justify-content: flex-start;
     padding: 5px 6px;
-    font-size: 1rem;
-    font-family: "Konkhmer Sleokchher", system-ui;
+    font-size: 1.05rem;
+    font-family: "Figtree", sans-serif;
+    font-weight: 700;
     /* font-weight: 600; */
     color: #0047B7;
     border: none;
@@ -96,14 +102,16 @@ button {
     height: 3%;
     /* background-color: blue; */
     /* font-weight: 100; */
+    padding: 0px 10px 0px 10px;
     font-size: 0.9rem;
     font-family: "Figtree", sans-serif;
     font-weight: 600;
 }
 .side-bar .conversation-history{
     width: 100%;
-    height: 64%;
+    height: 62%;
     /* background-color: rgb(255, 140, 0); */
+    padding: 0px 0px 0px 10px;
     overflow-y: auto;
 }
 .side-bar .conversation-history::-webkit-scrollbar {
@@ -124,10 +132,11 @@ button {
 } */
 .side-bar .settings{
     width: 100%;
-    height: 8%;
+    height: 10%;
     /* background-color: chartreuse; */
+    padding: 0px 10px 0px 10px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: flex-start;
 }
 .side-bar .settings #settings-btn{
