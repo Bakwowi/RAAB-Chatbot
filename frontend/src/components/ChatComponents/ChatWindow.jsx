@@ -10,6 +10,9 @@ import MessageInput from "./MessageInput.jsx";
 
 
 class ChatWindow extends React.Component {
+
+
+
     render() {
         return (
             <div className="chat-window">
@@ -19,7 +22,7 @@ class ChatWindow extends React.Component {
                         <MessageBubble
                             id="user-message"
                             message="Hi RAAB" />
-                        <MessageBubble
+                        {/* <MessageBubble
                             id="chatbot-message"
                             message="Hey 👋! How can I help you today?" />
                         <MessageBubble
@@ -52,7 +55,7 @@ class ChatWindow extends React.Component {
                             message="Yes" />
                         <MessageBubble
                             id="chatbot-message"
-                            message="RAAB is typing..." />
+                            message="RAAB is typing..." /> */}
                     </div>
                     <div className="scroll-to-bottom">
                         <button id="scroll-to-bottom-btn">
