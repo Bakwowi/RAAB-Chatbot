@@ -7,11 +7,30 @@ import MicSvg from "../../assets/svgs/MicIcon.svg";
 import SendSvg from "../../assets/svgs/SendIcon.svg";
 import ChatHeader from "./ChatHeader.jsx";
 import MessageInput from "./MessageInput.jsx";
+import {io} from "socket.io-client";
 
 
 class ChatWindow extends React.Component {
 
+    constructor(){
+        super();
+        this.socket = null;
+    };
 
+    componentDidMount = () => {
+        this.socket = io("http://localhost:3000");
+
+        this.socket.on("message", (response) => {
+            console.log(response);
+        })
+
+        this.socket.emit("client-message", "hello from the client")
+
+    }
+
+    componentWillUnmount = () => {
+        this.socket.disconnect()
+    }
 
     render() {
         return (
