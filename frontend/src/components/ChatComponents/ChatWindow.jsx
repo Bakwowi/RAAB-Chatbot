@@ -24,12 +24,15 @@ class ChatWindow extends React.Component {
             console.log(response);
         })
 
-        this.socket.emit("client-message", "hello from the client")
-
     }
 
     componentWillUnmount = () => {
         this.socket.disconnect()
+    }
+
+    handleInput = (message) => {
+        console.log(message)
+        this.socket.emit("client-message", message)
     }
 
     render() {
@@ -41,7 +44,7 @@ class ChatWindow extends React.Component {
                         <MessageBubble
                             id="user-message"
                             message="Hi RAAB" />
-                        {/* <MessageBubble
+                        <MessageBubble
                             id="chatbot-message"
                             message="Hey 👋! How can I help you today?" />
                         <MessageBubble
@@ -74,7 +77,7 @@ class ChatWindow extends React.Component {
                             message="Yes" />
                         <MessageBubble
                             id="chatbot-message"
-                            message="RAAB is typing..." /> */}
+                            message="RAAB is typing..." />
                     </div>
                     <div className="scroll-to-bottom">
                         <button id="scroll-to-bottom-btn">
@@ -82,7 +85,7 @@ class ChatWindow extends React.Component {
                         </button>
                     </div>
                 </div>
-                <MessageInput />
+                <MessageInput handleInput={this.handleInput}/>
             </div>
         );
     };

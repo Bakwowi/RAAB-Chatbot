@@ -7,22 +7,13 @@ import SendSvg from "../../assets/svgs/SendIcon.svg";
 
 
 class MessageInput extends React.Component {
+    constructor(props){
+        super(props);
+    }
 
-    HandleInputChange = (e) => {
-        // const textarea = document.getElementById('input-field');
-        // const inputWrapper = document.querySelector('.input');
-
-        // const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight); // ~1.2rem
-        // const maxRows = 5;
-
-        // textarea.rows = 1; // Reset to get correct scrollHeight
-        // const currentRows = Math.min(Math.floor(textarea.scrollHeight / lineHeight), maxRows);
-        // textarea.rows = currentRows;
-
-        // // Move the wrapper up by the amount it grew
-        // const offset = (currentRows - 1) * lineHeight;
-        // inputWrapper.style.marginBottom = `-${offset}px`;
-        console.log(e.target.rows);
+    handleButtonSubmit = () => {
+        const inputField = document.querySelector("#input-field")
+        this.props.handleInput(inputField.value);
     }
 
     render() {
@@ -33,8 +24,7 @@ class MessageInput extends React.Component {
                         name="input-field" 
                         id="input-field" 
                         rows={1} 
-                        placeholder="Ask anything"
-                        onChange={this.HandleInputChange}>
+                        placeholder="Ask anything">
                     </textarea>
                 </div>
                 <div className="input-options">
@@ -51,7 +41,7 @@ class MessageInput extends React.Component {
                         </div>
                     </div>
                     <div className="send-message">
-                        <button id="send-btn">
+                        <button id="send-btn" onClick={this.handleButtonSubmit}>
                             <img src={SendSvg} />
                         </button>
                     </div>

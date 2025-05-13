@@ -9,9 +9,9 @@ class MessageBubble extends React.Component{
     }
     render(){
         return(
-            <div className={this.props.id} id="message-bubble-wrapper" >
-                <span className="message-bubble-tail"></span>
-                <div className="message-bubble">{this.props.message}</div>
+            <div className={`${this.props.id} message-bubble-wrapper`}>
+            <span className="message-bubble-tail"></span>
+            <div className="message-bubble">{this.props.message}</div>
             </div>
         );
     };
