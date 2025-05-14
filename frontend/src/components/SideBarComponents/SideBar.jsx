@@ -10,7 +10,7 @@ import SettingsSvg from "../../assets/svgs/SettingsIcon.svg";
 class SideBar extends React.Component {
     render() {
         return (
-            <div className="side-bar">
+            <nav className="side-bar">
                 <div className="side-bar-header">
                     <div className="sub-side-bar-header">
                         <div className="logo">RAAB</div>
@@ -46,7 +46,7 @@ class SideBar extends React.Component {
                         <img src={SettingsSvg} id="settings-svg"/> Settings
                     </button>
                 </div>
-            </div>
+            </nav>
         );
     };
 };

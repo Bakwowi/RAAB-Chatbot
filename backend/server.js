@@ -9,99 +9,48 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173"
+    origin: "http://localhost:5173",
+    methods: ["POST", "GET", "PUT", "PATCH", "HEAD", "DELETE", "OPTIONS"]
 }));
 app.use(express.json())
 
-
-// const openai = new OpenAI({
-//     apiKey: process.env.OPENAI_API_KEY
-// })
-
-
-
-
-
-
-
 const httpServer = http.createServer(app);
-const io = new Server(httpServer, {
-    cors: {
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST"]
-    }
-});
+const io = new Server(httpServer);
 
-app.get("/", async (req, res) => {
-    res.status(200).send({
-        message: "hello fro RAAB"
+
+app.get("/", (req, res) => {
+    res.send({
+        message: "Hello from the server"
     })
 });
 
 
-app.post("/test", (req, res) => {
-    res.json(req.body);
-    // console.log(req)
+app.post("/chat", async (req, res) => {
+    const message = req.body;
+    // console.log(message);
+    const response = await fetch(`${process.env.AZURE_OPENAI_ENDPOINT}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "Application/json",
+            "api-key": process.env.AZURE_OPENAI_KEY
+        },
+        body: JSON.stringify({
+            messages: [
+                {role: "system", content: "You are a helpful assistant"},
+                {role: "user", content: message["message"]}
+            ],
+            temperature: 0.2
+        })
+    });
+
+    const data = await response.json();
+    res.send(data);
+    // console.log(data);
 })
 
 
 
-// const OpenAI = require("openai");
 
-// const openai = new OpenAI();
-
-// async function main() {
-//   const completion = await openai.chat.completions.create({
-//     messages: [{ role: "developer", content: "You are a helpful assistant." }],
-//     model: "gpt-4.1",
-//     store: true,
-//   });
-
-//   console.log(completion.choices[0]);
-// }
-
-// main();
-
-
-
-
-// app.post("/completions", async (req, res) => {
-//     const options = {
-//         method: "POST",
-//         headers: {
-//             "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({
-//             model: "gpt-4.1",
-//             messages: [{role: "user", content: "You are a helpful assistant"}],
-//             max_tokens: 50,
-//         })
-//     }
-
-//     try {
-//         const response = await fetch("https://api.openai.com/v1/chat/completions", options);
-//         const data = await response.json();
-//         res.send(data);
-//     } catch (error) {
-//         console.error(error);
-//     }
-// })
-
-
-
-
-
-
-io.on("connection", (socket) => {
-    console.log(socket.id);
-    // socket.emit("connect-server", "You have connected with the server")
-    socket.emit("message", "Hi from the server");
-
-    socket.on("client-message", (response) => {
-        console.log(response);
-    })
-});
 
 const PORT = process.env.PORT || 3000;
 
