@@ -12,8 +12,14 @@ class MessageInput extends React.Component {
     }
 
     handleButtonSubmit = () => {
-        const inputField = document.querySelector("#input-field")
-        this.props.handleInput(inputField.value);
+        const inputField = document.querySelector("#input-field");
+        if(inputField.value.trim() == ""){
+            console.log("can't submit an empty input field");
+            return;
+        }
+        else {
+             this.props.sendMessage(inputField.value);
+        }
     }
 
     render() {

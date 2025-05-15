@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "mongoose": "^8.14.2",
-    "openai": "^4.98.0"
-  }
-}
