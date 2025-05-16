@@ -4,12 +4,12 @@ import MessageBubble from "./MessageBubble";
 import ArrowDownSvg from "../../assets/svgs/ArrowDownIcon.svg";
 import ChatHeader from "./ChatHeader.jsx";
 import MessageInput from "./MessageInput.jsx";
-import { io } from "socket.io-client";
+import getSocket from "../../socket.js";
 
 class ChatWindow extends React.Component {
   constructor() {
     super();
-    this.socket = null;
+    this.socket = getSocket();
     this.state = {
       messages: [],
     };
@@ -17,7 +17,6 @@ class ChatWindow extends React.Component {
   }
 
   componentDidMount = () => {
-    this.socket = io("http://localhost:3000");
 
     this.socket.on("message", (response) => {
       console.log(response);

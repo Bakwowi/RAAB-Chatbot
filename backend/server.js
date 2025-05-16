@@ -11,6 +11,7 @@ const app = express();
 app.use(cors({
     origin: "http://localhost:5173",
     methods: ["POST", "GET"],
+    credentials: true
 }));
 app.use(express.json());
 
@@ -18,7 +19,8 @@ const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
     cors: {
         origin: "http://localhost:5173",
-        methods: ["POST", "GET"]
+        methods: ["POST", "GET"],
+        credentials: true
     }
 });
 
@@ -56,7 +58,7 @@ app.post("/chat", async (req, res) => {
 
 io.on("connection", (socket) => {
     socket.emit("message", "hi from the server")
-    console.log(socket.id);
+    console.log(socket.id, socket.handshake.auth.userId);
 
     const systemInstructions = `You are TrailMate, a friendly, knowledgeable hiking assistant designed to help users plan and enjoy outdoor adventures.
     
@@ -113,8 +115,6 @@ io.on("connection", (socket) => {
         const data = await response.json();
         const botMessage = data.choices[0].message;
         chatHistory.push({role: botMessage.role, content: botMessage.content});
-        // console.log(chatHistory);
-        // console.log(data.choices[0].message)
 
         socket.emit('botMessage', {role: botMessage.role, content: botMessage.content});
     }
