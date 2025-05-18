@@ -45,7 +45,7 @@ button {
     font-size: 2rem;
     font-weight: 900;
     color: transparent;
-    background: linear-gradient(#0153DA, #0047B7);
+    background: #2563EB;
     background-clip: text;
     user-select: none;
 }
@@ -84,11 +84,11 @@ button {
     align-items: center;
     justify-content: flex-start;
     padding: 5px 6px;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-family: "Figtree", sans-serif;
-    font-weight: 700;
+    font-weight: 600;
     /* font-weight: 600; */
-    color: #0047B7;
+    color: #2563EB;
     border: none;
     outline: none;
     background-color: rgba(0, 0, 0, 0.06);
@@ -154,7 +154,7 @@ button {
     font-family: "Konkhmer Sleokchher", system-ui;
     background-color: #ffffff00;
     /* font-weight: 600; */
-    color: #0047B7;
+    color: #2563EB;
     border: none;
     outline: none;
     gap: 5px;

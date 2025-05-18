@@ -27,7 +27,7 @@
     justify-content: flex-end;
 }
 .user .message-bubble{
-    background: linear-gradient(140deg,#0153DA, #0047B7);
+    background-color: #0084FF;
     color: #FFFFFF;
     border-radius: 5px 0px 5px 5px;
 }
@@ -39,7 +39,7 @@
     height: 20px;
     background-color: #FFFFFF00;
     border: 10px solid;
-    border-color: #004ECCFF #FFFFFF00 #FFFFFF00 #FFFFFF00;
+    border-color: #0084FF #FFFFFF00 #FFFFFF00 #FFFFFF00;
     /* margin-top: 12px; */
     z-index: 10;
 }
@@ -66,7 +66,7 @@
     /* margin-top: 12px; */
     z-index: 40;
 }
-
+/* 
 .message-bubble-wrapper .message-bubble .typing-loader{
   margin: 0.8rem 0.2em;
   display: flex;
@@ -108,7 +108,67 @@
   100%{
     transform: translateY(0);
   }
+} */
+
+
+/* From Uiverse.io by G4b413l */ 
+.typing-loader {
+  --uib-size: 30px;
+  --uib-speed: 0.6s;
+  --uib-color: #0084FF;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  /* justify-content: space-between; */
+  gap: 5px;
+  width: 25px;
+  height: 30px;
+  padding-top: calc(var(--uib-size) * 0.34); 
+  /* background-color: #555; */
+  /* padding: 10px 20px; */
 }
+
+.dot-wave__dot {
+  flex-shrink: 0;
+  width: calc(var(--uib-size) * 0.17);
+  height: calc(var(--uib-size) * 0.17);
+  border-radius: 50%;
+  background-color: var(--uib-color);
+  /* margin-top: 10px; */
+  will-change: transform;
+}
+
+.dot-wave__dot:nth-child(1) {
+  animation: jump824 var(--uib-speed) ease-in-out
+    calc(var(--uib-speed) * -0.45) infinite;
+}
+
+.dot-wave__dot:nth-child(2) {
+  animation: jump824 var(--uib-speed) ease-in-out
+    calc(var(--uib-speed) * -0.3) infinite;
+}
+
+.dot-wave__dot:nth-child(3) {
+  animation: jump824 var(--uib-speed) ease-in-out
+    calc(var(--uib-speed) * -0.15) infinite;
+}
+
+/* .dot-wave__dot:nth-child(4) {
+  animation: jump824 var(--uib-speed) ease-in-out infinite;
+} */
+
+@keyframes jump824 {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-200%);
+  }
+}
+
+
 
 
 /* Basic typography */
@@ -172,7 +232,7 @@
 
 /* Links */
 .message-bubble a {
-  color: #1e90ff;
+  color: #0084FF;
   text-decoration: underline;
 }
 

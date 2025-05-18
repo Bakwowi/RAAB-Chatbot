@@ -36,9 +36,9 @@ class ChatWindow extends React.Component {
             updated.pop();
           }
 
-        //   this.animateResponse(response.content);
+          return this.animateResponse(response);
 
-          return { messages: [...updated, response] };
+          // return { messages: [...updated, response] };
         });
       } else {
         console.log("sorry an error occured in our server");
@@ -50,6 +50,25 @@ class ChatWindow extends React.Component {
     this.socket.disconnect();
   };
 
+  animateResponse = (response) => {
+    const message = response.content;
+    const typingSpeed = 50; // Adjust the speed of typing here
+    let index = 0;
+
+    const interval = setInterval(() => {
+      if (index < message.length) {
+        this.setState((previousState) => ({
+          messages: [
+            ...previousState.messages.slice(0, -1),
+            { role: "assistant", content: message.slice(0, index + 1) },
+          ],
+        }));
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, typingSpeed);
+  }
 
   sendMessage = (message) => {
     this.setState((previousState) => ({

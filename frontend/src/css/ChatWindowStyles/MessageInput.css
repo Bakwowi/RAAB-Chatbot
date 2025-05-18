@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.2s;
 }
 .chat-window .message-input .input #input-field{
     width: 100%;
@@ -29,7 +30,7 @@
     resize: none;
 }
 .chat-window .message-input .input:focus-within {
-    background: linear-gradient(rgba(1, 83, 218, 0.48), rgba(0, 71, 183, 0.7));
+    background-color: #2563EB;
 }
 .chat-window .message-input .input-options{
     width: 100%;
@@ -73,8 +74,8 @@
     justify-content: flex-end;
 }
 .chat-window .message-input .input-options .send-message #send-btn{
-    background: linear-gradient(#0153DA, #0047B7);
+    background-color: #2563EB;
 }
 .chat-window .message-input .input-options .send-message #send-btn:hover{
-    background: linear-gradient(#024fcc, #003283);
+    background-color: #005FCC;
 }

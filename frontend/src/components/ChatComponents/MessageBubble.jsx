@@ -24,9 +24,14 @@ class MessageBubble extends React.Component {
             </ReactMarkdown>
           </div>
             {this.props.className === "typing-loader" && <span className={`${this.props.className}`}>
+                {/* <div></div>
                 <div></div>
-                <div></div>
-                <div></div>
+                <div></div> */}
+
+                <div class="dot-wave__dot"></div>
+                <div class="dot-wave__dot"></div>
+                <div class="dot-wave__dot"></div>
+                {/* <div class="dot-wave__dot"></div> */}
             </span>}
         </div>
       </div>
