@@ -27,8 +27,8 @@
     justify-content: flex-end;
 }
 .user .message-bubble{
-    background-color: #0084FF;
-    color: #FFFFFF;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     border-radius: 5px 0px 5px 5px;
 }
 .user .message-bubble-tail{
@@ -39,7 +39,7 @@
     height: 20px;
     background-color: #FFFFFF00;
     border: 10px solid;
-    border-color: #0084FF #FFFFFF00 #FFFFFF00 #FFFFFF00;
+    border-color: var(--primary-color) #FFFFFF00 #FFFFFF00 #FFFFFF00;
     /* margin-top: 12px; */
     z-index: 10;
 }
@@ -51,7 +51,7 @@
     justify-content: flex-start;
 }
 .assistant .message-bubble{
-    background-color: #FFFFFF;
+    background-color: var(--secondary-color);
     border-radius: 0px 5px 5px 5px;
 }
 .assistant .message-bubble-tail{
@@ -62,7 +62,7 @@
     height: 20px;
     background-color: #FFFFFF00;
     border: 10px solid;
-    border-color: #FFFFFF #FFFFFF00 #FFFFFF00 #FFFFFF00;
+    border-color: var(--secondary-color) #FFFFFF00 #FFFFFF00 #FFFFFF00;
     /* margin-top: 12px; */
     z-index: 40;
 }
@@ -115,7 +115,7 @@
 .typing-loader {
   --uib-size: 30px;
   --uib-speed: 0.6s;
-  --uib-color: #0084FF;
+  --uib-color: var(--primary-color);
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -232,7 +232,7 @@
 
 /* Links */
 .message-bubble a {
-  color: #0084FF;
+  color: var(--secondary-color);
   text-decoration: underline;
 }
 

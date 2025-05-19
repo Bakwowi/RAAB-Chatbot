@@ -1,3 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&display=swap');
+
+
+:root{
+    --primary-color: #2563EB;
+    --secondary-color: #FFFFFF;
+    --chat-body-color: #FBFBFB;
+    --text-color-light: #000000;
+    --text-color-dark: #ffffff;
+    --text-color-lightest: #00000080;
+    --border-radius: 5px;
+    --box-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.06);
+    --hover-color-light: rgba(0, 0, 0, 0.03);
+    --hover-color: rgba(0, 0, 0, 0.06);
+    --active-color: rgba(0, 0, 0, 0.06);
+    --hover-active-color: rgba(0, 0, 0, 0.09);
+    --font-family-header: "Konkhmer Sleokchher", system-ui;
+    --font-family-body: "Figtree", sans-serif;
+
+}
+/* :root{
+    --primary-color: #2563EB;
+    --secondary-color: #FFFFFF;
+    --chat-body-color: #FBFBFB;
+    --text-color-light: #000000;
+    --text-color-dark: #ffffff;
+    --text-color-lightest: #00000080;
+    --border-radius: 5px;
+    --box-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.06);
+    --hover-color-light: rgba(0, 0, 0, 0.03);
+    --hover-color: rgba(0, 0, 0, 0.06);
+    --active-color: rgba(0, 0, 0, 0.06);
+    --hover-active-color: rgba(0, 0, 0, 0.09);
+    --font-family-header: "Konkhmer Sleokchher", system-ui;
+    --font-family-body: "Figtree", sans-serif;
+
+} */
+
 *{
     padding: 0;
     margin: 0;

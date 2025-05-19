@@ -1,12 +1,15 @@
 const { Server } = require("socket.io");
-const messageModel = require("../models/messageModel");
+const messageModel = require("../models/messageModel.js");
+const conversationModel = require("../models/converstaionModel.js");
 const AzureOpenAI = require("../config/azure-openai");
-
+const dotenv = require("dotenv");
+const { json } = require("express");
+dotenv.config();
 
 const chatSocket = (io) => {
  io.on("connection", (socket) => {
   socket.emit("message", "hi from the server");
-  console.log(socket.id, socket.handshake.auth.userId);
+  console.log(socket.id);
 
   const systemInstructions = `You are TrailMate, a friendly, knowledgeable hiking assistant designed to help users plan and enjoy outdoor adventures.
     
@@ -40,10 +43,44 @@ const chatSocket = (io) => {
     
     If the user says something off-topic, politely steer the conversation back to hiking or outdoor exploration.
     `;
+
   const chatHistory = [{ role: "assistant", content: systemInstructions }];
 
+  // socket.on("test", (data) => {
+  //   socket.emit("testdata", data);
+  //   // console.log("test", data);
+  // });
+
   socket.on("client-message", async (res) => {
+    // const userMessage = JSON.parse(res);
+    // socket.emit("client-message", res);
+    // console.log(JSON.stringify(res));
     chatHistory.push(res);
+
+    // const conversation = new conversationModel({
+    //   userId: socket.handshake.auth.userId,
+    //   title: "TrailMate",
+    //   chatHistory: chatHistory
+    // });
+    // try {
+    //   const conv = await conversation.save();
+    //   console.log(conv);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+
+    //  const message = new messageModel({
+    //     userId: socket.handshake.auth.userId,
+    //     role: res.role,
+    //     content: res.content
+    //   });
+    //   console.log(message);
+    //   try {
+    //     const mess = await message.save();
+    //    console.log(mess);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
     
     try {
       const response = await fetch(`${process.env.AZURE_OPENAI_ENDPOINT}`, {
@@ -54,11 +91,12 @@ const chatSocket = (io) => {
         },
         body: JSON.stringify({
           messages: chatHistory,
-          temperature: 0.2,
+          temperature: 0.7,
         }),
       });
 
       const data = await response.json();
+      console.log("Azure response:", data);
       const botMessage = data.choices[0].message;
       chatHistory.push({ role: botMessage.role, content: botMessage.content });
 

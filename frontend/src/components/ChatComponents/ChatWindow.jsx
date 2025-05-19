@@ -52,7 +52,7 @@ class ChatWindow extends React.Component {
 
   animateResponse = (response) => {
     const message = response.content;
-    const typingSpeed = 50; // Adjust the speed of typing here
+    const typingSpeed = 10; // Adjust the speed of typing here
     let index = 0;
 
     const interval = setInterval(() => {

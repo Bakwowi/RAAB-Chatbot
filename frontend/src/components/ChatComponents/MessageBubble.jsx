@@ -28,9 +28,9 @@ class MessageBubble extends React.Component {
                 <div></div>
                 <div></div> */}
 
-                <div class="dot-wave__dot"></div>
-                <div class="dot-wave__dot"></div>
-                <div class="dot-wave__dot"></div>
+                <div className="dot-wave__dot"></div>
+                <div className="dot-wave__dot"></div>
+                <div className="dot-wave__dot"></div>
                 {/* <div class="dot-wave__dot"></div> */}
             </span>}
         </div>
