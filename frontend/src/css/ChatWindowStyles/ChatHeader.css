@@ -13,9 +13,9 @@
 .chat-window .chat-area .chat-header .chat-title{
     width: 80%;
     height: 100%;
-    color: var(--text-color-light);
+    color: var(--text-color);
     font-family: var(--font-family-body);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 400;
     /* background-color: bisque; */
     display: flex;

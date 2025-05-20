@@ -57,30 +57,30 @@ const chatSocket = (io) => {
     // console.log(JSON.stringify(res));
     chatHistory.push(res);
 
-    const conversation = new conversationModel({
-      userId: socket.handshake.auth.userId,
-      title: "TrailMate",
-      chatHistory: chatHistory
-    });
-    try {
-      const conv = await conversation.save();
-      console.log(conv);
-    } catch (error) {
-      console.error(error);
-    }
+    // const conversation = new conversationModel({
+    //   userId: socket.handshake.auth.userId,
+    //   title: "TrailMate",
+    //   chatHistory: chatHistory
+    // });
+    // try {
+    //   const conv = await conversation.save();
+    //   console.log(conv);
+    // } catch (error) {
+    //   console.error(error);
+    // }
 
-     const message = new messageModel({
-        userId: socket.handshake.auth.userId,
-        role: res.role,
-        content: res.content
-      });
-      console.log(message);
-      try {
-        const mess = await message.save();
-       console.log(mess);
-      } catch (error) {
-        console.error(error);
-      }
+    //  const message = new messageModel({
+    //     userId: socket.handshake.auth.userId,
+    //     role: res.role,
+    //     content: res.content
+    //   });
+    //   console.log(message);
+    //   try {
+    //     const mess = await message.save();
+    //    console.log(mess);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
     
     try {
       const response = await fetch(`${process.env.AZURE_OPENAI_ENDPOINT}`, {

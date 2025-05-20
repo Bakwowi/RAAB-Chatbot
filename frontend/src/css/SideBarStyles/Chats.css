@@ -37,9 +37,11 @@ button {
     font-size: 1rem;
     font-weight: 500;
     font-family: var(--font-family-body);
+    color: var(--text-color);
 }
 #chat .chat-title-time .chat-time{
     font-family: var(--font-family-body);
+    color: var(--text-color-lightest);
 }
 #chat .chat-description{
     /* background-color: bisque; */

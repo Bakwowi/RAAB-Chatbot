@@ -11,7 +11,7 @@
     padding: 0px 12px;
     margin-top: 30px;
     text-align: left;
-    box-shadow: -2px 4px 10px -2px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--box-shadow);
     font-family: "Figtree", sans-serif;
     font-size: 0.9rem;
     display: flex;
@@ -28,7 +28,7 @@
 }
 .user .message-bubble{
     background-color: var(--primary-color);
-    color: var(--secondary-color);
+    color: var(--message-bubble-text-color);
     border-radius: 5px 0px 5px 5px;
 }
 .user .message-bubble-tail{
@@ -53,6 +53,7 @@
 .assistant .message-bubble{
     background-color: var(--secondary-color);
     border-radius: 0px 5px 5px 5px;
+    color: var(--text-color);
 }
 .assistant .message-bubble-tail{
     position: absolute;
@@ -177,6 +178,7 @@
 .message-bubble h3 {
   font-weight: bold;
   margin: 0.5rem 0;
+  color: var(--text-color);
 }
 
 .message-bubble p {
