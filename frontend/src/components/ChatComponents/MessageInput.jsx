@@ -25,29 +25,27 @@ class MessageInput extends React.Component {
     render() {
         return (
             <div className="message-input">
-                <div className="input">
                     <textarea 
                         name="input-field" 
                         id="input-field" 
                         rows={1} 
                         placeholder="Ask anything">
                     </textarea>
-                </div>
                 <div className="input-options">
                     <div className="left-options">
                         <div className="add-file">
-                            <button id="add-file-btn">
+                            <button id="add-file-btn" title="Add file">
                                 <img src={AddFileSvg} />
                             </button>
                         </div>
                         <div className="use-mic">
-                            <button id="use-mic-btn">
+                            <button id="use-mic-btn" title="Use microphone">
                                 <img src={MicSvg} />
                             </button>
                         </div>
                     </div>
                     <div className="send-message">
-                        <button id="send-btn" onClick={this.handleButtonSubmit}>
+                        <button id="send-btn" onClick={this.handleButtonSubmit} title="Send message">
                             <img src={SendSvg} />
                         </button>
                     </div>

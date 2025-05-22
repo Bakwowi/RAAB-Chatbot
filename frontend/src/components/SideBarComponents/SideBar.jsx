@@ -14,13 +14,13 @@ class SideBar extends React.Component {
                 <div className="side-bar-header">
                     <div className="sub-side-bar-header">
                         <div className="logo">RAAB</div>
-                        <button id="close-side-bar-btn">
+                        <button id="close-side-bar-btn" title="Close side bar">
                             <img src={SideBarSvg} id="side-bar-svg" />
                         </button>
                     </div>
                 </div>
                 <div className="new-chat">
-                    <button id="new-chat-btn">
+                    <button id="new-chat-btn" title="New chat">
                         <img src={NewChatSvg} id="new-chat-svg" />
                         New chat
                     </button>
@@ -28,6 +28,7 @@ class SideBar extends React.Component {
                 <div className="label">Chats</div>
                 <div className="conversation-history">
                     <Chats classActive="active" />
+                    {/* <Chats />
                     <Chats />
                     <Chats />
                     <Chats />
@@ -37,12 +38,11 @@ class SideBar extends React.Component {
                     <Chats />
                     <Chats />
                     <Chats />
-                    <Chats />
-                    <Chats />
+                    <Chats /> */}
 
                 </div>
                 <div className="settings">
-                    <button id="settings-btn">
+                    <button id="settings-btn" title="Settings">
                         <img src={SettingsSvg} id="settings-svg"/> Settings
                     </button>
                 </div>

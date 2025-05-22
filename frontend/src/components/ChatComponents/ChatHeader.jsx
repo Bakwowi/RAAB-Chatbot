@@ -13,7 +13,7 @@ class ChatHeader extends React.Component {
             <div className="chat-header">
                 <div className="chat-title">{this.props.chatTitle}</div>
                 <div className="share">
-                    <button id="share-btn">
+                    <button id="share-btn" title="Share this chat">
                         <img src={ShareSvg} />
                         Share
                     </button>

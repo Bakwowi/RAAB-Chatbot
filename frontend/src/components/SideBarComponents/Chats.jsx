@@ -10,7 +10,7 @@ class ChatsHistory extends React.Component {
 
     render() {
         return (
-                <button id="chat" className={this.props.classActive}>
+                <button id="chat" className={this.props.classActive} title="Open this chat">
                     <div className="chat-title-time">
                         <div className="chat-title">
                             The chat title goes here

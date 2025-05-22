@@ -4,6 +4,7 @@ const conversationModel = require("../models/converstaionModel.js");
 const AzureOpenAI = require("../config/azure-openai");
 const dotenv = require("dotenv");
 const { json } = require("express");
+const TextModel = require("../models/text.js");
 dotenv.config();
 
 const chatSocket = (io) => {
@@ -57,57 +58,75 @@ const chatSocket = (io) => {
     // console.log(JSON.stringify(res));
     chatHistory.push(res);
 
+    // const text = new TextModel({
+    //   title: res
+    // });
+    // try {
+    //   const textData = await text.updateOne(
+    //     { title: res },
+    //     { $set: { title: res } },
+    //     { upsert: true }
+    //   );
+    //   console.log(textData);
+    //   socket.emit("textData", textData);
+    // }
+    // catch (error) {
+    //   console.error(error);
+    // }
+    const id = "63f3b0c4d1e2a5c8f7b8e4a9";
     // const conversation = new conversationModel({
-    //   userId: socket.handshake.auth.userId,
+    //   userId: id,
     //   title: "TrailMate",
     //   chatHistory: chatHistory
     // });
     // try {
     //   const conv = await conversation.save();
-    //   console.log(conv);
+    //   // console.log(conv);
+    //   socket.emit("conversation", conv);
     // } catch (error) {
     //   console.error(error);
     // }
 
     //  const message = new messageModel({
-    //     userId: socket.handshake.auth.userId,
+    //     userId: id,
     //     role: res.role,
     //     content: res.content
     //   });
     //   console.log(message);
     //   try {
     //     const mess = await message.save();
-    //    console.log(mess);
+    //   //  console.log(mess);
+    //    socket.emit("message", mess);
     //   } catch (error) {
     //     console.error(error);
     //   }
     
-    try {
-      const response = await fetch(`${process.env.AZURE_OPENAI_ENDPOINT}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "Application/json",
-          "api-key": process.env.AZURE_OPENAI_KEY,
-        },
-        body: JSON.stringify({
-          messages: chatHistory,
-          temperature: 0.7,
-        }),
-      });
+    // try {
+    //   const response = await fetch(`${process.env.AZURE_OPENAI_ENDPOINT}`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "Application/json",
+    //       "api-key": process.env.AZURE_OPENAI_KEY,
+    //     },
+    //     body: JSON.stringify({
+    //       messages: chatHistory,
+    //       temperature: 0.7,
+    //     }),
+    //   });
 
-      const data = await response.json();
-      console.log("Azure response:", data);
-      const botMessage = data.choices[0].message;
-      chatHistory.push({ role: botMessage.role, content: botMessage.content });
+    //   const data = await response.json();
+    //   console.log("Azure response:", data);
+    //   const botMessage = data.choices[0].message;
+    //   chatHistory.push({ role: botMessage.role, content: botMessage.content });
 
-      socket.emit("botMessage", {
-        role: botMessage.role,
-        content: botMessage.content,
-      });
-    } catch (err) {
-      socket.emit("botMessage", "Sorry, something went wrong.");
-      console.error(err);
-    }
+    //   socket.emit("botMessage", {
+    //     role: botMessage.role,
+    //     content: botMessage.content,
+    //   });
+    // } catch (err) {
+    //   socket.emit("botMessage", "Sorry, something went wrong.");
+    //   console.error(err);
+    // }
   });
 
   socket.on("disconnect", () => {

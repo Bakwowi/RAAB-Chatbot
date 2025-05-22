@@ -33,8 +33,10 @@
     --hover-color: rgba(0, 0, 0, 0.06);
     --active-color: rgba(0, 0, 0, 0.06);
     --hover-active-color: rgba(0, 0, 0, 0.09);
+    --input-field-color: rgb(48, 48, 48);
     --font-family-header: "Konkhmer Sleokchher", system-ui;
     --font-family-body: "Figtree", sans-serif;
+    --message-bubble-text-color: #ffffff;
 
 } */
 
