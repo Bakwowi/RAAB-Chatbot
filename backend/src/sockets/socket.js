@@ -1,6 +1,6 @@
 const { Server } = require("socket.io");
 const messageModel = require("../models/messageModel.js");
-const conversationModel = require("../models/converstaionModel.js");
+const conversationModel = require("../models/conversationModel.js");
 const AzureOpenAI = require("../config/azure-openai");
 const dotenv = require("dotenv");
 const { json } = require("express");
@@ -101,32 +101,32 @@ const chatSocket = (io) => {
     //     console.error(error);
     //   }
     
-    // try {
-    //   const response = await fetch(`${process.env.AZURE_OPENAI_ENDPOINT}`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "Application/json",
-    //       "api-key": process.env.AZURE_OPENAI_KEY,
-    //     },
-    //     body: JSON.stringify({
-    //       messages: chatHistory,
-    //       temperature: 0.7,
-    //     }),
-    //   });
+    try {
+      const response = await fetch(`${process.env.AZURE_OPENAI_ENDPOINT}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/json",
+          "api-key": process.env.AZURE_OPENAI_KEY,
+        },
+        body: JSON.stringify({
+          messages: chatHistory,
+          temperature: 0.7,
+        }),
+      });
 
-    //   const data = await response.json();
-    //   console.log("Azure response:", data);
-    //   const botMessage = data.choices[0].message;
-    //   chatHistory.push({ role: botMessage.role, content: botMessage.content });
+      const data = await response.json();
+      console.log("Azure response:", data);
+      const botMessage = data.choices[0].message;
+      chatHistory.push({ role: botMessage.role, content: botMessage.content });
 
-    //   socket.emit("botMessage", {
-    //     role: botMessage.role,
-    //     content: botMessage.content,
-    //   });
-    // } catch (err) {
-    //   socket.emit("botMessage", "Sorry, something went wrong.");
-    //   console.error(err);
-    // }
+      socket.emit("botMessage", {
+        role: botMessage.role,
+        content: botMessage.content,
+      });
+    } catch (err) {
+      socket.emit("botMessage", "Sorry, something went wrong.");
+      console.error(err);
+    }
   });
 
   socket.on("disconnect", () => {

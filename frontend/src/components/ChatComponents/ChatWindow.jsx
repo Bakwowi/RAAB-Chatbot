@@ -12,12 +12,13 @@ class ChatWindow extends React.Component {
     this.socket = getSocket();
     this.state = {
       messages: [],
+      isNewChat: true,
+      isBotTyping: false
     };
     // this.isBotTyping = false;
   }
 
   componentDidMount = () => {
-
     this.socket.on("message", (response) => {
       console.log(response);
     });
@@ -37,14 +38,16 @@ class ChatWindow extends React.Component {
           }
 
           return this.animateResponse(response);
-
           // return { messages: [...updated, response] };
         });
+        return this.setState({isBotTyping: false});
       } else {
         console.log("sorry an error occured in our server");
       }
     });
   };
+
+
 
   componentWillUnmount = () => {
     this.socket.disconnect();
@@ -53,7 +56,7 @@ class ChatWindow extends React.Component {
   animateResponse = (response) => {
     const message = response.content;
     const typingSpeed = 2; // Lower value = faster typing
-    let step = 20
+    let step = 10;
     let index = 0;
 
     const interval = setInterval(() => {
@@ -69,9 +72,11 @@ class ChatWindow extends React.Component {
         clearInterval(interval);
       }
     }, typingSpeed);
-  }
+  };
 
   sendMessage = (message) => {
+    this.setState({isBotTyping: true});
+    console.log(this.state.isBotTyping);
     this.setState((previousState) => ({
       messages: [...previousState.messages, { role: "user", content: message }],
     }));
@@ -89,6 +94,20 @@ class ChatWindow extends React.Component {
   };
 
   render() {
+    // Example: Only render chat window if there are messages or isNewChat is false
+    if (this.state.isNewChat && this.state.messages.length === 0) {
+      return (
+        <div className="chat-window">
+          <div className="chat-area">
+            <p className="chat-intro-title">Lost in the woods? I've got answers! 😎</p>
+          </div>
+          <MessageInput 
+            sendMessage={this.sendMessage} 
+            isBotTyping={this.state.isBotTyping}/>
+        </div>
+      );
+    }
+
     return (
       <div className="chat-window">
         <div className="chat-area">
@@ -111,7 +130,9 @@ class ChatWindow extends React.Component {
             </button>
           </div>
         </div>
-        <MessageInput sendMessage={this.sendMessage} />
+        <MessageInput 
+          sendMessage={this.sendMessage} 
+          isBotTyping={this.state.isBotTyping}/>
       </div>
     );
   }

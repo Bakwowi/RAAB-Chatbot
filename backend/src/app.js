@@ -1,9 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const Message = require("./models/messageModel.js");
-const connectDB = require("./config/db.js");
+const Conversation = require("./models/conversationModel.js");
+// const connectDB = require("./config/db.js");
 dotenv.config();
 
 const app = express();
@@ -80,6 +81,24 @@ app.patch("/db/:id", async (req, res) => {
   }
 });
 
+app.get("/conversations", async (req, res) => {
+  try {
+    const data = await Conversation.find();
+    res.status(200).json(data);
+  }
+  catch (error) {
+    res.status(500).json({ error: "Error fetching conversations" });
+  }
+});
+app.get("/messages", async (req, res) => {
+  try {
+    const data = await Message.find();
+    res.status(200).json(data);
+  }
+  catch (error) {
+    res.status(500).json({ error: "Error fetching messages" });
+  }
+});
 
 
 module.exports = app;

@@ -3,42 +3,45 @@
     /* position: absolute; */
     /* bottom: 20px; */
     width: 100%;
-    height: 18%;
+    height: 10%;
     background-color: var(--secondary-color);
-    padding: 15px 20px 20px 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.356);
+    padding: 20px 20px 20px 20px;
+    border-top: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
-.chat-window .message-input #input-field{
+.chat-window .message-input .input-field-container{
+    width: 100%;
+    /* height: 100%; */
+    background-color: var(--input-field-color);
+    border-radius: 50px;
+    border: 2px solid var(--input-field-color);
+    padding: 2px 4px 2px 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.chat-window .message-input .input-field-container #input-field{
     width: 100%;
     font-family: var(--font-family-body);
     font-size: 0.9rem;
     padding: 8px 12px;
     outline: none;
-    border: 2px solid #222222;
+    border: none;
     border-radius: 50px;
-    background-color: var(--chat-body-color);
-    color: var(--text-color);
+    background-color: var(--input-field-color);
+    color: var(--text-color-input);
     resize: none;
     transition: 0.1s;
 }
-.chat-window .message-input #input-field:focus{
+.chat-window .message-input .input-field-container:focus-within{
     border: 2px solid var(--primary-color);
 }
-.chat-window .message-input .input-options{
-    width: 100%;
-    margin-top: 4px;
-    display: flex;
-    /* border: #0147d3 1px solid; */
-}
-.chat-window .message-input .input-options .left-options{
-    width: 50%;
-    /* background-color: aquamarine; */
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
-}
-.chat-window .message-input .input-options button{
+
+.chat-window .message-input button{
     width: 35px;
     height: 35px;
     border-radius: 50px;
@@ -49,26 +52,19 @@
     align-items: center;
     justify-content: center;
 }
-.chat-window .message-input .input-options button img{
+.chat-window .message-input button img{
     width: 20px;
     height: 20px;
 }
-.chat-window .message-input .input-options .left-options button{
+.chat-window .message-input .input-field-container #add-file-btn{
     background-color: transparent;
 }
-.chat-window .message-input .input-options .left-options button:hover{
+.chat-window .message-input .input-field-container #add-file-btn:hover{
     background-color: var(--hover-color);
 }
-.chat-window .message-input .input-options .send-message{
-    width: 50%;
-    /* background-color: aquamarine; */
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-.chat-window .message-input .input-options .send-message #send-btn{
+.chat-window .message-input #send-btn{
     background-color: var(--primary-color);
 }
-.chat-window .message-input .input-options .send-message #send-btn:hover{
+.chat-window .message-input #send-btn:hover{
     background-color: #0147d3;
 }

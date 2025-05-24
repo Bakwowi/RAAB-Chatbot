@@ -13,14 +13,14 @@ class ChatsHistory extends React.Component {
                 <button id="chat" className={this.props.classActive} title="Open this chat">
                     <div className="chat-title-time">
                         <div className="chat-title">
-                            The chat title goes here
+                            {this.props.chatTitle}
                         </div>
                         <div className="chat-time">
-                            2025-05-10
+                            {this.props.chatTime}
                         </div>
                     </div>
                     <div className="chat-description">
-                        a small chat description goes here
+                            {this.props.chatDescription}
                     </div>
 
                 </button>
