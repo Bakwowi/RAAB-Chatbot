@@ -4,7 +4,7 @@ import MessageBubble from "./MessageBubble";
 import ArrowDownSvg from "../../assets/svgs/ArrowDownIcon.svg";
 import ChatHeader from "./ChatHeader.jsx";
 import MessageInput from "./MessageInput.jsx";
-import getSocket from "../../socket.js";
+import getSocket from "../../js/socket.js";
 
 class ChatWindow extends React.Component {
   constructor() {
