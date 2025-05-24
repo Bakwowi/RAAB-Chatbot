@@ -2,7 +2,7 @@ import React from "react";
 import SideBar from "./components/SideBarComponents/SideBar.jsx";
 import ChatWindow from "./components/ChatComponents/ChatWindow.jsx";
 import "./css/App.css";
-import getSocket from "./socket";
+import getSocket from "./js/socket";
 
 
 class App extends React.Component {
