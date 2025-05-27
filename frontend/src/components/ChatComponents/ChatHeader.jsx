@@ -15,7 +15,7 @@ class ChatHeader extends React.Component {
                 <div className="share">
                     <button id="share-btn" title="Share this chat">
                         <img src={ShareSvg} />
-                        Share
+                        Export
                     </button>
                 </div>
             </div>

@@ -40,7 +40,7 @@ class ChatWindow extends React.Component {
           return this.animateResponse(response);
           // return { messages: [...updated, response] };
         });
-        return this.setState({isBotTyping: false});
+        // return this.setState({isBotTyping: false});
       } else {
         console.log("sorry an error occured in our server");
       }
@@ -54,9 +54,10 @@ class ChatWindow extends React.Component {
   };
 
   animateResponse = (response) => {
+    // console.log("Animating response:", response);
     const message = response.content;
     const typingSpeed = 2; // Lower value = faster typing
-    let step = 10;
+    let step = 2;
     let index = 0;
 
     const interval = setInterval(() => {
@@ -70,13 +71,15 @@ class ChatWindow extends React.Component {
         index += step;
       } else {
         clearInterval(interval);
+        this.setState({isBotTyping: false});
       }
     }, typingSpeed);
   };
 
   sendMessage = (message) => {
+    // console.log("Sending message:", message);
     this.setState({isBotTyping: true});
-    console.log(this.state.isBotTyping);
+    // console.log(this.state.isBotTyping);
     this.setState((previousState) => ({
       messages: [...previousState.messages, { role: "user", content: message }],
     }));
@@ -89,24 +92,25 @@ class ChatWindow extends React.Component {
     }));
 
     this.socket.emit("client-message", { role: "user", content: message });
+    console.log("Sending message:", message);
 
     console.log(this.state.messages);
   };
 
   render() {
     // Example: Only render chat window if there are messages or isNewChat is false
-    if (this.state.isNewChat && this.state.messages.length === 0) {
-      return (
-        <div className="chat-window">
-          <div className="chat-area">
-            <p className="chat-intro-title">Lost in the woods? I've got answers! 😎</p>
-          </div>
-          <MessageInput 
-            sendMessage={this.sendMessage} 
-            isBotTyping={this.state.isBotTyping}/>
-        </div>
-      );
-    }
+    // if (this.state.isNewChat && this.state.messages.length === 0) {
+    //   return (
+    //     <div className="chat-window">
+    //       <div className="chat-area">
+    //         <p className="chat-intro-title">Lost in the woods? I've got answers! 😎</p>
+    //       </div>
+    //       <MessageInput 
+    //         sendMessage={this.sendMessage} 
+    //         isBotTyping={this.state.isBotTyping}/>
+    //     </div>
+    //   );
+    // }
 
     return (
       <div className="chat-window">

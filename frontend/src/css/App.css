@@ -20,6 +20,7 @@
     --font-family-header: "Konkhmer Sleokchher", system-ui;
     --font-family-body: "Figtree", sans-serif;
     --message-bubble-text-color: #FFFFFF;
+    --disabled-color: rgba(255, 255, 255, 0.2);
 
 }
 /* :root{

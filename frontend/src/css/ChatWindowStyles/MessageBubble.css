@@ -1,7 +1,11 @@
+/* .message-bubble-container{
+  background-color: blueviolet;
+} */
 .message-bubble-wrapper{
     position: relative;
     width: 100%;
     /* background-color: aquamarine; */
+    margin-top: 1.6rem;
     display: flex;
 }
 .message-bubble-wrapper .message-bubble{
@@ -9,7 +13,7 @@
     /* min-width: 30%; */
     /* background-color: bisque; */
     padding: 0px 12px;
-    margin-top: 30px;
+    /* margin-top: 30px; */
     text-align: left;
     text-wrap: normal;
     word-wrap: break-word;
@@ -39,7 +43,7 @@
 .user .message-bubble-tail{
     position: absolute;
     right: 10px;
-    top: 30px;
+    top: 0px;
     width: 20px;
     height: 20px;
     background-color: #FFFFFF00;
@@ -63,7 +67,7 @@
 .assistant .message-bubble-tail{
     position: absolute;
     left: 10px;
-    top: 30px;
+    top: 0px;
     width: 20px;
     height: 20px;
     background-color: #FFFFFF00;
@@ -71,6 +75,53 @@
     border-color: var(--secondary-color) #FFFFFF00 #FFFFFF00 #FFFFFF00;
     /* margin-top: 12px; */
     z-index: 40;
+}
+.message-bubble-container .copy-div{
+  /* background-color: bisque; */
+  padding-top: 0.5rem;
+  /* justify-content: flex-end; */
+}
+.message-bubble-container .copy-div #copy{
+  /* width: 1.5rem;
+  height: 1.5rem; */
+  background-color: transparent;
+  /* color: var(--text-color); */
+  padding: 0.4rem 0.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+.message-bubble-container .copy-div #copy img{
+  width: 1rem;
+  height: 1rem;
+  object-fit: fill;
+}
+.message-bubble-container .copy-div #copy:hover{
+  background-color: #ffffff17;
+}
+.message-bubble-container .copy-div.user-copy{
+  padding-right: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.message-bubble-container .copy-div.bot-copy{
+  padding-left: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.message-bubble-container:hover > .copy-div #copy {
+  /* display: flex; */
+  opacity: 1;
 }
 /* 
 .message-bubble-wrapper .message-bubble .typing-loader{

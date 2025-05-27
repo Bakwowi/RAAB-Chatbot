@@ -28,10 +28,12 @@ class SideBar extends React.Component {
                 this.setState({ 
                     conversations: data
                 });
+                // console.log("Conversations fetched successfully:", data);
             })
             .catch((error) => {
                 console.error("Error fetching conversations:", error);
         });
+        // console.log(response);
     };
 
     render() {
@@ -70,19 +72,19 @@ class SideBar extends React.Component {
                 </div>
                 <div className="label">Chats</div>
                 <div className="conversation-history">
-                    {/* {this.state.conversations.length > 0 ? (
+                    {this.state.conversations.length > 0 ? (
                         sortedConversations
                     ) : (
                         <div className="no-conversations">
                             No conversations yet.
                         </div>
-                    )} */}
+                    )}
                     {/* <Chats 
                         classActive="active" 
                         chatTitle="this is a chat title and when it is long, it gets sliced"
                         chatTime="2025-05-23"
                         chatDescription="This is the chat description"/> */}
-                    <Chats 
+                    {/* <Chats 
                         classActive="active" 
                         chatTitle={`${"this is a chat title and when it is long, it gets sliced".slice(0, 28) + "..."}`}
                         chatTime="2025-05-23"
@@ -146,7 +148,7 @@ class SideBar extends React.Component {
                         classActive="" 
                         chatTitle={`${"this is a chat title and when it is long, it gets sliced".slice(0, 28) + "..."}`}
                         chatTime="2025-05-23"
-                        chatDescription="This is the chat description"/>
+                        chatDescription="This is the chat description"/> */}
                        
                      {/* <Chats />
                     <Chats />

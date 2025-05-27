@@ -5,6 +5,10 @@
     margin: 0;
     box-sizing: border-box;
 }
+html{
+    font-size: 16px;
+    /* scroll-behavior: smooth; */
+}
 /* #root{
     width: 100vw;
     height: 100vh;

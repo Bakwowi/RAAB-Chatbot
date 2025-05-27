@@ -7,7 +7,8 @@ button {
     cursor: pointer;
 }
 .side-bar{
-    width: 330px;
+    position: relative;
+    width: 20.6rem;
     height: 100%;
     background-color: var(--secondary-color);
     display: flex;
@@ -16,9 +17,9 @@ button {
 }
 .side-bar .side-bar-header{
     width: 100%;
-    height: 11%;
+    height: 4.2rem;
     font-family: var(--font-family-header);
-     padding: 0px 10px 0px 10px;
+     padding: 0px 10px 10px 10px;
     /* background-color: aquamarine; */
     /* display: flex; */
     /* align-items: center; */
@@ -76,8 +77,10 @@ button {
 }
 .side-bar .search-chat{
     width: 100%;
-    height: 14%;
-    padding: 10px 10px;
+    height: 4rem;
+    padding: 2rem 0.6rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
     /* background-color: rgb(184, 216, 235); */
     display: flex;
     align-items: center;
@@ -98,10 +101,10 @@ button {
 
 .side-bar .label{
     width: 100%;
-    height: 3%;
+    height: 1rem;
     /* background-color: blue; */
     /* font-weight: 100; */
-    padding: 0px 10px 0px 10px;
+    padding: 0rem 0.6rem 0rem 0.6rem;
     font-size: 0.9rem;
     font-family: var(--font-family-body);
     font-weight: 600;
@@ -110,9 +113,9 @@ button {
 .side-bar .conversation-history{
     position: relative;
     width: 100%;
-    height: 62%;
+    height: 100%;
     /* background-color: rgb(255, 140, 0); */
-    padding: 0px 0px 0px 10px;
+    padding: 0rem 0rem 0rem 0.6rem;
     overflow-y: auto;
 }
 .side-bar .conversation-history::-webkit-scrollbar {
@@ -143,9 +146,10 @@ button {
 } */
 .side-bar .settings{
     width: 100%;
-    height: 10%;
+    height: 4rem;
     /* background-color: chartreuse; */
-    padding: 0px 10px 0px 10px;
+    background-color: transparent;
+    padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: flex-start;
