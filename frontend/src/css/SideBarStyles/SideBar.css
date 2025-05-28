@@ -139,6 +139,62 @@ button {
     font-weight: 600;
     color: var(--text-color);
 }
+.side-bar .conversation-history .loading{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-family: var(--font-family-body);
+    font-weight: 600;
+    color: var(--text-color);
+}
+.side-bar .conversation-history .loading .loader{
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: blanchedalmond; */
+    position: relative;
+}
+.side-bar .conversation-history .loading .loader div {
+    position: absolute;
+    border: 0.1rem solid var(--primary-color);
+    border-radius: 100%;
+}
+.side-bar .conversation-history .loading .loader .spin1{
+    width: 2rem;
+    height: 2rem;
+    border-top-color: transparent;
+    animation: spin1 1s linear reverse infinite;
+}
+.side-bar .conversation-history .loading .loader .spin2{
+    width: 1.5rem;
+    height: 1.5rem;
+    border-bottom-color: transparent;
+    animation: spin1 1s linear infinite;
+}
+.side-bar .conversation-history .loading .loader .spin3{
+    width: 1rem;
+    height: 1rem;
+    border-left-color: transparent;
+    animation: spin1 1s linear reverse infinite;
+}
+
+@keyframes spin1 {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
 /* .side-bar .conversation-history::-webkit-scrollbar-track {
     background-color: #f1f1f1;
     border-radius: 4px;

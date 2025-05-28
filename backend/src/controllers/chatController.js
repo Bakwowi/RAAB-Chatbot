@@ -1,7 +1,9 @@
 const messageModel = require("../models/messageModel");
 const conversationModel = require("../models/conversationModel");
-const {AzureOpenAI, generateConversationTitle} = require("../config/azure-openai");
-
+const {
+  AzureOpenAI,
+  generateConversationTitle,
+} = require("../config/azure-openai");
 
 const systemInstructions = `You are TrailMate, a friendly, knowledgeable hiking assistant designed to help users plan and enjoy outdoor adventures.
     
@@ -39,38 +41,46 @@ const systemInstructions = `You are TrailMate, a friendly, knowledgeable hiking 
 const chatHistory = [{ role: "assistant", content: systemInstructions }];
 const messageCount = 0;
 let chatTitle = "";
+let isTitleGenerated = false;
+let isNewConversation = true;
 
 const chatController = async (userMessage, userId) => {
-    chatHistory.push(userMessage);
-    messageCount++;
-    if (messageCount === 2) {
-        const title = await generateConversationTitle(chatHistory.shift());
-        chatTitle = title;
-        messageCount = 0;
-    };
-        try {
-            // console.log(chatHistory);
-            const response = await AzureOpenAI(chatHistory);
-            chatHistory.push(response);
+  chatHistory.push(userMessage);
+  messageCount++;
+  if (messageCount === 2 && !isTitleGenerated) {
+    isTitleGenerated = true;
+    const title = await generateConversationTitle(chatHistory.shift());
+    chatTitle = title;
+    messageCount = 0;
+  }
+  try {
+    // console.log(chatHistory);
+    const response = await AzureOpenAI(chatHistory);
+    chatHistory.push(response);
 
-            const newConversation = new conversationModel({
-                userId: userId || "default",
-                title: chatTitle,
-                chatHistory: chatHistory,
-            });
-            await newConversation.updateOne(
-                { userId: "default" },
-                { $push: { conversations: newConversation } },
-                { upsert: true }
-            );
+    const newConversation = new conversationModel({
+      userId: userId || "default",
+      title: chatTitle,
+      chatHistory: chatHistory,
+    });
+    
+    await conversationModel.updateOne(
+      { userId: userId || "default" },
+      {
+        $set: {
+          title: chatTitle,
+          chatHistory: chatHistory,
+        },
+      },
+      { upsert: true }
+    );
 
-            return [response, chatTitle, chatHistory.shift()];
-        } 
-        catch (error) {
-            console.error("Error in chatController:", error);
-            return "An error occurred while processing your request.";
+    return [response, chatTitle, chatHistory.shift()];
+  } catch (error) {
+    console.error("Error in chatController:", error);
+    return "An error occurred while processing your request.";
+  }
 };
-}
 
 // const getMessages = async (req, res) => {
 //     try {
@@ -82,6 +92,4 @@ const chatController = async (userMessage, userId) => {
 //     }
 // }
 
-
-
-module.exports = chatController
+module.exports = chatController;

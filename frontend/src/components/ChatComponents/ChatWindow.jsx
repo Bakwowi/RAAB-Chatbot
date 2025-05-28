@@ -13,7 +13,8 @@ class ChatWindow extends React.Component {
     this.state = {
       messages: [],
       isNewChat: true,
-      isBotTyping: false
+      isBotTyping: false,
+      chatTitle: "Chat Title"
     };
     // this.isBotTyping = false;
   }
@@ -99,18 +100,18 @@ class ChatWindow extends React.Component {
 
   render() {
     // Example: Only render chat window if there are messages or isNewChat is false
-    // if (this.state.isNewChat && this.state.messages.length === 0) {
-    //   return (
-    //     <div className="chat-window">
-    //       <div className="chat-area">
-    //         <p className="chat-intro-title">Lost in the woods? I've got answers! 😎</p>
-    //       </div>
-    //       <MessageInput 
-    //         sendMessage={this.sendMessage} 
-    //         isBotTyping={this.state.isBotTyping}/>
-    //     </div>
-    //   );
-    // }
+    if (this.state.isNewChat && this.state.messages.length === 0) {
+      return (
+        <div className="chat-window">
+          <div className="chat-area">
+            <p className="chat-intro-title">Lost in the woods? I've got answers! 😎</p>
+          </div>
+          <MessageInput 
+            sendMessage={this.sendMessage} 
+            isBotTyping={this.state.isBotTyping}/>
+        </div>
+      );
+    }
 
     return (
       <div className="chat-window">

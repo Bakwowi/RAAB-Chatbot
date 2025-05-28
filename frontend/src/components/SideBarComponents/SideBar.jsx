@@ -13,7 +13,8 @@ class SideBar extends React.Component {
         super(props);
         this.state = {
             conversations: [],
-            activeConversation: null
+            activeConversation: null,
+            loading: true
         };
     };
     componentDidMount = () => {
@@ -26,17 +27,25 @@ class SideBar extends React.Component {
             .then((response) => response.json())
             .then((data) => {
                 this.setState({ 
-                    conversations: data
+                    conversations: data,
+                    loading: false
                 });
                 // console.log("Conversations fetched successfully:", data);
             })
             .catch((error) => {
                 console.error("Error fetching conversations:", error);
+                this.setState({ loading: false });
         });
         // console.log(response);
     };
 
     render() {
+        // if (this.state.loading === true) {
+        //     return (
+        //         ""
+        //     );
+        // };
+
         const sortedConversations = this.state.conversations
             .sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp))
             .map((conversation) => {
@@ -72,13 +81,26 @@ class SideBar extends React.Component {
                 </div>
                 <div className="label">Chats</div>
                 <div className="conversation-history">
-                    {this.state.conversations.length > 0 ? (
+
+                    {this.state.loading === false ? (this.state.conversations.length > 0 ? (
                         sortedConversations
                     ) : (
                         <div className="no-conversations">
                             No conversations yet.
                         </div>
+                    )) : (
+                        <div className="loading">
+                            <div className="loader">
+                                <div className="spin1"></div>
+                                <div className="spin2"></div>
+                                <div className="spin3"></div>
+                            </div>
+                            <div className="text">
+                                <p>loading conversations</p>
+                            </div>
+                        </div>
                     )}
+
                     {/* <Chats 
                         classActive="active" 
                         chatTitle="this is a chat title and when it is long, it gets sliced"
