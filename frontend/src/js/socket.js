@@ -7,10 +7,13 @@ let socket = null;
 function getSocket() {
   if (!socket) {
     const userId = getOrCreateUserId();
+    console.log("Connecting to socket with userId:", userId);
     socket = io(URL, {
       withCredentials: true,
-      autoConnect: false,
-      auth: { userId }
+      // autoConnect: false,
+      auth: { 
+        userId: userId
+      }
     });
   }
   return socket;

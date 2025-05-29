@@ -81,7 +81,7 @@ app.patch("/db/:id", async (req, res) => {
   }
 });
 
-app.get("/conversations", async (req, res) => {
+app.get("/conversations/:id", async (req, res) => {
   try {
     const data = await Conversation.find();
     res.status(200).json(data);

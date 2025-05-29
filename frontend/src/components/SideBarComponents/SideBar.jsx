@@ -18,7 +18,8 @@ class SideBar extends React.Component {
         };
     };
     componentDidMount = () => {
-        fetch("http://localhost:3000/conversations", {
+        const userId = localStorage.getItem("userId") || "default";
+        fetch(`http://localhost:3000/conversations/${userId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

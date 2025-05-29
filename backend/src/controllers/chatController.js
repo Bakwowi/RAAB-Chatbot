@@ -1,9 +1,6 @@
 const messageModel = require("../models/messageModel");
 const conversationModel = require("../models/conversationModel");
-const {
-  AzureOpenAI,
-  generateConversationTitle,
-} = require("../config/azure-openai");
+const { getAzureOpenAIResponse, generateConversationTitle } = require("../config/azure-openai");
 
 const systemInstructions = `You are TrailMate, a friendly, knowledgeable hiking assistant designed to help users plan and enjoy outdoor adventures.
     
@@ -38,8 +35,8 @@ const systemInstructions = `You are TrailMate, a friendly, knowledgeable hiking 
     If the user says something off-topic, politely steer the conversation back to hiking or outdoor exploration.
     `;
 
-const chatHistory = [{ role: "assistant", content: systemInstructions }];
-const messageCount = 0;
+let chatHistory = [{ role: "assistant", content: systemInstructions }];
+let messageCount = 0;
 let chatTitle = "";
 let isTitleGenerated = false;
 let isNewConversation = true;
@@ -47,35 +44,38 @@ let isNewConversation = true;
 const chatController = async (userMessage, userId) => {
   chatHistory.push(userMessage);
   messageCount++;
-  if (messageCount === 2 && !isTitleGenerated) {
+  try {
+  if (true) {
     isTitleGenerated = true;
-    const title = await generateConversationTitle(chatHistory.shift());
+    const title = await generateConversationTitle(chatHistory);
+    console.log("Generated title:", title);
     chatTitle = title;
     messageCount = 0;
   }
+} catch (error) {
+  console.error("Error generating conversation title:", error);
+  chatTitle = "Untitled Conversation";
+  isTitleGenerated = false;
+  messageCount = 0;
+}
+
   try {
     // console.log(chatHistory);
-    const response = await AzureOpenAI(chatHistory);
+    const response = await getAzureOpenAIResponse(chatHistory);
     chatHistory.push(response);
 
-    const newConversation = new conversationModel({
-      userId: userId || "default",
-      title: chatTitle,
-      chatHistory: chatHistory,
-    });
-    
     await conversationModel.updateOne(
-      { userId: userId || "default" },
+      { userId: userId || "exampleOne" },
       {
-        $set: {
-          title: chatTitle,
-          chatHistory: chatHistory,
-        },
+      $set: {
+        title: chatTitle,
+        chatHistory: chatHistory.slice(1), // Exclude system instructions
+      },
       },
       { upsert: true }
     );
 
-    return [response, chatTitle, chatHistory.shift()];
+    return [response, chatTitle, chatHistory];
   } catch (error) {
     console.error("Error in chatController:", error);
     return "An error occurred while processing your request.";
