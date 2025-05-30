@@ -81,7 +81,7 @@ app.patch("/db/:id", async (req, res) => {
   }
 });
 
-app.get("/conversations/:id", async (req, res) => {
+app.get("/conversations", async (req, res) => {
   try {
     const data = await Conversation.find();
     res.status(200).json(data);
@@ -97,6 +97,22 @@ app.get("/messages", async (req, res) => {
   }
   catch (error) {
     res.status(500).json({ error: "Error fetching messages" });
+  }
+});
+
+app.post("/conversations", async (req, res) => {
+  const conversation = new Conversation({
+    userId: req.body.userId,
+    title: req.body.title,
+    chatHistory: req.body.chatHistory,
+    Timestamp: req.body.Timestamp
+  });
+  try {
+    const conv = await conversation.save();
+    console.log("Conversation saved:", conv);
+    res.status(201).json(conv);
+  } catch (error) {
+    res.status(500).json({ error: "Error saving conversation" });
   }
 });
 

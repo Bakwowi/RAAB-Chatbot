@@ -7,8 +7,8 @@ import MessageInput from "./MessageInput.jsx";
 import getSocket from "../../js/socket.js";
 
 class ChatWindow extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.socket = getSocket();
     this.state = {
       messages: [],
@@ -79,6 +79,10 @@ class ChatWindow extends React.Component {
 
   sendMessage = (message) => {
     // console.log("Sending message:", message);
+
+    if(this.props.conversation && this.props.conversations.length === 0) {
+      this.props.newConversation();
+
     this.setState({isBotTyping: true});
     // console.log(this.state.isBotTyping);
     this.setState((previousState) => ({
@@ -97,6 +101,7 @@ class ChatWindow extends React.Component {
 
     console.log(this.state.messages);
   };
+}
 
   render() {
     // Example: Only render chat window if there are messages or isNewChat is false
