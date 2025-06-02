@@ -80,7 +80,7 @@ class ChatWindow extends React.Component {
   sendMessage = (message) => {
     // console.log("Sending message:", message);
 
-    if(this.state.isNewChat) {
+    // if(this.state.isNewChat) {
       this.props.newConversation();
 
     this.setState({isBotTyping: true, isNewChat: false});
@@ -96,30 +96,30 @@ class ChatWindow extends React.Component {
       ],
     }));
 
-    this.socket.emit("client-message", [{ role: "user", content: message }, this.props.activeConversation]);
+    // this.socket.emit("client-message", [{ role: "user", content: message }, this.props.activeConversation]);
     console.log("Sending message:", message);
 
     console.log(this.state.messages);
-  }
-  else {
-    this.setState({isBotTyping: true, isNewChat: false});
-    // console.log(this.state.isBotTyping);
-    this.setState((previousState) => ({
-      messages: [...previousState.messages, { role: "user", content: message }],
-    }));
+  // }
+  // else {
+  //   this.setState({isBotTyping: true, isNewChat: false});
+  //   // console.log(this.state.isBotTyping);
+  //   this.setState((previousState) => ({
+  //     messages: [...previousState.messages, { role: "user", content: message }],
+  //   }));
 
-    this.setState((previousState) => ({
-      messages: [
-        ...previousState.messages,
-        { role: "assistant", content: "Typing..." },
-      ],
-    }));
+  //   this.setState((previousState) => ({
+  //     messages: [
+  //       ...previousState.messages,
+  //       { role: "assistant", content: "Typing..." },
+  //     ],
+  //   }));
 
-    this.socket.emit("client-message", [{ role: "user", content: message }, this.props.activeConversation]);
-    console.log("Sending message:", message);
+  //   this.socket.emit("client-message", [{ role: "user", content: message }, this.props.activeConversation]);
+  //   console.log("Sending message:", message);
 
-    console.log(this.state.messages);
-  }
+  //   console.log(this.state.messages);
+  // }
 }
 
   render() {

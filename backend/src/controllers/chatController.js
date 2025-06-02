@@ -63,18 +63,19 @@ const chatController = async (userMessage, userId, conversationId=null) => {
     // console.log(chatHistory);
     const response = await getAzureOpenAIResponse(chatHistory);
     chatHistory.push(response);
-
+    // console.log("Response from Azure OpenAI:", response);
+    console.log(userId, conversationId, chatTitle, userMessage);
     await conversationModel.updateOne(
-      { userId: userId || "exampleOne" },
-      { conversationId: conversationId || "exampleConversation" },
+      { userId: userId || "exampleOne", conversationId: conversationId || "exampleConversation" }, // filter
       {
-      $set: {
-        title: chatTitle,
-        chatHistory: chatHistory.slice(1), // Exclude system instructions
-      },
+        $set: {
+          title: chatTitle,
+          chatHistory: chatHistory.slice(1), // Exclude system instructions
+        },
       },
       { upsert: true }
     );
+    // console.log("response", response);
 
     return [response, chatTitle, chatHistory];
   } catch (error) {
