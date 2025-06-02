@@ -8,9 +8,13 @@ class ChatsHistory extends React.Component {
         // console.log(this.props.classActive);
     };
 
+    handleClick = () => {
+        console.log("Chat clicked:", this.props.conversationId);
+    }
+
     render() {
         return (
-                <button id="chat" className={this.props.classActive} title="Open this chat">
+                <button id="chat" className={this.props.classActive} title="Open this chat" onClick={this.handleClick}>
                     <div className="chat-title-time">
                         <div className="chat-title">
                             {this.props.chatTitle}

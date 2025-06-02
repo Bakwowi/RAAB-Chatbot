@@ -5,19 +5,33 @@ import "../../css/SideBarStyles/SideBar.css";
 import NewChatSvg from "../../assets/svgs/NewChatIcon.svg";
 import SettingsSvg from "../../assets/svgs/SettingsIcon.svg";
 import logo from "../../assets/images/RAAB-logo.png";
-import { use } from "react";
+
 
 class SideBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      conversations: this.props.conversations || [],
-      activeConversation: this.props.activeConversation || null,
+      conversations: [],
+      activeConversation: null,
       loading: true
     };
   }
   componentDidMount = () => {
    this.fetchConversations();
+  };
+
+  newConversation = () => {
+    this.props.newConversation();
+    this.fetchConversations();
+  }
+
+  componentDidUpdate = (prevProps) => {
+    // Check if the activeConversation prop has changed
+    if (prevProps.activeConversation !== this.props.activeConversation) {
+      this.setState({
+        activeConversation: this.props.activeConversation,
+      });
+    }
   };
 
   fetchConversations = () => {
@@ -61,7 +75,7 @@ class SideBar extends React.Component {
   //       // Update the state with the new conversation
   //       this.setState((prevState) => ({
   //         conversations: [data, ...prevState.conversations],
-  //         activeConversation: data._id,
+  //         activeConversation: data.conversationId,
   //       }));
   //     })
   //     .catch((error) => {
@@ -82,9 +96,10 @@ class SideBar extends React.Component {
         return (
             // console.log("Conversation:", conversation);
           <Chats
-            key={conversation._id}
+            key={conversation.conversationId}
+            conversationId={conversation.conversationId}
             classActive={
-              this.state.activeConversation === conversation._id ? "active" : ""
+              this.state.activeConversation === conversation.conversationId ? "active" : ""
             }
             chatTitle={conversation.title.slice(0, 25) + "..."}
             chatTime={formattedDate}
@@ -103,7 +118,8 @@ class SideBar extends React.Component {
             <div className="logo">
               <img src={logo} alt="RAAB" />
             </div>
-            <button id="new-chat-btn" title="New chat" onClick={this.props.newConversation}>
+            <button id="new-chat-btn" title="New chat" 
+            onClick={this.newConversation}>
               <img src={NewChatSvg} id="new-chat-svg" />
             </button>
           </div>

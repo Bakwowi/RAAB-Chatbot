@@ -103,6 +103,7 @@ app.get("/messages", async (req, res) => {
 app.post("/conversations", async (req, res) => {
   const conversation = new Conversation({
     userId: req.body.userId,
+    conversationId: req.body.conversationId || "exampleConversation",
     title: req.body.title,
     chatHistory: req.body.chatHistory,
     Timestamp: req.body.Timestamp

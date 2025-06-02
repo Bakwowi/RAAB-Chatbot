@@ -5,6 +5,11 @@ const conversationSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    conversationId: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     title: {
         type: String,
         required: true,

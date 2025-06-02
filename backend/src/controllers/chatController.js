@@ -66,6 +66,7 @@ const chatController = async (userMessage, userId, conversationId=null) => {
 
     await conversationModel.updateOne(
       { userId: userId || "exampleOne" },
+      { conversationId: conversationId || "exampleConversation" },
       {
       $set: {
         title: chatTitle,
