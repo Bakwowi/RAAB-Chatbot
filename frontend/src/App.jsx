@@ -35,6 +35,7 @@ class App extends React.Component {
             },
             body: JSON.stringify({
                 userId: localStorage.getItem("userId") || "default",
+                conversationId: Math.random().toString(36).substring(2, 15),
                 title: "New Chat",
                 chatHistory: [],
                 Timestamp: new Date().toISOString(),
@@ -42,11 +43,17 @@ class App extends React.Component {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log("New conversation created:", data);
+            // console.log("New conversation created:", data);
             this.socket.emit("newConversation", data);
             this.setState((prevState) => ({
                 conversations: [data, ...prevState.conversations],
-            }));
+                activeConversation: data.conversationId
+            }), () => {
+                console.log(this.state.activeConversation);
+                console.log("Active conversation set to:", data.conversationId);
+            });
+            
+
         })
         .catch((error) => {
             console.error("Error creating new conversation:", error);
@@ -56,8 +63,8 @@ class App extends React.Component {
     render() {
         return(
             <div className="container">
-                <SideBar newConversation={this.createNewConversation} conversations={this.state.conversations} activeConversation={this.state.activeConversation} />
-                <ChatWindow  conversations={this.state.conversations} activeConversation={this.state.activeConversation} />
+                <SideBar newConversation={this.createNewConversation} activeConversation={this.state.activeConversation} />
+                <ChatWindow newConversation={this.createNewConversation} conversations={this.state.conversations} activeConversation={this.state.activeConversation} />
             </div>
         )
     }

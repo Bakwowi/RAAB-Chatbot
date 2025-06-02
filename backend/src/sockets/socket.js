@@ -14,7 +14,7 @@ const chatSocket = (io) => {
     console.log("userId from socket", userId);
     console.log("recieving user message", res);
 
-    response = await chatController(res, userId);
+    response = await chatController(res[0], userId, res[1]);
     // console.log("response from chatController", response);
     const [botResponse, chatTitle, chatHistory] = response;
     socket.emit("botMessage", botResponse);
