@@ -41,7 +41,7 @@ let chatTitle = "";
 let isTitleGenerated = false;
 let isNewConversation = true;
 
-const chatController = async (userMessage, userId) => {
+const chatController = async (userMessage, userId, conversationId=null) => {
   chatHistory.push(userMessage);
   messageCount++;
   try {
