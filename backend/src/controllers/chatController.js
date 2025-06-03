@@ -42,6 +42,7 @@ let isTitleGenerated = false;
 let isNewConversation = true;
 
 const chatController = async (userMessage, userId, conversationId=null) => {
+  console.log("User message:", userMessage);
   chatHistory.push(userMessage);
   messageCount++;
   try {
@@ -60,7 +61,8 @@ const chatController = async (userMessage, userId, conversationId=null) => {
 }
 
   try {
-    // console.log(chatHistory);
+    console.log(chatHistory);
+    // console.log("Chat history:", chatHistory);
     const response = await getAzureOpenAIResponse(chatHistory);
     chatHistory.push(response);
     // console.log("Response from Azure OpenAI:", response);
