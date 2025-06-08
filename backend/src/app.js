@@ -33,16 +33,23 @@ app.get("/", (req, res) => {
 // });
 
 
-app.get("/conversations/:userId");
+app.get("/conversations/:userId", async (req, res) => {
+  try {
+    const conversations = await Conversation.find({ user_id: req.params.userId });
+    res.json(conversations);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching conversations" });
+  }
+});
 
-app.get("/conversations/:conversationId");
+// app.get("/conversations/:conversationId");
 
-app.patch("/conversations/:conversationId/messages");
+// app.patch("/conversations/:conversationId/messages");
 
 app.post("/conversations", async (req, res) => {
   const conversation = new Conversation({
-    userId: req.body.userId,
-    conversationId: req.body.conversationId || "exampleConversation",
+    conversation_id: req.body.conversationId || "exampleConversation",
+    user_id: req.body.userId,
     title: "New chat",
     messages: [],
     created_at: new Date(),
