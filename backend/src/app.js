@@ -32,81 +32,21 @@ app.get("/", (req, res) => {
 //   console.error("MongoDB connection error:", err);
 // });
 
-app.get("/db", async (req, res) => {
-  try {
-      const data = await Message.find();
-      res.status(200).json(data);
-  } catch (error) {
-      res.status(500).json({ error: "Error fetching data" });
-  }
-});
 
-app.get("/db/:id", async (req, res) => {
-  try {
-      const data = await Message.findById(req.params.id);
-      res.status(200).json(data);
-  } catch (error) {
-      res.status(500).json({ error: "Error fetching data" });
-  }
-});
+app.get("/conversations/:userId");
 
-app.post("/db", async (req, res) => {
-    // console.log(req.body);
-  const message = new Message({
-    role: req.body.role,
-    content: req.body.content
-  });
-  console.log(message);
-  try {
-    const mess = await message.save();
-    res.status(201).json(mess);
-  } catch (error) {
-    res.status(500).json({ error: "Error saving message" });
-  }
-});
+app.get("/conversations/:conversationId");
 
-app.patch("/db/:id", async (req, res) => {
-  try {
-    const updatedMessage = await Message.findByIdAndUpdate(
-      req.params.id,
-      {
-        role: req.body.role,
-        content: req.body.content
-      },
-      { new: true }
-    );
-    res.status(200).json(updatedMessage);
-  } catch (error) {
-    res.status(500).json({ error: "Error updating message" });
-  }
-});
-
-app.get("/conversations", async (req, res) => {
-  try {
-    const data = await Conversation.find();
-    res.status(200).json(data);
-  }
-  catch (error) {
-    res.status(500).json({ error: "Error fetching conversations" });
-  }
-});
-app.get("/messages", async (req, res) => {
-  try {
-    const data = await Message.find();
-    res.status(200).json(data);
-  }
-  catch (error) {
-    res.status(500).json({ error: "Error fetching messages" });
-  }
-});
+app.patch("/conversations/:conversationId/messages");
 
 app.post("/conversations", async (req, res) => {
   const conversation = new Conversation({
     userId: req.body.userId,
     conversationId: req.body.conversationId || "exampleConversation",
-    title: req.body.title,
-    chatHistory: req.body.chatHistory,
-    Timestamp: req.body.Timestamp
+    title: "New chat",
+    messages: [],
+    created_at: new Date(),
+    updated_at: new Date()
   });
   try {
     const conv = await conversation.save();

@@ -54,10 +54,10 @@ class ChatWindow extends React.Component {
 
   animateResponse = (response) => {
     // console.log("Animating response:", response);
-    this.props.saveMessageToConversation(
-      { role: "assistant", content: response.content },
-      this.props.activeConversation
-    );
+    // this.props.saveMessageToConversation(
+    //   { role: "assistant", content: response.content },
+    //   this.props.activeConversation
+    // );
     const message = response.content;
     const typingSpeed = 2; // Lower value = faster typing
     let step = 2;
@@ -100,6 +100,7 @@ class ChatWindow extends React.Component {
       );
     }
     this.props.sendMessage({ role: "user", content: message });
+
     console.log("Sending message:", message);
     // console.log("Sending message:", message);
 
