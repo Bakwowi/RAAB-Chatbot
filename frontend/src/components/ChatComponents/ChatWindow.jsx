@@ -14,8 +14,9 @@ class ChatWindow extends React.Component {
       messages: [],
       isNewChat: true,
       isBotTyping: false,
-      chatTitle: "Chat Title"
+      chatTitle: "Chat Title",
     };
+    this.lastUserMessage = ""
     // this.isBotTyping = false;
   }
 
@@ -25,7 +26,7 @@ class ChatWindow extends React.Component {
     });
 
     this.socket.on("botMessage", (response) => {
-      console.log(response);
+      // console.log(response);
       // console.log(this.state.messages)
       if (response !== "Sorry, something went wrong.") {
         this.setState((previousState) => {
@@ -48,14 +49,35 @@ class ChatWindow extends React.Component {
     });
   };
 
-
-
   componentWillUnmount = () => {
     this.socket.disconnect();
   };
 
+  saveMessagesToDb = (userMessage, botMessage) => {
+    // console.log(userMessage, botMessage);
+    if(this.props.activeConversation !== null){
+    fetch(`/conversations/${this.props.activeConversation}/messages`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: [userMessage, botMessage]
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
+  else{
+    console.log("there is no active converstion to save your messages to");
+    this.props.createNewConversation();
+  }
+};
+
   animateResponse = (response) => {
-    // console.log("Animating response:", response);
     const message = response.content;
     const typingSpeed = 2; // Lower value = faster typing
     let step = 2;
@@ -72,55 +94,63 @@ class ChatWindow extends React.Component {
         index += step;
       } else {
         clearInterval(interval);
-        this.setState({isBotTyping: false});
+        this.setState({ isBotTyping: false });
       }
     }, typingSpeed);
+
+    this.saveMessagesToDb(this.lastUserMessage, response);
   };
 
   sendMessage = (message) => {
+    this.setState({ isBotTyping: true, isNewChat: false });
+    // console.log(this.state.isBotTyping);
+    this.setState((previousState) => ({
+      messages: [...previousState.messages, { role: "user", content: message }],
+    }));
+
+    this.setState((previousState) => ({
+      messages: [
+        ...previousState.messages,
+        { role: "assistant", content: "Typing..." },
+      ],
+    }));
+    if (this.props.activeConversation) {
+      // console.log(this.props.activeConversation);
+      this.props.saveMessageToConversation(
+        { role: "user", content: message },
+        this.props.activeConversation
+      );
+    }
+
+    this.lastUserMessage = message;
+    console.log("last user message => ", this.lastUserMessage);
+    this.socket.emit("client-message", {role: "user", content: message});
+
+    console.log("Sending message:", message);
     // console.log("Sending message:", message);
 
-    if(this.state.isNewChat) {
-      this.props.newConversation();
+    // console.log(this.state.messages);
+    // }
+    // else {
+    //   this.setState({isBotTyping: true, isNewChat: false});
+    //   // console.log(this.state.isBotTyping);
+    //   this.setState((previousState) => ({
+    //     messages: [...previousState.messages, { role: "user", content: message }],
+    //   }));
 
-    this.setState({isBotTyping: true, isNewChat: false});
-    // console.log(this.state.isBotTyping);
-    this.setState((previousState) => ({
-      messages: [...previousState.messages, { role: "user", content: message }],
-    }));
+    //   this.setState((previousState) => ({
+    //     messages: [
+    //       ...previousState.messages,
+    //       { role: "assistant", content: "Typing..." },
+    //     ],
+    //   }));
 
-    this.setState((previousState) => ({
-      messages: [
-        ...previousState.messages,
-        { role: "assistant", content: "Typing..." },
-      ],
-    }));
+    //   this.socket.emit("client-message", [{ role: "user", content: message }, this.props.activeConversation]);
+    //   console.log("Sending message:", message);
 
-    this.socket.emit("client-message", [{ role: "user", content: message }, this.props.activeConversation]);
-    console.log("Sending message:", message);
-
-    console.log(this.state.messages);
-  }
-  else {
-    this.setState({isBotTyping: true, isNewChat: false});
-    // console.log(this.state.isBotTyping);
-    this.setState((previousState) => ({
-      messages: [...previousState.messages, { role: "user", content: message }],
-    }));
-
-    this.setState((previousState) => ({
-      messages: [
-        ...previousState.messages,
-        { role: "assistant", content: "Typing..." },
-      ],
-    }));
-
-    this.socket.emit("client-message", [{ role: "user", content: message }, this.props.activeConversation]);
-    console.log("Sending message:", message);
-
-    console.log(this.state.messages);
-  }
-}
+    //   console.log(this.state.messages);
+    // }
+  };
 
   render() {
     // Example: Only render chat window if there are messages or isNewChat is false
@@ -128,11 +158,14 @@ class ChatWindow extends React.Component {
       return (
         <div className="chat-window">
           <div className="chat-area">
-            <p className="chat-intro-title">Lost in the woods? I've got answers! 😎</p>
+            <p className="chat-intro-title">
+              Lost in the woods? I've got answers! 😎
+            </p>
           </div>
-          <MessageInput 
-            sendMessage={this.sendMessage} 
-            isBotTyping={this.state.isBotTyping}/>
+          <MessageInput
+            sendMessage={this.sendMessage}
+            isBotTyping={this.state.isBotTyping}
+          />
         </div>
       );
     }
@@ -159,9 +192,10 @@ class ChatWindow extends React.Component {
             </button>
           </div>
         </div>
-        <MessageInput 
-          sendMessage={this.sendMessage} 
-          isBotTyping={this.state.isBotTyping}/>
+        <MessageInput
+          sendMessage={this.sendMessage}
+          isBotTyping={this.state.isBotTyping}
+        />
       </div>
     );
   }

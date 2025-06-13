@@ -46,7 +46,7 @@ class MessageBubble extends React.Component {
               //   navigator.clipboard.writeText(this.props.message);
               // }
               const p = document.querySelector(".message-bubble div");
-              console.log(this.props.message);
+              // console.log(this.props.message);
             }}
             title="Copy message"
           >

@@ -13,9 +13,10 @@ class SideBar extends React.Component {
     this.state = {
       conversations: [],
       activeConversation: null,
-      loading: true
+      loading: true,
     };
-  }
+    this.user_id = localStorage.getItem("userId")
+  };
   componentDidMount = () => {
    this.fetchConversations();
   };
@@ -36,10 +37,10 @@ class SideBar extends React.Component {
 
   fetchConversations = () => {
     // const userId = localStorage.getItem("userId") || "default";
-    fetch(`http://localhost:3000/conversations`, {
+    fetch(`http://localhost:3000/conversations/${this.user_id}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
     })
       .then((response) => response.json())
@@ -56,32 +57,8 @@ class SideBar extends React.Component {
       });
   };
 
-  // createNewChat = () => {
-  //   // Create a new chat by sending a POST request to the server
-  //   fetch(`http://localhost:3000/conversations`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       userId: localStorage.getItem("userId") || "default",
-  //       title: "New Chat",
-  //       chatHistory: [],
-  //       Timestamp: new Date().toISOString(),
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       // Update the state with the new conversation
-  //       this.setState((prevState) => ({
-  //         conversations: [data, ...prevState.conversations],
-  //         activeConversation: data.conversationId,
-  //       }));
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error creating new chat:", error);
-  //     });
-  // };
+
+
 
   render() {
 
@@ -119,7 +96,7 @@ class SideBar extends React.Component {
               <img src={logo} alt="RAAB" />
             </div>
             <button id="new-chat-btn" title="New chat" 
-            onClick={this.newConversation}>
+            onClick={this.props.createNewConversation}>
               <img src={NewChatSvg} id="new-chat-svg" />
             </button>
           </div>

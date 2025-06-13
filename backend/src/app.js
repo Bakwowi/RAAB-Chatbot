@@ -32,88 +32,72 @@ app.get("/", (req, res) => {
 //   console.error("MongoDB connection error:", err);
 // });
 
-app.get("/db", async (req, res) => {
-  try {
-      const data = await Message.find();
-      res.status(200).json(data);
-  } catch (error) {
-      res.status(500).json({ error: "Error fetching data" });
-  }
-});
 
-app.get("/db/:id", async (req, res) => {
+app.get("/conversations/:userId", async (req, res) => {
   try {
-      const data = await Message.findById(req.params.id);
-      res.status(200).json(data);
+    const conversations = await Conversation.find({ user_id: req.params.userId });
+    res.json(conversations);
   } catch (error) {
-      res.status(500).json({ error: "Error fetching data" });
-  }
-});
-
-app.post("/db", async (req, res) => {
-    // console.log(req.body);
-  const message = new Message({
-    role: req.body.role,
-    content: req.body.content
-  });
-  console.log(message);
-  try {
-    const mess = await message.save();
-    res.status(201).json(mess);
-  } catch (error) {
-    res.status(500).json({ error: "Error saving message" });
-  }
-});
-
-app.patch("/db/:id", async (req, res) => {
-  try {
-    const updatedMessage = await Message.findByIdAndUpdate(
-      req.params.id,
-      {
-        role: req.body.role,
-        content: req.body.content
-      },
-      { new: true }
-    );
-    res.status(200).json(updatedMessage);
-  } catch (error) {
-    res.status(500).json({ error: "Error updating message" });
-  }
-});
-
-app.get("/conversations", async (req, res) => {
-  try {
-    const data = await Conversation.find();
-    res.status(200).json(data);
-  }
-  catch (error) {
     res.status(500).json({ error: "Error fetching conversations" });
   }
 });
-app.get("/messages", async (req, res) => {
-  try {
-    const data = await Message.find();
-    res.status(200).json(data);
+
+// app.get("/conversations/:conversationId");
+
+app.patch("/conversations/:conversationId/messages", async (req, res) => {
+  const { userMessage, botMessage } = req.body;
+  const { conversationId } = req.params;
+
+  if (!userMessage || !botMessage) {
+    return res.status(400).json({ error: "userMessage and botMessage are required." });
   }
-  catch (error) {
-    res.status(500).json({ error: "Error fetching messages" });
+
+  try {
+    const conversation = await Conversation.findOneAndUpdate(
+      { conversation_id: conversationId },
+      {
+        $push: {
+          messages: {
+            $each: [
+              { sender: "user", content: userMessage, timestamp: new Date(), metadata: {} },
+              { sender: "bot", content: botMessage, timestamp: new Date(), metadata: {} }
+            ]
+          }
+        }
+      },
+      { new: true }
+    );
+
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found." });
+    }
+
+    res.json(conversation);
+  } catch (error) {
+    res.status(500).json({ error: "Error updating messages." });
   }
 });
 
 app.post("/conversations", async (req, res) => {
+  if (!req.body.userId) {
+    return res.status(400).json({ error: "userId is required." });
+  }
+  console.log("request body ",req.body);
   const conversation = new Conversation({
-    userId: req.body.userId,
     conversationId: req.body.conversationId || "exampleConversation",
-    title: req.body.title,
-    chatHistory: req.body.chatHistory,
-    Timestamp: req.body.Timestamp
+    userId: req.body.userId,
+    title: "New chat",
+    messages: [],
+    created_at: new Date(),
+    updated_at: new Date()
   });
   try {
     const conv = await conversation.save();
     console.log("Conversation saved:", conv);
-    res.status(201).json(conv);
+    return res.status(201).json(conv);
   } catch (error) {
-    res.status(500).json({ error: "Error saving conversation" });
+    console.log(error);
+    return res.status(500).json({ error: "Error saving conversation" });
   }
 });
 
