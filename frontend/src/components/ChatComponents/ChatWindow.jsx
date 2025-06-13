@@ -38,7 +38,11 @@ class ChatWindow extends React.Component {
           ) {
             updated.pop();
           }
-
+              if (this.props.activeConversation === null) {
+                this.props.createNewConversation();
+              } else {
+                this.saveMessagesToDb(this.lastUserMessage, response);
+              }
           return this.animateResponse(response);
           // return { messages: [...updated, response] };
         });
@@ -55,13 +59,19 @@ class ChatWindow extends React.Component {
 
   saveMessagesToDb = (userMessage, botMessage) => {
     // console.log(userMessage, botMessage);
-    if(this.props.activeConversation !== null){
-    fetch(`/conversations/${this.props.activeConversation}/messages`, {
+    console.log(this.props.activeConversation)
+
+    if (!this.props.activeConversation) {
+      console.error("No active conversation ID provided.");
+      return;
+    }
+
+    fetch(`http://localhost:3000/conversations/${this.props.activeConversation}/messages`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },
-      body: [userMessage, botMessage]
+      body: JSON.stringify([userMessage, botMessage])
     })
     .then((response) => response.json())
     .then((data) => {
@@ -70,11 +80,6 @@ class ChatWindow extends React.Component {
     .catch((error) => {
       console.error(error);
     })
-  }
-  else{
-    console.log("there is no active converstion to save your messages to");
-    this.props.createNewConversation();
-  }
 };
 
   animateResponse = (response) => {
@@ -97,11 +102,9 @@ class ChatWindow extends React.Component {
         this.setState({ isBotTyping: false });
       }
     }, typingSpeed);
-
-    this.saveMessagesToDb(this.lastUserMessage, response);
   };
 
-  sendMessage = (message) => {
+  sendMessage = async (message) => {
     this.setState({ isBotTyping: true, isNewChat: false });
     // console.log(this.state.isBotTyping);
     this.setState((previousState) => ({
@@ -114,42 +117,13 @@ class ChatWindow extends React.Component {
         { role: "assistant", content: "Typing..." },
       ],
     }));
-    if (this.props.activeConversation) {
-      // console.log(this.props.activeConversation);
-      this.props.saveMessageToConversation(
-        { role: "user", content: message },
-        this.props.activeConversation
-      );
-    }
 
     this.lastUserMessage = message;
     console.log("last user message => ", this.lastUserMessage);
     this.socket.emit("client-message", {role: "user", content: message});
 
     console.log("Sending message:", message);
-    // console.log("Sending message:", message);
-
-    // console.log(this.state.messages);
-    // }
-    // else {
-    //   this.setState({isBotTyping: true, isNewChat: false});
-    //   // console.log(this.state.isBotTyping);
-    //   this.setState((previousState) => ({
-    //     messages: [...previousState.messages, { role: "user", content: message }],
-    //   }));
-
-    //   this.setState((previousState) => ({
-    //     messages: [
-    //       ...previousState.messages,
-    //       { role: "assistant", content: "Typing..." },
-    //     ],
-    //   }));
-
-    //   this.socket.emit("client-message", [{ role: "user", content: message }, this.props.activeConversation]);
-    //   console.log("Sending message:", message);
-
-    //   console.log(this.state.messages);
-    // }
+   
   };
 
   render() {

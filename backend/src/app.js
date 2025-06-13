@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 app.use(cors({
     origin: "http://localhost:5173",
-    methods: ["POST", "GET"],
+    methods: ["POST", "GET", "PATCH", "DELETE"],
     credentials: true,
 }));
 
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 
 app.get("/conversations/:userId", async (req, res) => {
   try {
-    const conversations = await Conversation.find({ user_id: req.params.userId });
+    const conversations = await Conversation.find({ userId: req.params.userId });
     res.json(conversations);
   } catch (error) {
     res.status(500).json({ error: "Error fetching conversations" });
@@ -48,13 +48,15 @@ app.patch("/conversations/:conversationId/messages", async (req, res) => {
   const { userMessage, botMessage } = req.body;
   const { conversationId } = req.params;
 
+  console.log(req.body);
+
   if (!userMessage || !botMessage) {
     return res.status(400).json({ error: "userMessage and botMessage are required." });
   }
 
   try {
     const conversation = await Conversation.findOneAndUpdate(
-      { conversation_id: conversationId },
+      { conversationId: conversationId },
       {
         $push: {
           messages: {

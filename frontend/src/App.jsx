@@ -11,7 +11,9 @@ class App extends React.Component {
     this.state = {
       conversations: [],
       activeConversation: null,
+      loading: true
     };
+    this.userId = localStorage.getItem("userId")
   }
   componentDidMount = () => {
     this.socket = getSocket();
@@ -19,11 +21,34 @@ class App extends React.Component {
     if (!this.socket.connected) {
       this.socket.connect();
     }
+
+    this.fetchConversations();
   };
   componentWillUnmount = () => {
     this.socket.off();
     // this.socket.off("botMessage");
   };
+
+   fetchConversations = () => {
+      // const userId = localStorage.getItem("userId") || "default";
+      fetch(`http://localhost:3000/conversations/${this.userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.setState({
+            conversations: data,
+            loading: false,
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching conversations:", error);
+          this.setState({ loading: false });
+        });
+    };
 
   generateRandomId = (length = 10) =>  {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -35,7 +60,7 @@ class App extends React.Component {
   }
 
 
-  createNewConversation = () => {
+  createNewConversation = (callback=null) => {
     const convid = this.generateRandomId();
     fetch("http://localhost:3000/conversations", {
       method: "POST",
@@ -49,10 +74,17 @@ class App extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
-        this.setState({
-          activeConversation: data.conversation_id
-        })
+       
+        this.setState((prevState) => ({
+          conversations: [data, ...prevState.conversations],
+          activeConversation: data.conversationId
+        }), () => {
+          if(callback){
+          callback();
+        }
+        });
+          console.log(data)
+        
       })
       .catch(error => console.error(error));
   };
@@ -62,11 +94,14 @@ class App extends React.Component {
       <div className="container">
         <SideBar
           createNewConversation={this.createNewConversation}
+          fetchConversations={this.fetchConversations}
           conversations={this.state.conversations}
           activeConversation={this.state.activeConversation}
+          loading={this.state.loading}
         />
         <ChatWindow
           createNewConversation={this.createNewConversation}
+          fetchConversations={this.fetchConversations}
           activeConversation={this.state.activeConversation}
         />
       </div>

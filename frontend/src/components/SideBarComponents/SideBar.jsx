@@ -15,15 +15,15 @@ class SideBar extends React.Component {
       activeConversation: null,
       loading: true,
     };
-    this.user_id = localStorage.getItem("userId")
+    this.userId = localStorage.getItem("userId")
   };
-  componentDidMount = () => {
-   this.fetchConversations();
-  };
+  // componentDidMount = () => {
+  //  this.fetchConversations();
+  // };
 
   newConversation = () => {
     this.props.newConversation();
-    this.fetchConversations();
+    this.props.fetchConversations();
   }
 
   componentDidUpdate = (prevProps) => {
@@ -35,39 +35,17 @@ class SideBar extends React.Component {
     }
   };
 
-  fetchConversations = () => {
-    // const userId = localStorage.getItem("userId") || "default";
-    fetch(`http://localhost:3000/conversations/${this.user_id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({
-          conversations: data,
-          loading: false,
-        });
-        // console.log("Conversations fetched successfully:", data);
-      })
-      .catch((error) => {
-        console.error("Error fetching conversations:", error);
-        this.setState({ loading: false });
-      });
-  };
-
 
 
 
   render() {
 
-    const sortedConversations = this.state.conversations
-      .sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp))
+    const sortedConversations = this.props.conversations
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
       .map((conversation) => {
         // Format the timestamp to "YYYY-MM-DD"
-        const formattedDate = conversation.Timestamp
-          ? new Date(conversation.Timestamp).toISOString().slice(0, 10)
+        const formattedDate = conversation.updated_at
+          ? new Date(conversation.updated_at).toISOString().slice(0, 10)
           : "";
 
         return (
@@ -76,7 +54,7 @@ class SideBar extends React.Component {
             key={conversation.conversationId}
             conversationId={conversation.conversationId}
             classActive={
-              this.state.activeConversation === conversation.conversationId ? "active" : ""
+              this.props.activeConversation === conversation.conversationId ? "active" : ""
             }
             chatTitle={conversation.title.slice(0, 25) + "..."}
             chatTime={formattedDate}
@@ -111,8 +89,8 @@ class SideBar extends React.Component {
         </div>
         <div className="label">Chats</div>
         <div className="conversation-history">
-          {this.state.loading === false ? (
-            this.state.conversations.length > 0 ? (
+          {this.props.loading === false ? (
+            this.props.conversations.length > 0 ? (
               sortedConversations
             ) : (
               <div className="no-conversations">No conversations yet.</div>
