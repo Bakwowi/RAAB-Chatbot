@@ -1,5 +1,3 @@
-const messageModel = require("../models/messageModel");
-const conversationModel = require("../models/conversationModel");
 const { getAzureOpenAIResponse, generateConversationTitle } = require("../config/azure-openai");
 
 const systemInstructions = `You are TrailMate, a friendly, knowledgeable hiking assistant designed to help users plan and enjoy outdoor adventures.
@@ -38,10 +36,10 @@ const systemInstructions = `You are TrailMate, a friendly, knowledgeable hiking 
 let chatHistory = [{ role: "assistant", content: systemInstructions }];
 let messageCount = 0;
 let chatTitle = "";
-let isTitleGenerated = false;
-let isNewConversation = true;
+// let isTitleGenerated = false;
+// let isNewConversation = true;
 
-const chatController = async (userMessage, userId, conversationId=null) => {
+const chatController = async (userMessage) => {
   console.log("User message:", userMessage);
   chatHistory.push(userMessage);
   messageCount++;
@@ -61,25 +59,10 @@ const chatController = async (userMessage, userId, conversationId=null) => {
 }
 
   try {
-    console.log(chatHistory);
-    // console.log("Chat history:", chatHistory);
     const response = await getAzureOpenAIResponse(chatHistory);
     chatHistory.push(response);
-    // console.log("Response from Azure OpenAI:", response);
-    console.log(userId, conversationId, chatTitle, userMessage);
-    await conversationModel.updateOne(
-      { userId: userId || "exampleOne", conversationId: conversationId || "exampleConversation" }, // filter
-      {
-        $set: {
-          title: chatTitle,
-          chatHistory: chatHistory.slice(1), // Exclude system instructions
-        },
-      },
-      { upsert: true }
-    );
-    // console.log("response", response);
 
-    return [response, chatTitle, chatHistory];
+    return [response, chatTitle];
   } catch (error) {
     console.error("Error in chatController:", error);
     return "An error occurred while processing your request.";

@@ -44,12 +44,48 @@ app.get("/conversations/:userId", async (req, res) => {
 
 // app.get("/conversations/:conversationId");
 
-// app.patch("/conversations/:conversationId/messages");
+app.patch("/conversations/:conversationId/messages", async (req, res) => {
+  const { userMessage, botMessage } = req.body;
+  const { conversationId } = req.params;
+
+  if (!userMessage || !botMessage) {
+    return res.status(400).json({ error: "userMessage and botMessage are required." });
+  }
+
+  try {
+    const conversation = await Conversation.findOneAndUpdate(
+      { conversation_id: conversationId },
+      {
+        $push: {
+          messages: {
+            $each: [
+              { sender: "user", content: userMessage, timestamp: new Date(), metadata: {} },
+              { sender: "bot", content: botMessage, timestamp: new Date(), metadata: {} }
+            ]
+          }
+        }
+      },
+      { new: true }
+    );
+
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found." });
+    }
+
+    res.json(conversation);
+  } catch (error) {
+    res.status(500).json({ error: "Error updating messages." });
+  }
+});
 
 app.post("/conversations", async (req, res) => {
+  if (!req.body.userId) {
+    return res.status(400).json({ error: "userId is required." });
+  }
+  console.log("request body ",req.body);
   const conversation = new Conversation({
-    conversation_id: req.body.conversationId || "exampleConversation",
-    user_id: req.body.userId,
+    conversationId: req.body.conversationId || "exampleConversation",
+    userId: req.body.userId,
     title: "New chat",
     messages: [],
     created_at: new Date(),
@@ -58,9 +94,10 @@ app.post("/conversations", async (req, res) => {
   try {
     const conv = await conversation.save();
     console.log("Conversation saved:", conv);
-    res.status(201).json(conv);
+    return res.status(201).json(conv);
   } catch (error) {
-    res.status(500).json({ error: "Error saving conversation" });
+    console.log(error);
+    return res.status(500).json({ error: "Error saving conversation" });
   }
 });
 

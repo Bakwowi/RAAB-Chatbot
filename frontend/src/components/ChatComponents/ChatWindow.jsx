@@ -16,6 +16,7 @@ class ChatWindow extends React.Component {
       isBotTyping: false,
       chatTitle: "Chat Title",
     };
+    this.lastUserMessage = ""
     // this.isBotTyping = false;
   }
 
@@ -52,12 +53,31 @@ class ChatWindow extends React.Component {
     this.socket.disconnect();
   };
 
+  saveMessagesToDb = (userMessage, botMessage) => {
+    // console.log(userMessage, botMessage);
+    if(this.props.activeConversation !== null){
+    fetch(`/conversations/${this.props.activeConversation}/messages`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: [userMessage, botMessage]
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+  }
+  else{
+    console.log("there is no active converstion to save your messages to");
+    this.props.createNewConversation();
+  }
+};
+
   animateResponse = (response) => {
-    // console.log("Animating response:", response);
-    // this.props.saveMessageToConversation(
-    //   { role: "assistant", content: response.content },
-    //   this.props.activeConversation
-    // );
     const message = response.content;
     const typingSpeed = 2; // Lower value = faster typing
     let step = 2;
@@ -77,6 +97,8 @@ class ChatWindow extends React.Component {
         this.setState({ isBotTyping: false });
       }
     }, typingSpeed);
+
+    this.saveMessagesToDb(this.lastUserMessage, response);
   };
 
   sendMessage = (message) => {
@@ -99,7 +121,10 @@ class ChatWindow extends React.Component {
         this.props.activeConversation
       );
     }
-    this.props.sendMessage({ role: "user", content: message });
+
+    this.lastUserMessage = message;
+    console.log("last user message => ", this.lastUserMessage);
+    this.socket.emit("client-message", {role: "user", content: message});
 
     console.log("Sending message:", message);
     // console.log("Sending message:", message);

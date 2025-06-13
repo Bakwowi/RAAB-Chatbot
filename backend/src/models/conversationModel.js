@@ -22,12 +22,12 @@ const messageSchema = new mongoose.Schema({
 
 const conversationSchema = new mongoose.Schema(
   {
-    conversation_id: {
+    conversationId: {
       type: String,
       required: true,
       unique: true,
     },
-    user_id: {
+    userId: {
       type: String,
       required: true,
     },
