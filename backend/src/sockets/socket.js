@@ -12,11 +12,11 @@ const chatSocket = (io) => {
 
     // console.log("userId from socket auth", socket.handshake.auth);
     // console.log("userId from socket", userId);
-    // console.log("recieving user message", res);
+    // console.log("recieving user message", res, "End of user message");
     response = await chatController(res);
     // console.log("response from chatController", response);
     const botResponse = response;
-    console.log("emitting bot response", botResponse);
+    // console.log("emitting bot response", botResponse);
     socket.emit("botMessage", botResponse);
     // socket.emit("chatTitle", chatTitle);
   });

@@ -40,7 +40,7 @@ let chatTitle = "";
 // let isNewConversation = true;
 
 const chatController = async (userMessage) => {
-  console.log("User message:", userMessage);
+  // console.log("User message:", userMessage);
   for( let i = 0; i < userMessage.length; i++) {
       chatHistory.push(userMessage[i]);
   };
@@ -51,7 +51,7 @@ const chatController = async (userMessage) => {
   if (true) {
     isTitleGenerated = true;
     const title = await generateConversationTitle(chatHistory);
-    console.log("Generated title:", title);
+    // console.log("Generated title:", title);
     chatTitle = title;
     messageCount = 0;
   }
@@ -61,11 +61,11 @@ const chatController = async (userMessage) => {
   isTitleGenerated = false;
   messageCount = 0;
 }
-  console.log("test");
+  // console.log("test");
   try {
     const response = await getAzureOpenAIResponse(chatHistory);
     chatHistory.push(response);
-    console.log("Response from Azure OpenAI:", response);
+    // console.log("Response from Azure OpenAI:", response);
   
     return response;
   } catch (error) {

@@ -45,19 +45,19 @@ app.get("/conversations/:userId", async (req, res) => {
 // app.get("/conversations/:conversationId");
 
 app.patch("/conversations", async (req, res) => {
-  const {messages, conversationId} = req.body;
+  const { messages, conversationId, userId } = req.body;
   // const { conversationId } = req.params;
 
-  console.log(req.body);
+  console.log("start of body", req.body, "end of body");
 
-  if (!messages || !conversationId) {
-    return res.status(400).json({ error: "No conversationid or message" });
+  if (!messages || !conversationId || !userId) {
+    return res.status(400).json({ error: "No conversationid, message, or userId" });
   }
 
   try {
     const conversation = await Conversation.findOneAndUpdate(
-      {userId: req.body.userId, conversationId: conversationId},
-      { $push: { messages: { $each: messages } }, updated_at: new Date() },
+      { userId: userId, conversationId: conversationId },
+      { $set: { messages: messages, updated_at: new Date() } },
       { new: true }
     );
 
@@ -75,7 +75,7 @@ app.post("/conversations", async (req, res) => {
   if (!req.body.userId) {
     return res.status(400).json({ error: "userId is required." });
   }
-  console.log("request body ",req.body);
+  // console.log("request body ",req.body);
   const conversation = new Conversation({
     conversationId: req.body.conversationId || "exampleConversation",
     userId: req.body.userId,
@@ -86,7 +86,7 @@ app.post("/conversations", async (req, res) => {
   });
   try {
     const conv = await conversation.save();
-    console.log("Conversation saved:");
+    // console.log("Conversation saved:");
     return res.status(201).json(conv);
   } catch (error) {
     console.log(error);

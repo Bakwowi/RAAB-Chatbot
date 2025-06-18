@@ -50,6 +50,16 @@ class ChatWindow extends React.Component {
       } else {
         console.log("sorry an error occured in our server");
       }
+
+      const savedMessages = localStorage.getItem("messages");
+      if (savedMessages) {
+        const parsedMessages = JSON.parse(savedMessages);
+        this.setState((previousState) => ({
+          messages: [...previousState.messages, ...parsedMessages],
+          isNewChat: false,
+        }));
+      }
+
     });
 
      console.log(this.state.messages);
@@ -58,6 +68,12 @@ class ChatWindow extends React.Component {
   componentWillUnmount = () => {
     this.socket.off("botMessage");
     this.socket.disconnect();
+    // console.log("Socket disconnected");
+    // localStorage.setItem("messages", JSON.stringify({hi: "there too"}));
+    // document.addEventListener("beforeunload", () => {
+    //   localStorage.setItem("messages", JSON.stringify(this.state.messages));
+    //   console.log("Messages saved to localStorage:", this.state.messages);
+    // });
   };
 
   componentDidUpdate = (prevProps) => {
@@ -73,9 +89,8 @@ class ChatWindow extends React.Component {
   };
 
   animateResponse = (response) => {
-    console.log("animateResponse called with:", response);
     const message = response.content;
-    const typingSpeed = 2; // Lower value = faster typing
+    const typingSpeed = 2;
     let step = 2;
     let index = 0;
 
@@ -90,14 +105,16 @@ class ChatWindow extends React.Component {
         index += step;
       } else {
         clearInterval(interval);
-        this.setState({ isBotTyping: false });
-        this.socket.emit("botMessage", this.state.messages);
-        this.saveMessagesToDb(this.state.messages);
-        console.log("Final message sent to server:", this.state.messages);
+        this.setState({ isBotTyping: false }, () => {
+          // EMIT/SAVE ONLY AFTER TYPING IS DONE AND STATE IS UPDATED
+          this.socket.emit("botMessage", this.state.messages);
+          this.saveMessagesToDb(this.state.messages);
+          console.log("Final message sent to server:", this.state.messages);
+        });
       }
     }, typingSpeed);
   };
-
+    
   sendMessage = async (message) => {
     this.setState({ isBotTyping: true, isNewChat: false });
     // console.log(this.state.isBotTyping);
