@@ -233,3 +233,135 @@ button {
 .side-bar .settings #settings-btn:hover{
     background-color: var(--hover-color);
 }
+.side-bar .settings #settings {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.464);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    /* top: 0; */
+    transition: all 0.3s ease-in-out;
+}
+.side-bar .settings #settings .settings-container{
+    width: 30rem;
+    height: 30rem;
+    background-color: var(--secondary-color);
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+    padding: 1rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.side-bar .settings #settings .settings-container .close{
+    width: 100%;
+}
+.side-bar .settings #settings .settings-container .close button{
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 2rem;
+    padding-right: 10px;
+    padding: 0;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff00;
+}
+.side-bar .settings #settings .settings-container .close button:hover{
+    background-color: var(--hover-color-light);
+}
+.side-bar .settings #settings .settings-container .close button img{
+    width: 20px;
+    height: 20px;
+}
+.side-bar .settings #settings .settings-container .settings-content {
+    width: 100%;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 1rem 0;
+    background-color: transparent;
+    /* height: 100%;  Remove fixed height to allow flex growth */
+}
+.side-bar .settings #settings .settings-container .settings-content .theme{
+    width: 100%;
+    /* height: 3rem; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* padding: 0 1rem; */
+    margin-bottom: 1rem;
+    /* border: 2px solid; */
+}
+.side-bar .settings #settings .settings-container .settings-content .theme label{
+    font-size: 1rem;
+    font-family: var(--font-family-header);
+    color: var(--text-color);
+}
+/* .side-bar .settings #settings .settings-container .settings-content .theme .theme-select{
+    position: relative;
+} */
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select #select-theme-btn{
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 0.2rem;
+}
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select #select-theme-btn:hover{
+    background-color: var(--hover-color-light);
+}
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select #select-theme-btn img{
+    width: 20px;
+    height: 20px;
+}
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options{
+    position: absolute;
+    top: 7rem;
+    /* left: 0; */
+    right: -4rem;
+    width: 8rem;
+    padding: 0.5rem;
+    background-color: var(--secondary-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 0rem 1rem #00000061;
+    z-index: 1000;
+    /* display: none; */
+}
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option:hover{
+    background-color: var(--hover-color-light);
+}
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option img{
+    display: none;
+    width: 20px;
+    height: 20px;
+}
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option.active img{
+    display: block;
+}

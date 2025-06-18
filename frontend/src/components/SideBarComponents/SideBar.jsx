@@ -5,7 +5,9 @@ import "../../css/SideBarStyles/SideBar.css";
 import NewChatSvg from "../../assets/svgs/NewChatIcon.svg";
 import SettingsSvg from "../../assets/svgs/SettingsIcon.svg";
 import logo from "../../assets/images/RAAB-logo.png";
-
+import backSvg from "../../assets/svgs/BackIcon.svg";
+import DropdownSvg from "../../assets/svgs/DropdownIcon.svg";
+import TickSvg from "../../assets/svgs/TickIcon.svg";
 
 class SideBar extends React.Component {
   constructor(props) {
@@ -118,6 +120,30 @@ class SideBar extends React.Component {
           <button id="settings-btn" title="Settings">
             <img src={SettingsSvg} id="settings-svg" /> Settings
           </button>
+          <div id="settings">
+            <div className="settings-container">
+            <div className="close">
+              <button id="back-btn" title="Back to chats">
+                <img src={backSvg} id="back-svg" />
+              </button>
+            </div>
+            <div className="settings-content">
+              <div className="theme">
+                <div className="label"><p>Theme</p></div>
+                <div className="theme-select">
+                  <button id="select-theme-btn">Select <img src={DropdownSvg} onClick={toggleThemeMenu}/></button>
+                  <div className="theme-options">
+                    <button className="theme-option active" id="light-theme">Light <img src={TickSvg} /></button>
+                    <button className="theme-option" id="dark-theme">Dark <img src={TickSvg} /></button>
+                    <button className="theme-option" id="system-theme">System <img src={TickSvg} /></button>
+                </div>
+                </div>
+                <div/>
+              </div>
+              
+          </div>
+          </div>
+        </div>
         </div>
       </nav>
     );
