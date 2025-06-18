@@ -56,7 +56,7 @@ app.patch("/conversations", async (req, res) => {
 
   try {
     const conversation = await Conversation.findOneAndUpdate(
-      { conversationId: conversationId },
+      {userId: req.body.userId, conversationId: conversationId},
       { $push: { messages: { $each: messages } }, updated_at: new Date() },
       { new: true }
     );
@@ -94,14 +94,20 @@ app.post("/conversations", async (req, res) => {
   }
 });
 
-app.get("/conversations/:conversationId/messages", async (req, res) => {
-  const { conversationId } = req.params;
+app.get("/conversations/:userId/:conversationId/messages", async (req, res) => {
+  const { userId, conversationId } = req.params;
 
   try {
-    const conversation = await Conversation.findOne({ conversationId: conversationId });
+    const conversation = await Conversation.findOne({ userId: userId, conversationId: conversationId });
     if (!conversation) {
       return res.status(404).json({ error: "Conversation not found." });
     };
+
+    const messages = conversation.messages.map((message) => ({
+      role: message.role,
+      content: message.content
+    }));
+    return res.json(messages);
   }
   catch (error) {
     console.error("Error fetching messages:", error);

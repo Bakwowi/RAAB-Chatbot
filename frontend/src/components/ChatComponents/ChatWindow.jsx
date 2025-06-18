@@ -11,7 +11,7 @@ class ChatWindow extends React.Component {
     super(props);
     this.socket = getSocket();
     this.state = {
-      messages: this.props.messages || [],
+      messages: [],
       isNewChat: true,
       isBotTyping: false,
       chatTitle: "Chat Title",
@@ -51,11 +51,25 @@ class ChatWindow extends React.Component {
         console.log("sorry an error occured in our server");
       }
     });
+
+     console.log(this.state.messages);
   };
 
   componentWillUnmount = () => {
     this.socket.off("botMessage");
     this.socket.disconnect();
+  };
+
+  componentDidUpdate = (prevProps) => {
+    // console.log("componentDidUpdate called");
+    if(prevProps.messages !== this.props.messages) {
+      console.log("current props messages", this.props.messages);
+      this.setState({
+        messages: this.props.messages,
+        isNewChat: false,
+      });
+    };
+    
   };
 
   animateResponse = (response) => {
@@ -126,6 +140,7 @@ class ChatWindow extends React.Component {
       body: JSON.stringify({
         messages: messages,
         conversationId: activeConversation,
+        userId: localStorage.getItem("userId") || "default",
       }),
     })
       .then((response) => response.json())

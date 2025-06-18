@@ -103,7 +103,8 @@ class App extends React.Component {
        
         this.setState((prevState) => ({
           conversations: [data, ...prevState.conversations],
-          activeConversation: data.conversationId
+          activeConversation: data.conversationId,
+          messages: []
         }), () => {
           this.fetchConversations();
         });
@@ -114,17 +115,22 @@ class App extends React.Component {
   };
 
   fetchMessages = (conversationId) => {
-    fetch(`http://localhost:3000/conversations/${conversationId}/messages`, {
+    fetch(`http://localhost:3000/conversations/${localStorage.getItem("userId") || "default"}/${conversationId}/messages`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
       },
+      
     })
       .then((response) => response.json())
       .then((data) => {
         this.setState({
           messages: data,
           activeConversation: conversationId,
+          
+        }, () => {
+          console.log("Messages fetched for conversation:", conversationId);
+          console.log("Messages:", this.state.messages);
         });
       })
       .catch((error) => {
