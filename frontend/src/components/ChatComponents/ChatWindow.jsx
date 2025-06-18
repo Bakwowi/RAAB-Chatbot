@@ -84,6 +84,7 @@ class ChatWindow extends React.Component {
         messages: this.props.messages,
         isNewChat: false,
       });
+      localStorage.setItem("messages", JSON.stringify(this.props.messages));
     };
     
   };

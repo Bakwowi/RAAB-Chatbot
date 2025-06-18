@@ -107,6 +107,7 @@ class App extends React.Component {
           messages: []
         }), () => {
           this.fetchConversations();
+          localStorage.setItem("activeConversation", data.conversationId);
         });
           // console.log(data)
         
