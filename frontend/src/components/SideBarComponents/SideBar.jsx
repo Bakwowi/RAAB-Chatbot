@@ -21,10 +21,10 @@ class SideBar extends React.Component {
   //  this.fetchConversations();
   // };
 
-  newConversation = () => {
-    this.props.newConversation();
-    this.props.fetchConversations();
-  }
+  // newConversation = () => {
+  //   this.props.newConversation();
+  //   // this.props.fetchConversations();
+  // }
 
   componentDidUpdate = (prevProps) => {
     // Check if the activeConversation prop has changed
@@ -33,6 +33,11 @@ class SideBar extends React.Component {
         activeConversation: this.props.activeConversation,
       });
     }
+  };
+
+  fetchMessages = (conversationId) => {
+    // console.log("Fetching messages for conversation:", conversationId);
+    this.props.fetchMessages(conversationId);
   };
 
 
@@ -52,6 +57,7 @@ class SideBar extends React.Component {
             // console.log("Conversation:", conversation);
           <Chats
             key={conversation.conversationId}
+            fetchMessages={this.fetchMessages}
             conversationId={conversation.conversationId}
             classActive={
               this.props.activeConversation === conversation.conversationId ? "active" : ""
@@ -59,8 +65,8 @@ class SideBar extends React.Component {
             chatTitle={conversation.title.slice(0, 25) + "..."}
             chatTime={formattedDate}
             chatDescription={
-              Array.isArray(conversation.chatHistory) && conversation.chatHistory.length > 1 && conversation.chatHistory[1].content
-                ? conversation.chatHistory[1].content.slice(0, 20) + "..."
+              Array.isArray(conversation.messages) && conversation.messages.length > 1 && conversation.messages[1].content
+                ? conversation.messages[1].content.slice(0, 20) + "..."
                 : "No messages yet"
             }
           />

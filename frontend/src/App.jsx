@@ -10,6 +10,7 @@ class App extends React.Component {
     this.socket = null;
     this.state = {
       conversations: [],
+      messages: [],
       activeConversation: null,
       loading: true
     };
@@ -50,6 +51,31 @@ class App extends React.Component {
         });
     };
 
+  // saveMessagesToDb = (messages) => {
+  //   const { activeConversation } = this.state;
+  //   if (!activeConversation) {
+  //     console.error("No active conversation to save messages to.");
+  //     return;
+  //   }
+
+  //   fetch(`http://localhost:3000/conversations/${activeConversation}`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({
+  //       messages: messages,
+  //       conversationId: activeConversation,
+  //     })
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log("Messages saved successfully:", data);
+  //       this.fetchConversations();
+  //     })
+  //     .catch(error => console.error("Error saving messages:", error));
+  // };
+
   generateRandomId = (length = 10) =>  {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
@@ -60,7 +86,7 @@ class App extends React.Component {
   }
 
 
-  createNewConversation = (callback=null) => {
+  createNewConversation = () => {
     const convid = this.generateRandomId();
     fetch("http://localhost:3000/conversations", {
       method: "POST",
@@ -79,22 +105,39 @@ class App extends React.Component {
           conversations: [data, ...prevState.conversations],
           activeConversation: data.conversationId
         }), () => {
-          if(callback){
-          callback();
-        }
+          this.fetchConversations();
         });
-          console.log(data)
+          // console.log(data)
         
       })
       .catch(error => console.error(error));
   };
+
+  fetchMessages = (conversationId) => {
+    fetch(`http://localhost:3000/conversations/${conversationId}/messages`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          messages: data,
+          activeConversation: conversationId,
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching messages:", error);
+      });
+  }
   
   render() {
     return (
       <div className="container">
         <SideBar
           createNewConversation={this.createNewConversation}
-          fetchConversations={this.fetchConversations}
+          fetchMessages={this.fetchMessages}
           conversations={this.state.conversations}
           activeConversation={this.state.activeConversation}
           loading={this.state.loading}
@@ -103,6 +146,7 @@ class App extends React.Component {
           createNewConversation={this.createNewConversation}
           fetchConversations={this.fetchConversations}
           activeConversation={this.state.activeConversation}
+          messages={this.state.messages}
         />
       </div>
     );

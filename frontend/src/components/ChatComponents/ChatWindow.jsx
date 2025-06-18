@@ -11,7 +11,7 @@ class ChatWindow extends React.Component {
     super(props);
     this.socket = getSocket();
     this.state = {
-      messages: [],
+      messages: this.props.messages || [],
       isNewChat: true,
       isBotTyping: false,
       chatTitle: "Chat Title",
@@ -26,7 +26,7 @@ class ChatWindow extends React.Component {
     });
 
     this.socket.on("botMessage", (response) => {
-      // console.log(response);
+      console.log("bot response => ", response);
       // console.log(this.state.messages)
       if (response !== "Sorry, something went wrong.") {
         this.setState((previousState) => {
@@ -38,11 +38,11 @@ class ChatWindow extends React.Component {
           ) {
             updated.pop();
           }
-              if (this.props.activeConversation === null) {
-                this.props.createNewConversation();
-              } else {
-                this.saveMessagesToDb(this.lastUserMessage, response);
-              }
+              // if (this.props.activeConversation === null) {
+              //   this.props.createNewConversation();
+              // } else {
+              //   this.saveMessagesToDb(this.lastUserMessage, response);
+              // }
           return this.animateResponse(response);
           // return { messages: [...updated, response] };
         });
@@ -54,35 +54,12 @@ class ChatWindow extends React.Component {
   };
 
   componentWillUnmount = () => {
+    this.socket.off("botMessage");
     this.socket.disconnect();
   };
 
-  saveMessagesToDb = (userMessage, botMessage) => {
-    // console.log(userMessage, botMessage);
-    console.log(this.props.activeConversation)
-
-    if (!this.props.activeConversation) {
-      console.error("No active conversation ID provided.");
-      return;
-    }
-
-    fetch(`http://localhost:3000/conversations/${this.props.activeConversation}/messages`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify([userMessage, botMessage])
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.error(error);
-    })
-};
-
   animateResponse = (response) => {
+    console.log("animateResponse called with:", response);
     const message = response.content;
     const typingSpeed = 2; // Lower value = faster typing
     let step = 2;
@@ -100,6 +77,9 @@ class ChatWindow extends React.Component {
       } else {
         clearInterval(interval);
         this.setState({ isBotTyping: false });
+        this.socket.emit("botMessage", this.state.messages);
+        this.saveMessagesToDb(this.state.messages);
+        console.log("Final message sent to server:", this.state.messages);
       }
     }, typingSpeed);
   };
@@ -109,7 +89,11 @@ class ChatWindow extends React.Component {
     // console.log(this.state.isBotTyping);
     this.setState((previousState) => ({
       messages: [...previousState.messages, { role: "user", content: message }],
-    }));
+    }), () => {
+      this.socket.emit("clientMessage",  this.state.messages);
+      // this.saveMessagesToDb(this.state.messages);
+      // console.log("Message sent to server:", message);
+    });
 
     this.setState((previousState) => ({
       messages: [
@@ -118,12 +102,38 @@ class ChatWindow extends React.Component {
       ],
     }));
 
-    this.lastUserMessage = message;
-    console.log("last user message => ", this.lastUserMessage);
-    this.socket.emit("client-message", {role: "user", content: message});
+    // this.lastUserMessage = message;
+    // console.log("last user message => ", this.lastUserMessage);
+    // this.socket.emit("client-message", {role: "user", content: message});
 
     console.log("Sending message:", message);
    
+  };
+
+  saveMessagesToDb = (messages) => {
+    const { activeConversation } = this.props;
+    if (!activeConversation) {
+      console.error("No active conversation to save messages to.");
+      return;
+    }
+    // console.log("active conversation => ",this.props.activeConversation);
+    // console.log("messages to save => ", messages, this.props.activeConversation);
+    fetch(`http://localhost:3000/conversations`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: messages,
+        conversationId: activeConversation,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Messages saved successfully:", data);
+        this.props.fetchConversations();
+      })
+      .catch((error) => console.error("Error saving messages:", error));
   };
 
   render() {

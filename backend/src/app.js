@@ -44,29 +44,20 @@ app.get("/conversations/:userId", async (req, res) => {
 
 // app.get("/conversations/:conversationId");
 
-app.patch("/conversations/:conversationId/messages", async (req, res) => {
-  const { userMessage, botMessage } = req.body;
-  const { conversationId } = req.params;
+app.patch("/conversations", async (req, res) => {
+  const {messages, conversationId} = req.body;
+  // const { conversationId } = req.params;
 
   console.log(req.body);
 
-  if (!userMessage || !botMessage) {
-    return res.status(400).json({ error: "userMessage and botMessage are required." });
+  if (!messages || !conversationId) {
+    return res.status(400).json({ error: "No conversationid or message" });
   }
 
   try {
     const conversation = await Conversation.findOneAndUpdate(
       { conversationId: conversationId },
-      {
-        $push: {
-          messages: {
-            $each: [
-              { sender: "user", content: userMessage, timestamp: new Date(), metadata: {} },
-              { sender: "bot", content: botMessage, timestamp: new Date(), metadata: {} }
-            ]
-          }
-        }
-      },
+      { $push: { messages: { $each: messages } }, updated_at: new Date() },
       { new: true }
     );
 
@@ -95,11 +86,26 @@ app.post("/conversations", async (req, res) => {
   });
   try {
     const conv = await conversation.save();
-    console.log("Conversation saved:", conv);
+    console.log("Conversation saved:");
     return res.status(201).json(conv);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Error saving conversation" });
+  }
+});
+
+app.get("/conversations/:conversationId/messages", async (req, res) => {
+  const { conversationId } = req.params;
+
+  try {
+    const conversation = await Conversation.findOne({ conversationId: conversationId });
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found." });
+    };
+  }
+  catch (error) {
+    console.error("Error fetching messages:", error);
+    return res.status(500).json({ error: "Error fetching messages." });
   }
 });
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
-  sender: {
+  role: {
     type: String,
     enum: ['user', 'bot'],
     required: true,

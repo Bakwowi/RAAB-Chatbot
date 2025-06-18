@@ -41,7 +41,11 @@ let chatTitle = "";
 
 const chatController = async (userMessage) => {
   console.log("User message:", userMessage);
-  chatHistory.push(userMessage);
+  for( let i = 0; i < userMessage.length; i++) {
+      chatHistory.push(userMessage[i]);
+  };
+  // chatHistory.push(userMessage);
+
   messageCount++;
   try {
   if (true) {
@@ -57,12 +61,13 @@ const chatController = async (userMessage) => {
   isTitleGenerated = false;
   messageCount = 0;
 }
-
+  console.log("test");
   try {
     const response = await getAzureOpenAIResponse(chatHistory);
     chatHistory.push(response);
-
-    return [response, chatTitle];
+    console.log("Response from Azure OpenAI:", response);
+  
+    return response;
   } catch (error) {
     console.error("Error in chatController:", error);
     return "An error occurred while processing your request.";
