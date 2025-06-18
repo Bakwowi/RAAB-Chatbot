@@ -14,6 +14,7 @@ class ChatsHistory extends React.Component {
         // this.props.setActiveConversation(this.props.conversationId);
         // console.log("Active conversation after click:", this.props.activeConversation);
         this.props.fetchMessages(this.props.conversationId);
+        localStorage.setItem("activeConversation", this.props.conversationId);
     }
 
     render() {

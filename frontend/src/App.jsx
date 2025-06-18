@@ -24,6 +24,13 @@ class App extends React.Component {
     }
 
     this.fetchConversations();
+
+   const savedActiveConversation = localStorage.getItem("activeConversation"); 
+   if(savedActiveConversation) {
+      this.setState({ activeConversation: savedActiveConversation }, () => {
+        console.log("Active conversation set from localStorage:", this.state.activeConversation);
+      });
+    }
   };
   componentWillUnmount = () => {
     this.socket.off();

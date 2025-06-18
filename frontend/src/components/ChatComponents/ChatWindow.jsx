@@ -62,7 +62,15 @@ class ChatWindow extends React.Component {
 
     });
 
-     console.log(this.state.messages);
+     const savedMessages = localStorage.getItem("messages");
+     console.log("saved messages => ", savedMessages);
+    if (savedMessages) {
+      const parsedMessages = JSON.parse(savedMessages);
+      this.setState({
+        messages: parsedMessages,
+        isNewChat: false,
+      });
+    };
   };
 
   componentWillUnmount = () => {
@@ -84,8 +92,10 @@ class ChatWindow extends React.Component {
         messages: this.props.messages,
         isNewChat: false,
       });
-      localStorage.setItem("messages", JSON.stringify(this.props.messages));
-    };
+      if(this.props.activeConversation.trim() !== "") {
+        localStorage.setItem("messages", JSON.stringify(this.props.messages));
+      };
+  };
     
   };
 
@@ -107,7 +117,7 @@ class ChatWindow extends React.Component {
       } else {
         clearInterval(interval);
         this.setState({ isBotTyping: false }, () => {
-          // EMIT/SAVE ONLY AFTER TYPING IS DONE AND STATE IS UPDATED
+          
           this.socket.emit("botMessage", this.state.messages);
           this.saveMessagesToDb(this.state.messages);
           console.log("Final message sent to server:", this.state.messages);
@@ -117,6 +127,7 @@ class ChatWindow extends React.Component {
   };
     
   sendMessage = async (message) => {
+    localStorage.setItem("messages", JSON.stringify(this.state.messages));
     this.setState({ isBotTyping: true, isNewChat: false });
     // console.log(this.state.isBotTyping);
     this.setState((previousState) => ({
@@ -138,7 +149,7 @@ class ChatWindow extends React.Component {
     // console.log("last user message => ", this.lastUserMessage);
     // this.socket.emit("client-message", {role: "user", content: message});
 
-    console.log("Sending message:", message);
+  console.log("Sending message:", message);
    
   };
 
