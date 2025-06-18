@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
 }
-.chat-window .chat-area .chat-header .share{
+.chat-window .chat-area .chat-header .menu{
     width: 20%;
     height: 100%;
     /* background-color: aquamarine; */
@@ -29,17 +29,17 @@
     align-items: center;
     justify-content: flex-end;
 }
-.chat-window .chat-area .chat-header .share #share-btn{
+.chat-window .chat-area .chat-header .menu #menu-btn{
     color: #ffffff;
-    padding: 5px 10px;
+    padding: 8px 8px;
     font-family: var(--font-family-body);
     font-weight: 600;
     font-size: 0.9rem;
     outline: none;
-    /* border: 2px solid var(--primary-color); */
-    background-color: var(--primary-color);
+    cursor: pointer;
+    background-color: transparent;
     border: none;
-    padding: 8px 14px;
+    /* padding: 8px 14px; */
     border-radius: 50px;
     /* background-color: var(--secondary-color); */
     outline: none;
@@ -48,10 +48,55 @@
     justify-content: center;
     gap: 5px;
 }
-.chat-window .chat-area .chat-header .share #share-btn img{
+.chat-window .chat-area .chat-header .menu #menu-btn img{
     width: 20px;
     height: 20px;
 }
-.chat-window .chat-area .chat-header .share #share-btn:hover{
-    background-color: #0147d3;
+.chat-window .chat-area .chat-header .menu #menu-btn:hover{
+    background-color: var(--hover-color-light);
+}
+.chat-window .chat-area .chat-header .menu #menu{
+    position: absolute;
+    top: 4.2rem;
+    right: 0.8rem;
+    width: 8.5rem;
+    height: auto;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+    display: none;
+    padding: 0.5rem;
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+    z-index: 1000;
+}
+.chat-window .chat-area .chat-header .menu #menu button{
+    width: 100%;
+    color: var(--text-color);
+    font-family: var(--font-family-body);
+    font-size: 0.9rem;
+    font-weight: 400;
+    padding: 0.5rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    border-radius: 12px;
+}
+.chat-window .chat-area .chat-header .menu #menu button:hover{
+    background-color: var(--hover-color-light);
+}
+.chat-window .chat-area .chat-header .menu #menu button img{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+.chat-window .chat-area .chat-header .menu #menu button:nth-child(2){
+    color: #e82828;
+}
+.chat-window .chat-area .chat-header .menu #menu button:nth-child(2):hover{
+    background-color: #ff000037;
 }

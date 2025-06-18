@@ -21,6 +21,8 @@ class ChatWindow extends React.Component {
   }
 
   componentDidMount = () => {
+  
+
     this.socket.on("message", (response) => {
       console.log(response);
     });
@@ -51,16 +53,8 @@ class ChatWindow extends React.Component {
         console.log("sorry an error occured in our server");
       }
 
-      const savedMessages = localStorage.getItem("messages");
-      if (savedMessages) {
-        const parsedMessages = JSON.parse(savedMessages);
-        this.setState((previousState) => ({
-          messages: [...previousState.messages, ...parsedMessages],
-          isNewChat: false,
-        }));
-      }
-
     });
+
 
      const savedMessages = localStorage.getItem("messages");
      console.log("saved messages => ", savedMessages);
@@ -71,6 +65,11 @@ class ChatWindow extends React.Component {
         isNewChat: false,
       });
     };
+
+    // if(this.props.messages.length === 0) {
+    //   localStorage.removeItem("messages");
+    // }
+
   };
 
   componentWillUnmount = () => {
@@ -79,7 +78,7 @@ class ChatWindow extends React.Component {
     // console.log("Socket disconnected");
     // localStorage.setItem("messages", JSON.stringify({hi: "there too"}));
     // document.addEventListener("beforeunload", () => {
-    //   localStorage.setItem("messages", JSON.stringify(this.state.messages));
+    // localStorage.setItem("messages", JSON.stringify(this.props.messages));
     //   console.log("Messages saved to localStorage:", this.state.messages);
     // });
   };
@@ -120,6 +119,8 @@ class ChatWindow extends React.Component {
           
           this.socket.emit("botMessage", this.state.messages);
           this.saveMessagesToDb(this.state.messages);
+          localStorage.setItem("messages", JSON.stringify(this.props.messages));
+          // console.log("Messages saved to localStorage:", this.props.messages);
           console.log("Final message sent to server:", this.state.messages);
         });
       }
@@ -127,7 +128,7 @@ class ChatWindow extends React.Component {
   };
     
   sendMessage = async (message) => {
-    localStorage.setItem("messages", JSON.stringify(this.state.messages));
+    
     this.setState({ isBotTyping: true, isNewChat: false });
     // console.log(this.state.isBotTyping);
     this.setState((previousState) => ({
@@ -149,7 +150,7 @@ class ChatWindow extends React.Component {
     // console.log("last user message => ", this.lastUserMessage);
     // this.socket.emit("client-message", {role: "user", content: message});
 
-  console.log("Sending message:", message);
+  // console.log("Sending message:", message);
    
   };
 
@@ -174,11 +175,34 @@ class ChatWindow extends React.Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Messages saved successfully:", data);
+        // console.log("Messages saved successfully:", data);
         this.props.fetchConversations();
       })
       .catch((error) => console.error("Error saving messages:", error));
   };
+
+  deleteChat = () => {
+    const { activeConversation } = this.props;
+    if (!activeConversation) {
+      console.error("No active conversation to delete.");
+      return;
+    }
+    fetch(`http://localhost:3000/conversations/${localStorage.getItem("userId")}/${activeConversation}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log("Chat deleted successfully:", data);
+        this.props.fetchConversations();
+        this.setState({ messages: [], isNewChat: true });
+        localStorage.removeItem("messages");
+        localStorage.removeItem("activeConversation");
+      })
+      .catch((error) => console.error("Error deleting chat:", error));
+  }
 
   render() {
     // Example: Only render chat window if there are messages or isNewChat is false
@@ -201,7 +225,7 @@ class ChatWindow extends React.Component {
     return (
       <div className="chat-window">
         <div className="chat-area">
-          <ChatHeader chatTitle="This is were the chat title will appear" />
+          <ChatHeader chatTitle="This is were the chat title will appear" deleteChat={this.deleteChat} messages={this.state.messages}/>
           <div className="chat-body">
             {this.state.messages
               .filter((msg) => msg.role !== "system")

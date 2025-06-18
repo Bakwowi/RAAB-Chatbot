@@ -115,5 +115,20 @@ app.get("/conversations/:userId/:conversationId/messages", async (req, res) => {
   }
 });
 
+app.delete("/conversations/:userId/:conversationId", async (req, res) => {
+  const { userId, conversationId } = req.params;
+
+  try {
+    const deletedConversation = await Conversation.findOneAndDelete({ userId: userId, conversationId: conversationId });
+    if (!deletedConversation) {
+      return res.status(404).json({ error: "Conversation not found." });
+    }
+    return res.json({ message: "Conversation deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting conversation:", error);
+    return res.status(500).json({ error: "Error deleting conversation." });
+  }
+});
+
 
 module.exports = app;
