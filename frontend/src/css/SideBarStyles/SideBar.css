@@ -246,10 +246,14 @@ button {
     z-index: 1000;
     /* top: 0; */
     transition: all 0.3s ease-in-out;
+    display: none;
+}
+.side-bar .settings #settings.open {
+    display: flex;
 }
 .side-bar .settings #settings .settings-container{
-    width: 30rem;
-    height: 30rem;
+    width: 20rem;
+    height: 20rem;
     background-color: var(--secondary-color);
     border-radius: 20px;
     box-shadow: var(--box-shadow);
@@ -339,7 +343,10 @@ button {
     border-radius: 0.5rem;
     box-shadow: 0 0rem 1rem #00000061;
     z-index: 1000;
-    /* display: none; */
+    display: none;
+}
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options.open{
+    display: block;
 }
 .side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option{
     width: 100%;

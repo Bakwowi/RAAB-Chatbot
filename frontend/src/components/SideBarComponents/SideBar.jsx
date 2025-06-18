@@ -28,6 +28,25 @@ class SideBar extends React.Component {
   //   // this.props.fetchConversations();
   // }
 
+  componentDidMount = () => {
+   const systemDiv = document.querySelector(".settings");
+   systemDiv.addEventListener("click", (e) => {
+     // console.log("System div clicked");
+     const themeOptions = document.querySelector(".theme-options");
+     if (themeOptions) {
+       themeOptions.classList.remove("open");
+     }
+   });
+
+  const settingsDiv = document.querySelector("#settings");
+  settingsDiv.addEventListener("click", (e) => {
+    // Only close if the click is directly on the .settings div, not its children
+    if (e.target === settingsDiv) {
+      settingsDiv.classList.remove("open");
+    }
+  });
+  };
+
   componentDidUpdate = (prevProps) => {
     // Check if the activeConversation prop has changed
     if (prevProps.activeConversation !== this.props.activeConversation) {
@@ -42,6 +61,19 @@ class SideBar extends React.Component {
     this.props.fetchMessages(conversationId);
   };
 
+  toggleThemeMenu = () => {
+    const themeOptions = document.querySelector(".theme-options");
+    if (themeOptions) {
+      themeOptions.classList.toggle("open");
+    }
+  };
+
+  setTheme = (theme) => {
+    // const themeOptions = document.querySelector(".theme-options");
+    // Get the device (system) theme using matchMedia
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    console.log("Setting theme to:", theme, "| System theme is:", systemTheme);
+  }
 
 
 
@@ -117,13 +149,19 @@ class SideBar extends React.Component {
           )}
         </div>
         <div className="settings">
-          <button id="settings-btn" title="Settings">
+          <button id="settings-btn" title="Settings" onClick={() => {
+            const settingsDiv = document.querySelector("#settings");
+            settingsDiv.classList.toggle("open");
+          }}>
             <img src={SettingsSvg} id="settings-svg" /> Settings
           </button>
           <div id="settings">
             <div className="settings-container">
             <div className="close">
-              <button id="back-btn" title="Back to chats">
+              <button id="back-btn" title="Back to chats" onClick={() => {
+                const settingsDiv = document.querySelector("#settings");
+                settingsDiv.classList.remove("open");
+              }}>
                 <img src={backSvg} id="back-svg" />
               </button>
             </div>
@@ -131,11 +169,11 @@ class SideBar extends React.Component {
               <div className="theme">
                 <div className="label"><p>Theme</p></div>
                 <div className="theme-select">
-                  <button id="select-theme-btn">Select <img src={DropdownSvg} onClick={toggleThemeMenu}/></button>
+                  <button id="select-theme-btn" onClick={this.toggleThemeMenu}>Select <img src={DropdownSvg} /></button>
                   <div className="theme-options">
-                    <button className="theme-option active" id="light-theme">Light <img src={TickSvg} /></button>
-                    <button className="theme-option" id="dark-theme">Dark <img src={TickSvg} /></button>
-                    <button className="theme-option" id="system-theme">System <img src={TickSvg} /></button>
+                    <button className="theme-option active" id="light-theme" onClick={() => this.setTheme("light")}>Light <img src={TickSvg} /></button>
+                    <button className="theme-option" id="dark-theme" onClick={() => this.setTheme("dark")}>Dark <img src={TickSvg} /></button>
+                    <button className="theme-option" id="system-theme" onClick={() => this.setTheme("system")}>System <img src={TickSvg} /></button>
                 </div>
                 </div>
                 <div/>
