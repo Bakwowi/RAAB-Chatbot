@@ -284,7 +284,7 @@ button {
 .side-bar .settings #settings .settings-container .close button:hover{
     background-color: var(--hover-color-light);
 }
-.side-bar .settings #settings .settings-container .close button img{
+.side-bar .settings #settings .settings-container .close button svg{
     width: 20px;
     height: 20px;
 }
@@ -331,7 +331,7 @@ button {
 .side-bar .settings #settings .settings-container .settings-content .theme .theme-select #select-theme-btn:hover{
     background-color: var(--hover-color-light);
 }
-.side-bar .settings #settings .settings-container .settings-content .theme .theme-select #select-theme-btn img{
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select #select-theme-btn svg{
     width: 20px;
     height: 20px;
 }
@@ -368,11 +368,11 @@ button {
 .side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option:hover{
     background-color: var(--hover-color-light);
 }
-.side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option img{
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option svg{
     display: none;
     width: 20px;
     height: 20px;
 }
-.side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option.active img{
+.side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option.active svg{
     display: block;
 }

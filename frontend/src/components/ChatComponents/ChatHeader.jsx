@@ -1,7 +1,7 @@
 import React from "react";
 import "../../css/ChatWindowStyles/ChatHeader.css";
-import ShareSvg from "../../assets/svgs/ShareIcon.svg";
-import MenuSvg from "../../assets/svgs/MenuIcon.svg";
+// import ShareSvg from "../../assets/svgs/ShareIcon.svg";
+// import MenuSvg from "../../assets/svgs/MenuIcon.svg";
 import DeleteIcon from "../../assets/svgs/DeleteIcon.svg";
 
 class ChatHeader extends React.Component {
@@ -9,27 +9,27 @@ class ChatHeader extends React.Component {
     super(props);
   }
 
-componentDidMount() {
+  componentDidMount() {
     document.addEventListener("mousedown", this.handleOutsideClick);
-}
+  }
 
-componentWillUnmount() {
+  componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleOutsideClick);
-}
+  }
 
-handleOutsideClick = (e) => {
+  handleOutsideClick = (e) => {
     const menu = document.getElementById("menu");
     const menuBtn = document.getElementById("menu-btn");
     // Close menu if click is outside menu and menu button
     if (
-        menu &&
-        menu.style.display === "block" &&
-        !menu.contains(e.target) &&
-        !menuBtn.contains(e.target)
+      menu &&
+      menu.style.display === "block" &&
+      !menu.contains(e.target) &&
+      !menuBtn.contains(e.target)
     ) {
-        menu.style.display = "none";
+      menu.style.display = "none";
     }
-};
+  };
 
   toggleMenu = () => {
     const menu = document.getElementById("menu");
@@ -138,7 +138,31 @@ handleOutsideClick = (e) => {
           </button>
           <div id="menu">
             <button id="share-btn" title="Share chat" onClick={this.shareChat}>
-              <img src={ShareSvg} alt="Share" />
+              {/* <img src={ShareSvg} alt="Share" /> */}
+              <svg
+                viewBox="0 0 24 24"
+                width={20}
+                height={20}
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  {" "}
+                  <path
+                    d="M20 13V17.5C20 20.5577 16 20.5 12 20.5C8 20.5 4 20.5577 4 17.5V13M12 3L12 15M12 3L16 7M12 3L8 7"
+                    stroke="var(--svg-color)"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></path>{" "}
+                </g>
+              </svg>
               Share Chat
             </button>
             <button
