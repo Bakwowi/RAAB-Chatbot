@@ -76,11 +76,12 @@ app.post("/conversations", async (req, res) => {
     return res.status(400).json({ error: "userId is required." });
   }
   // console.log("request body ",req.body);
+  console.log("Creating new conversation with body:", req.body);
   const conversation = new Conversation({
     conversationId: req.body.conversationId || "exampleConversation",
     userId: req.body.userId,
     title: "New chat",
-    messages: [],
+    messages: req.body.messages || [],
     created_at: new Date(),
     updated_at: new Date()
   });

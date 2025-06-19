@@ -116,7 +116,7 @@ class App extends React.Component {
     return result;
   };
 
-  createNewConversation = () => {
+  createNewConversation = (UserMessage="") => {
     const convid = this.generateRandomId();
     fetch("http://localhost:3000/conversations", {
       method: "POST",
@@ -126,6 +126,7 @@ class App extends React.Component {
       body: JSON.stringify({
         conversationId: convid,
         userId: localStorage.getItem("userId"),
+        messages: [UserMessage],
       }),
     })
       .then((response) => response.json())
@@ -134,7 +135,7 @@ class App extends React.Component {
           (prevState) => ({
             conversations: [data, ...prevState.conversations],
             activeConversation: data.conversationId,
-            messages: [],
+            messages: [UserMessage],
           }),
           () => {
             this.fetchConversations();

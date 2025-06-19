@@ -90,7 +90,7 @@ class ChatWindow extends React.Component {
   componentDidUpdate = (prevProps) => {
     // console.log("componentDidUpdate called");
     if(prevProps.messages !== this.props.messages) {
-      console.log("current props messages", this.props.messages);
+      // console.log("current props messages", this.props.messages);
       this.setState({
         messages: this.props.messages,
         // isNewChat: false,
@@ -121,7 +121,11 @@ class ChatWindow extends React.Component {
         this.setState({ isBotTyping: false }, () => {
           
           this.socket.emit("botMessage", this.state.messages);
-          this.saveMessagesToDb(this.state.messages);
+            // Save messages only after both user and bot messages are present
+           
+            this.saveMessagesToDb(this.state.messages);
+            console.log("Messages saved to DB:", this.state.messages);
+            
           // localStorage.setItem("messages", JSON.stringify(this.props.messages));
           // console.log("Messages saved to localStorage:", this.props.messages);
           console.log("Final message sent to server:", this.state.messages);
@@ -131,7 +135,6 @@ class ChatWindow extends React.Component {
   };
     
   sendMessage = async (message) => {
-    this.props.createNewConversation();
     this.setState({ isBotTyping: true, isNewChat: false });
     // console.log(this.state.isBotTyping);
     this.setState((previousState) => ({
@@ -141,13 +144,18 @@ class ChatWindow extends React.Component {
       // this.saveMessagesToDb(this.state.messages);
       // console.log("Message sent to server:", message);
     });
-
+    
     this.setState((previousState) => ({
       messages: [
         ...previousState.messages,
         { role: "assistant", content: "Typing..." },
       ],
     }));
+
+    if (this.props.activeConversation === null) {
+      this.props.createNewConversation({ role: "user", content: message });
+    };
+
 
     // this.lastUserMessage = message;
     // console.log("last user message => ", this.lastUserMessage);
@@ -158,6 +166,7 @@ class ChatWindow extends React.Component {
   };
 
   saveMessagesToDb = (messages) => {
+    console.log("Saving messages to DB:", messages);
     const { activeConversation } = this.props;
     if (!activeConversation) {
       console.error("No active conversation to save messages to.");
