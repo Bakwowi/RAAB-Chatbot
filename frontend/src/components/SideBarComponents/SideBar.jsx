@@ -104,13 +104,13 @@ class SideBar extends React.Component {
     // Add "active" class to the clicked option
     if (e) e.target.classList.add("active");
     setTheme(theme);
-    localStorage.setItem("theme", theme);
+    sessionStorage.setItem("theme", theme);
   };
 
   componentDidMount = () => {
     // ...existing code...
     // Set active class for theme option based on localStorage
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme = sessionStorage.getItem("theme");
     if (savedTheme) {
       const themeBtn = document.getElementById(`${savedTheme}-theme`);
       if (themeBtn) {

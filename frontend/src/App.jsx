@@ -36,6 +36,7 @@ class App extends React.Component {
           this.state.activeConversation
         );
       });
+      this.fetchMessages(savedActiveConversation);
     }
 
     //  const savedConversation = localStorage.getItem("messages");
@@ -49,6 +50,10 @@ class App extends React.Component {
     //     );
     //   }
     // }
+    // const savedActiveConversation = sessionStorage.getItem("activeConversation");
+    // if (savedActiveConversation) {
+
+    // };
   };
   componentWillUnmount = () => {
     this.socket.off();

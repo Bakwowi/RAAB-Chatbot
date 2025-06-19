@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const saveTheme = localStorage.getItem("theme");
+    const saveTheme = sessionStorage.getItem("theme");
     const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     let theme;

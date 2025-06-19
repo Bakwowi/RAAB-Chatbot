@@ -69,6 +69,10 @@ class ChatWindow extends React.Component {
     // if(this.props.messages.length === 0) {
     //   localStorage.removeItem("messages");
     // }
+    // const savedActiveConversation = sessionStorage.getItem("activeConversation");
+    // if (savedActiveConversation) {
+    //   this.props.
+    // }
 
   };
 
@@ -127,7 +131,7 @@ class ChatWindow extends React.Component {
   };
     
   sendMessage = async (message) => {
-    
+    this.props.createNewConversation();
     this.setState({ isBotTyping: true, isNewChat: false });
     // console.log(this.state.isBotTyping);
     this.setState((previousState) => ({
@@ -205,7 +209,7 @@ class ChatWindow extends React.Component {
 
   render() {
     // Example: Only render chat window if there are messages or isNewChat is false
-    if (this.state.isNewChat && this.state.messages.length == 0) {
+    if (this.state.messages.length == 0) {
       return (
         <div className="chat-window">
           <div className="chat-area">
