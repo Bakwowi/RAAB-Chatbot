@@ -41,7 +41,7 @@
     width: 100%;
     height: 100%;
     background-color: var(--chat-body-color);
-    background-image: url('../../assets/chat-photo.jpg');
+    background-image: url('../../assets/images/chat-body-bg.png');
     /* object-fit: cover; */
     background-size: 28rem 28rem;
     background-position: center;

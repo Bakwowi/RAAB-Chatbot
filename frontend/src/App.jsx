@@ -28,7 +28,7 @@ class App extends React.Component {
 
     this.fetchConversations();
 
-    const savedActiveConversation = localStorage.getItem("activeConversation");
+    const savedActiveConversation = sessionStorage.getItem("activeConversation");
     if (savedActiveConversation) {
       this.setState({ activeConversation: savedActiveConversation }, () => {
         console.log(
@@ -133,7 +133,7 @@ class App extends React.Component {
           }),
           () => {
             this.fetchConversations();
-            localStorage.setItem("activeConversation", data.conversationId);
+            sessionStorage.setItem("activeConversation", data.conversationId);
           }
         );
         // console.log(data)

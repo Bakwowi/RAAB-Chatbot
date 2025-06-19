@@ -56,15 +56,15 @@ class ChatWindow extends React.Component {
     });
 
 
-     const savedMessages = localStorage.getItem("messages");
-     console.log("saved messages => ", savedMessages);
-    if (savedMessages) {
-      const parsedMessages = JSON.parse(savedMessages);
-      this.setState({
-        messages: parsedMessages,
-        isNewChat: false,
-      });
-    };
+    //  const savedMessages = localStorage.getItem("messages");
+    //  console.log("saved messages => ", savedMessages);
+    // if (savedMessages) {
+    //   const parsedMessages = JSON.parse(savedMessages);
+    //   this.setState({
+    //     messages: parsedMessages,
+    //     isNewChat: false,
+    //   });
+    // };
 
     // if(this.props.messages.length === 0) {
     //   localStorage.removeItem("messages");
@@ -89,13 +89,12 @@ class ChatWindow extends React.Component {
       console.log("current props messages", this.props.messages);
       this.setState({
         messages: this.props.messages,
-        isNewChat: false,
+        // isNewChat: false,
       });
-      if(this.props.activeConversation.trim() !== "") {
-        localStorage.setItem("messages", JSON.stringify(this.props.messages));
-      };
-  };
-    
+      // if(this.props.activeConversation.trim() !== "") {
+      //   localStorage.setItem("messages", JSON.stringify(this.props.messages));
+      // };
+  }; 
   };
 
   animateResponse = (response) => {
@@ -119,7 +118,7 @@ class ChatWindow extends React.Component {
           
           this.socket.emit("botMessage", this.state.messages);
           this.saveMessagesToDb(this.state.messages);
-          localStorage.setItem("messages", JSON.stringify(this.props.messages));
+          // localStorage.setItem("messages", JSON.stringify(this.props.messages));
           // console.log("Messages saved to localStorage:", this.props.messages);
           console.log("Final message sent to server:", this.state.messages);
         });
@@ -198,15 +197,15 @@ class ChatWindow extends React.Component {
         // console.log("Chat deleted successfully:", data);
         this.props.fetchConversations();
         this.setState({ messages: [], isNewChat: true });
-        localStorage.removeItem("messages");
-        localStorage.removeItem("activeConversation");
+        // localStorage.removeItem("messages");
+        sessionStorage.removeItem("activeConversation");
       })
       .catch((error) => console.error("Error deleting chat:", error));
   }
 
   render() {
     // Example: Only render chat window if there are messages or isNewChat is false
-    if (this.state.isNewChat && this.state.messages.length === 0) {
+    if (this.state.isNewChat && this.state.messages.length == 0) {
       return (
         <div className="chat-window">
           <div className="chat-area">
