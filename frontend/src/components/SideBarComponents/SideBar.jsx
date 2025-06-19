@@ -8,6 +8,7 @@ import logo from "../../assets/images/RAAB-logo.png";
 import backSvg from "../../assets/svgs/BackIcon.svg";
 import DropdownSvg from "../../assets/svgs/DropdownIcon.svg";
 import TickSvg from "../../assets/svgs/TickIcon.svg";
+import setTheme from "../../js/settings.js";
 
 class SideBar extends React.Component {
   constructor(props) {
@@ -29,22 +30,47 @@ class SideBar extends React.Component {
   // }
 
   componentDidMount = () => {
-   const systemDiv = document.querySelector(".settings");
-   systemDiv.addEventListener("click", (e) => {
-     // console.log("System div clicked");
-     const themeOptions = document.querySelector(".theme-options");
-     if (themeOptions) {
-       themeOptions.classList.remove("open");
-     }
-   });
+  
+    this.handleDocumentClick = (e) => {
+      const selectThemeBtn = document.querySelector(".select-theme-btn");
+      const themeOptions = document.querySelector(".theme-options");
+      if (
+        selectThemeBtn &&
+        !selectThemeBtn.contains(e.target) && // If the click is not on the select theme button
+        themeOptions &&
+        !themeOptions.contains(e.target)
+      ) {
+        if (themeOptions) {
+          themeOptions.classList.remove("open");
+        }
+      }
+    };
 
-  const settingsDiv = document.querySelector("#settings");
-  settingsDiv.addEventListener("click", (e) => {
-    // Only close if the click is directly on the .settings div, not its children
-    if (e.target === settingsDiv) {
-      settingsDiv.classList.remove("open");
+    this.handleSettingsClick = (e) => {
+      const settingsDiv = document.querySelector("#settings");
+      const themeOptions = document.querySelector(".theme-options");
+      // If the click is on a theme option or inside the theme options, do nothing
+      if (themeOptions && themeOptions.contains(e.target)) {
+        return;
+      }
+      if (e.target === settingsDiv) {
+        settingsDiv.classList.remove("open");
+      }
+    };
+
+    document.addEventListener("click", this.handleDocumentClick);
+    const settingsDiv = document.querySelector("#settings");
+    if (settingsDiv) {
+      settingsDiv.addEventListener("click", this.handleSettingsClick);
     }
-  });
+  };
+
+  componentWillUnmount = () => {
+    document.removeEventListener("click", this.handleDocumentClick);
+    const settingsDiv = document.querySelector("#settings");
+    if (settingsDiv) {
+      settingsDiv.removeEventListener("click", this.handleSettingsClick);
+    }
   };
 
   componentDidUpdate = (prevProps) => {
@@ -62,18 +88,70 @@ class SideBar extends React.Component {
   };
 
   toggleThemeMenu = () => {
+    // console.log("Toggling theme options menu");
     const themeOptions = document.querySelector(".theme-options");
-    if (themeOptions) {
-      themeOptions.classList.toggle("open");
+    if (!themeOptions) return;
+    if (themeOptions.classList.contains("open")) {
+      themeOptions.classList.remove("open");
+    }
+    else {
+      themeOptions.classList.add("open");
     }
   };
+  setTheme = (e, theme) => {
+    if (e) e.preventDefault();
+    // Remove "active" class from all theme options
+    const themeOptions = document.querySelectorAll(".theme-option");
+    themeOptions.forEach(option => option.classList.remove("active"));
+    // Add "active" class to the clicked option
+    if (e) e.target.classList.add("active");
+    setTheme(theme);
+    localStorage.setItem("theme", theme);
+  };
 
-  setTheme = (theme) => {
-    // const themeOptions = document.querySelector(".theme-options");
-    // Get the device (system) theme using matchMedia
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    console.log("Setting theme to:", theme, "| System theme is:", systemTheme);
-  }
+  componentDidMount = () => {
+    // ...existing code...
+    // Set active class for theme option based on localStorage
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      const themeBtn = document.getElementById(`${savedTheme}-theme`);
+      if (themeBtn) {
+        themeBtn.classList.add("active");
+      }
+    }
+    // ...rest of your componentDidMount code...
+    this.handleDocumentClick = (e) => {
+      const selectThemeBtn = document.querySelector(".select-theme-btn");
+      const themeOptions = document.querySelector(".theme-options");
+      if (
+        selectThemeBtn &&
+        !selectThemeBtn.contains(e.target) &&
+        themeOptions &&
+        !themeOptions.contains(e.target)
+      ) {
+        if (themeOptions) {
+          themeOptions.classList.remove("open");
+        }
+      }
+    };
+
+    this.handleSettingsClick = (e) => {
+      const settingsDiv = document.querySelector("#settings");
+      const themeOptions = document.querySelector(".theme-options");
+      if (themeOptions && themeOptions.contains(e.target)) {
+        return;
+      }
+      if (e.target === settingsDiv) {
+        settingsDiv.classList.remove("open");
+      }
+    };
+
+    document.addEventListener("click", this.handleDocumentClick);
+    const settingsDiv = document.querySelector("#settings");
+    if (settingsDiv) {
+      settingsDiv.addEventListener("click", this.handleSettingsClick);
+    }
+  };
 
 
 
@@ -160,7 +238,12 @@ class SideBar extends React.Component {
             <div className="close">
               <button id="back-btn" title="Back to chats" onClick={() => {
                 const settingsDiv = document.querySelector("#settings");
+                const themeOptions = document.querySelector(".theme-options");
                 settingsDiv.classList.remove("open");
+                if (themeOptions) {
+                  themeOptions.classList.remove("open");
+                }
+
               }}>
                 <img src={backSvg} id="back-svg" />
               </button>
@@ -169,11 +252,11 @@ class SideBar extends React.Component {
               <div className="theme">
                 <div className="label"><p>Theme</p></div>
                 <div className="theme-select">
-                  <button id="select-theme-btn" onClick={this.toggleThemeMenu}>Select <img src={DropdownSvg} /></button>
+                  <button id="select-theme-btn" className="select-theme-btn" onClick={this.toggleThemeMenu}>Select <img src={DropdownSvg} /></button>
                   <div className="theme-options">
-                    <button className="theme-option active" id="light-theme" onClick={() => this.setTheme("light")}>Light <img src={TickSvg} /></button>
-                    <button className="theme-option" id="dark-theme" onClick={() => this.setTheme("dark")}>Dark <img src={TickSvg} /></button>
-                    <button className="theme-option" id="system-theme" onClick={() => this.setTheme("system")}>System <img src={TickSvg} /></button>
+                    <button className="theme-option" id="light-theme" onClick={(e) => this.setTheme(e, "light")}>Light <img src={TickSvg} /></button>
+                    <button className="theme-option" id="dark-theme" onClick={(e) => this.setTheme(e, "dark")}>Dark <img src={TickSvg} /></button>
+                    <button className="theme-option" id="system-theme" onClick={(e) => this.setTheme(e, "system")}>System <img src={TickSvg} /></button>
                 </div>
                 </div>
                 <div/>

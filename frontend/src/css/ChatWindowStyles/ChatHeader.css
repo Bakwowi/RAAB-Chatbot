@@ -93,6 +93,13 @@
     width: 20px;
     height: 20px;
     margin-right: 5px;
+    color: var(--svg-color);
+}
+.chat-window .chat-area .chat-header .menu #menu button svg{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    /* stroke: var(--svg-color); */
 }
 .chat-window .chat-area .chat-header .menu #menu button:nth-child(2){
     color: #e82828;

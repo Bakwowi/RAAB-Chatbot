@@ -2,6 +2,9 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    --webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 button {
     cursor: pointer;
@@ -350,7 +353,8 @@ button {
 }
 .side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option{
     width: 100%;
-    padding: 0.5rem 1rem;
+    height: 2.5rem;
+    padding: 0 1rem;
     border-radius: 0.5rem;
     border: none;
     outline: none;
