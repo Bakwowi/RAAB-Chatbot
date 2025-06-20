@@ -114,7 +114,7 @@ All messages are optionally saved to MongoDB for history and retrieval.
 
 ## 🖼️ Screenshots
 <p align="center">
-  <img src="./frontend/src/images/chat-ui-black.png" width="500" alt="Chat UI Screenshot"/>
+  <img src="./frontend/src/assets/images/chat-ui-black.png" width="500" alt="Chat UI Screenshot"/>
 </p>
 
 
