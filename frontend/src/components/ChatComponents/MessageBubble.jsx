@@ -42,9 +42,9 @@ class MessageBubble extends React.Component {
           <button
             id="copy"
             onClick={() => {
-              // if (navigator && navigator.clipboard) {
-              //   navigator.clipboard.writeText(this.props.message);
-              // }
+              if (navigator && navigator.clipboard) {
+                navigator.clipboard.writeText(this.props.message);
+              }
               const p = document.querySelector(".message-bubble div");
               // console.log(this.props.message);
             }}

@@ -44,29 +44,20 @@ app.get("/conversations/:userId", async (req, res) => {
 
 // app.get("/conversations/:conversationId");
 
-app.patch("/conversations/:conversationId/messages", async (req, res) => {
-  const { userMessage, botMessage } = req.body;
-  const { conversationId } = req.params;
+app.patch("/conversations", async (req, res) => {
+  const { messages, conversationId, userId } = req.body;
+  // const { conversationId } = req.params;
 
-  console.log(req.body);
+  console.log("start of body", req.body, "end of body");
 
-  if (!userMessage || !botMessage) {
-    return res.status(400).json({ error: "userMessage and botMessage are required." });
+  if (!messages || !conversationId || !userId) {
+    return res.status(400).json({ error: "No conversationid, message, or userId" });
   }
 
   try {
     const conversation = await Conversation.findOneAndUpdate(
-      { conversationId: conversationId },
-      {
-        $push: {
-          messages: {
-            $each: [
-              { sender: "user", content: userMessage, timestamp: new Date(), metadata: {} },
-              { sender: "bot", content: botMessage, timestamp: new Date(), metadata: {} }
-            ]
-          }
-        }
-      },
+      { userId: userId, conversationId: conversationId },
+      { $set: { messages: messages, updated_at: new Date() } },
       { new: true }
     );
 
@@ -84,22 +75,59 @@ app.post("/conversations", async (req, res) => {
   if (!req.body.userId) {
     return res.status(400).json({ error: "userId is required." });
   }
-  console.log("request body ",req.body);
+  // console.log("request body ",req.body);
+  console.log("Creating new conversation with body:", req.body);
   const conversation = new Conversation({
     conversationId: req.body.conversationId || "exampleConversation",
     userId: req.body.userId,
     title: "New chat",
-    messages: [],
+    messages: req.body.messages || [],
     created_at: new Date(),
     updated_at: new Date()
   });
   try {
     const conv = await conversation.save();
-    console.log("Conversation saved:", conv);
+    // console.log("Conversation saved:");
     return res.status(201).json(conv);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Error saving conversation" });
+  }
+});
+
+app.get("/conversations/:userId/:conversationId/messages", async (req, res) => {
+  const { userId, conversationId } = req.params;
+
+  try {
+    const conversation = await Conversation.findOne({ userId: userId, conversationId: conversationId });
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found." });
+    };
+
+    const messages = conversation.messages.map((message) => ({
+      role: message.role,
+      content: message.content
+    }));
+    return res.json(messages);
+  }
+  catch (error) {
+    console.error("Error fetching messages:", error);
+    return res.status(500).json({ error: "Error fetching messages." });
+  }
+});
+
+app.delete("/conversations/:userId/:conversationId", async (req, res) => {
+  const { userId, conversationId } = req.params;
+
+  try {
+    const deletedConversation = await Conversation.findOneAndDelete({ userId: userId, conversationId: conversationId });
+    if (!deletedConversation) {
+      return res.status(404).json({ error: "Conversation not found." });
+    }
+    return res.json({ message: "Conversation deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting conversation:", error);
+    return res.status(500).json({ error: "Error deleting conversation." });
   }
 });
 
