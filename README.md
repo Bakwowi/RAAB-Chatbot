@@ -51,3 +51,17 @@
   ├── .gitignore
   └── README.md
   ``` </pre>
+
+
+---
+
+## 🔧 Environment Variables
+
+Create a `.env` file in the `backend/` directory with the following variables:
+
+```env
+PORT=3000
+MONGO_URI=your_mongodb_connection_string
+AZURE_OPENAI_KEY=your_azure_openai_api_key
+AZURE_OPENAI_ENDPOINT=https://your-resource-name.openai.azure.com/
+AZURE_DEPLOYMENT_NAME=your_deployment_name
