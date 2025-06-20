@@ -78,18 +78,18 @@ cd raab-chatbot
 **2. Install backend Dependencies**
 
 ```
-cd server
+cd backend
 npm install
 ```
 
-**3. Install Client Dependencies**
+**3. Install frontend Dependencies**
 
 ```
-cd ../client
+cd ../frontend
 npm install
 ```
 
-**4. Run Both Client and Server**
+**4. Run Both frontend and backend**
 
 From the root directory:
 
