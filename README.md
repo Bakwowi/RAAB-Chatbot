@@ -65,3 +65,74 @@ MONGO_URI=your_mongodb_connection_string
 AZURE_OPENAI_KEY=your_azure_openai_api_key
 AZURE_OPENAI_ENDPOINT=https://your-resource-name.openai.azure.com/
 AZURE_DEPLOYMENT_NAME=your_deployment_name
+```
+
+## 🛠️ Installation & Running the App
+**1. Clone the Repository**
+
+```
+git clone https://github.com/yourusername/raab-chatbot.git
+cd raab-chatbot
+```
+
+**2. Install backend Dependencies**
+
+```
+cd server
+npm install
+```
+
+**3. Install Client Dependencies**
+
+```
+cd ../client
+npm install
+```
+
+**4. Run Both Client and Server**
+
+From the root directory:
+
+```
+npm run dev
+```
+
+Client: localhost:5173
+
+Server + Socket.IO: localhost:3000
+
+## ⚙️ How It Works
+The user sends a message through the React frontend.
+
+The message is transmitted to the backend in real-time using Socket.IO.
+
+The backend sends the input to Azure OpenAI and receives a GPT-generated response.
+
+The response is sent back to the frontend via Socket.IO and displayed.
+
+All messages are optionally saved to MongoDB for history and retrieval.
+
+## 🖼️ Screenshots
+(Insert UI screenshots or architecture diagrams here)
+
+## 📌 Future Enhancements
+🛂 Add user authentication (e.g., JWT or OAuth)
+
+💬 Support multiple conversation threads
+
+🎙️ Integrate voice input/output (Web Speech API)
+
+📈 Add admin analytics dashboard
+
+☁️ Deploy on Azure Web Apps or Render
+
+
+📄 License
+This project is licensed under the MIT License.
+
+
+📬 Contact
+Bakwowi Junior
+📧 Email: juniorbakwowi@gmail.com
+🐙 GitHub: https://github.com/Bakwowi
+
