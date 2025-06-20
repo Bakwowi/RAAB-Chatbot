@@ -1,6 +1,6 @@
 # 🤖 RAAB – AI Chatbot using MERN Stack, Socket.IO & Azure OpenAI
 
-**RAAB (Responsive AI Assistant Bot)** is an intelligent chatbot application built with the **MERN stack** (MongoDB, Express.js, React.js, Node.js), enhanced with **real-time messaging via Socket.IO**, and powered by the **OpenAI API through Azure**. RAAB delivers fast, natural conversations for use cases such as virtual assistance, customer support, and productivity tools.
+**RAAB (Responsive AI Assistant Bot)** is an intelligent hiking chatbot application built with the **MERN stack** (MongoDB, Express.js, React.js, Node.js), enhanced with **real-time messaging via Socket.IO**, and powered by the **OpenAI API through Azure**. RAAB delivers fast, natural conversations for use cases such as virtual assistance, customer support, and productivity tools.
 
 ---
 
@@ -113,7 +113,10 @@ The response is sent back to the frontend via Socket.IO and displayed.
 All messages are optionally saved to MongoDB for history and retrieval.
 
 ## 🖼️ Screenshots
-(Insert UI screenshots or architecture diagrams here)
+<p align="center">
+  <img src="./frontend/images/chat-ui.png" width="500" alt="Chat UI Screenshot"/>
+</p>
+
 
 ## 📌 Future Enhancements
 🛂 Add user authentication (e.g., JWT or OAuth)
