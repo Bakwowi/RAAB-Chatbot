@@ -130,11 +130,7 @@ All messages are optionally saved to MongoDB for history and retrieval.
 ☁️ Deploy on Azure Web Apps or Render
 
 
-📄 License
-This project is licensed under the MIT License.
-
-
-📬 Contact
+## 📬 Contact
 Bakwowi Junior
 📧 Email: juniorbakwowi@gmail.com
 🐙 GitHub: https://github.com/Bakwowi
