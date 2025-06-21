@@ -40,9 +40,9 @@ class ChatWindow extends React.Component {
           ) {
             updated.pop();
           }
-              // if (this.props.activeConversation === null) {
-              //   this.props.createNewConversation();
-              // } else {
+              if (this.props.activeConversation) {
+                this.props.createNewConversation();
+              };
               //   this.saveMessagesToDb(this.lastUserMessage, response);
               // }
           return this.animateResponse(response);
@@ -123,8 +123,8 @@ class ChatWindow extends React.Component {
           this.socket.emit("botMessage", this.state.messages);
             // Save messages only after both user and bot messages are present
            
-            this.saveMessagesToDb(this.state.messages);
-            console.log("Messages saved to DB:", this.state.messages);
+          this.saveMessagesToDb(this.state.messages);
+          console.log("Messages saved to DB:", this.state.messages);
             
           // localStorage.setItem("messages", JSON.stringify(this.props.messages));
           // console.log("Messages saved to localStorage:", this.props.messages);
@@ -152,9 +152,9 @@ class ChatWindow extends React.Component {
       ],
     }));
 
-    if (this.props.activeConversation === null) {
-      this.props.createNewConversation({ role: "user", content: message });
-    };
+    // if (this.props.activeConversation === null) {
+    //   this.props.createNewConversation();
+    // };
 
 
     // this.lastUserMessage = message;
@@ -164,30 +164,41 @@ class ChatWindow extends React.Component {
   // console.log("Sending message:", message);
    
   };
+  generateRandomId = (length = 10) => {
+      const chars =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let result = "";
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    };
 
   saveMessagesToDb = (messages) => {
     console.log("Saving messages to DB:", messages);
+    const conversationId = this.props.activeConversation || this.generateRandomId();
     const { activeConversation } = this.props;
-    if (!activeConversation) {
-      console.error("No active conversation to save messages to.");
-      return;
-    }
+    // if (!activeConversation) {
+    //   console.error("No active conversation to save messages to.");
+
+    //   return;
+    // }
     // console.log("active conversation => ",this.props.activeConversation);
     // console.log("messages to save => ", messages, this.props.activeConversation);
-    fetch(`http://localhost:3000/conversations`, {
-      method: "PATCH",
+    fetch("http://localhost:3000/conversations/messages", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         messages: messages,
-        conversationId: activeConversation,
+        conversationId: conversationId,
         userId: localStorage.getItem("userId") || "default",
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log("Messages saved successfully:", data);
+        console.log("Messages saved successfully:", data);
         this.props.fetchConversations();
       })
       .catch((error) => console.error("Error saving messages:", error));

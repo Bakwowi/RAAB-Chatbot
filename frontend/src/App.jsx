@@ -28,16 +28,26 @@ class App extends React.Component {
 
     this.fetchConversations();
 
-    const savedActiveConversation = sessionStorage.getItem("activeConversation");
-    if (savedActiveConversation) {
-      this.setState({ activeConversation: savedActiveConversation }, () => {
+    if(this.state.conversations.length > 0) {
+      const savedActiveConversation = sessionStorage.getItem("activeConversation");
+      if (savedActiveConversation) {
+        this.setState({ activeConversation: savedActiveConversation }, () => {
+          console.log(
+            "Active conversation set from localStorage:",
+            this.state.activeConversation
+          );
+        });
+        this.fetchMessages(savedActiveConversation);
+      }
+    } else {
+      const savedActiveConversation = sessionStorage.getItem("activeConversation");
+      if (savedActiveConversation) {
+        sessionStorage.removeItem("activeConversation");
         console.log(
-          "Active conversation set from localStorage:",
-          this.state.activeConversation
+          "No conversations found, removing active conversation from sessionStorage."
         );
-      });
-      this.fetchMessages(savedActiveConversation);
-    }
+      }
+    };
 
     //  const savedConversation = localStorage.getItem("messages");
     // if (savedConversation) {
@@ -74,6 +84,12 @@ class App extends React.Component {
           conversations: data,
           loading: false,
         });
+        // if (data.length < 1) {
+        //   const activeConversation = sessionStorage.getItem("activeConversation");
+        //   if(activeConversation) {
+        //     sessionStorage.removeItem("activeConversation");
+        //   }
+        // }
       })
       .catch((error) => {
         console.error("Error fetching conversations:", error);
@@ -116,8 +132,9 @@ class App extends React.Component {
     return result;
   };
 
-  createNewConversation = (UserMessage="") => {
+  createNewConversation = (UserMessage=[]) => {
     const convid = this.generateRandomId();
+    console.log("user message in createNewConversation", UserMessage);
     fetch("http://localhost:3000/conversations", {
       method: "POST",
       headers: {
@@ -126,7 +143,7 @@ class App extends React.Component {
       body: JSON.stringify({
         conversationId: convid,
         userId: localStorage.getItem("userId"),
-        messages: [UserMessage],
+        messages: UserMessage
       }),
     })
       .then((response) => response.json())
@@ -135,7 +152,7 @@ class App extends React.Component {
           (prevState) => ({
             conversations: [data, ...prevState.conversations],
             activeConversation: data.conversationId,
-            messages: [UserMessage],
+            messages: UserMessage,
           }),
           () => {
             this.fetchConversations();

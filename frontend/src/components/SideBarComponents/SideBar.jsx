@@ -193,7 +193,7 @@ class SideBar extends React.Component {
         <button
           id="new-chat-btn"
           title="New chat"
-          onClick={this.props.createNewConversation}
+          onClick={(e) => {this.props.createNewConversation()}}
         >
           <img src={NewChatSvg} id="new-chat-svg" />
         </button>

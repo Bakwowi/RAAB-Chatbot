@@ -30,6 +30,7 @@ class ChatsHistory extends React.Component {
                     </div>
                     <div className="chat-description">
                             {this.props.chatDescription}
+                            
                     </div>
 
                 </button>

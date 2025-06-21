@@ -44,30 +44,43 @@ app.get("/conversations/:userId", async (req, res) => {
 
 // app.get("/conversations/:conversationId");
 
-app.patch("/conversations", async (req, res) => {
+app.post("/conversations/messages", async (req, res) => {
   const { messages, conversationId, userId } = req.body;
-  // const { conversationId } = req.params;
-
-  console.log("start of body", req.body, "end of body");
 
   if (!messages || !conversationId || !userId) {
     return res.status(400).json({ error: "No conversationid, message, or userId" });
   }
 
   try {
-    const conversation = await Conversation.findOneAndUpdate(
+    let conversation = await Conversation.findOneAndUpdate(
       { userId: userId, conversationId: conversationId },
       { $set: { messages: messages, updated_at: new Date() } },
       { new: true }
     );
+    console.log("conversation", conversation);
+    if (conversation == null) {
+      // Create new conversation if not found
+      console.log("Creating new conversation");
+      console.log("conversationId", conversationId);
+      console.log("userId", userId);
+      console.log("messages", messages);
 
-    if (!conversation) {
-      return res.status(404).json({ error: "Conversation not found." });
+      const conversation = new Conversation({
+        conversationId: conversationId,
+        userId: userId,
+        title: "New chat",
+        messages: messages,
+        created_at: new Date(),
+        updated_at: new Date()
+      });
+      const conv = await conversation.save();
+      console.log("New conversation created:", conv);
+      return res.status(201).json(conv);
     }
 
     res.json(conversation);
   } catch (error) {
-    res.status(500).json({ error: "Error updating messages." });
+    res.status(500).json({ error: "Error updating or creating conversation." });
   }
 });
 
@@ -76,7 +89,7 @@ app.post("/conversations", async (req, res) => {
     return res.status(400).json({ error: "userId is required." });
   }
   // console.log("request body ",req.body);
-  console.log("Creating new conversation with body:", req.body);
+  console.log("Creating new conversation with body:", req.body.userId, req.body.conversationId, req.body.messages);
   const conversation = new Conversation({
     conversationId: req.body.conversationId || "exampleConversation",
     userId: req.body.userId,
