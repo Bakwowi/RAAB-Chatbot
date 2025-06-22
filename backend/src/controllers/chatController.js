@@ -67,7 +67,7 @@ const chatController = async (userMessage) => {
     chatHistory.push(response);
     // console.log("Response from Azure OpenAI:", response);
   
-    return response;
+    return [response, chatTitle];
   } catch (error) {
     console.error("Error in chatController:", error);
     return "An error occurred while processing your request.";

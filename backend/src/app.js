@@ -44,43 +44,30 @@ app.get("/conversations/:userId", async (req, res) => {
 
 // app.get("/conversations/:conversationId");
 
-app.post("/conversations/messages", async (req, res) => {
+app.patch("/conversations", async (req, res) => {
   const { messages, conversationId, userId } = req.body;
+  // const { conversationId } = req.params;
+
+  console.log("start of body", req.body, "end of body");
 
   if (!messages || !conversationId || !userId) {
     return res.status(400).json({ error: "No conversationid, message, or userId" });
   }
 
   try {
-    let conversation = await Conversation.findOneAndUpdate(
+    const conversation = await Conversation.findOneAndUpdate(
       { userId: userId, conversationId: conversationId },
       { $set: { messages: messages, updated_at: new Date() } },
       { new: true }
     );
-    console.log("conversation", conversation);
-    if (conversation == null) {
-      // Create new conversation if not found
-      console.log("Creating new conversation");
-      console.log("conversationId", conversationId);
-      console.log("userId", userId);
-      console.log("messages", messages);
 
-      const conversation = new Conversation({
-        conversationId: conversationId,
-        userId: userId,
-        title: "New chat",
-        messages: messages,
-        created_at: new Date(),
-        updated_at: new Date()
-      });
-      const conv = await conversation.save();
-      console.log("New conversation created:", conv);
-      return res.status(201).json(conv);
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found." });
     }
 
     res.json(conversation);
   } catch (error) {
-    res.status(500).json({ error: "Error updating or creating conversation." });
+    res.status(500).json({ error: "Error updating messages." });
   }
 });
 

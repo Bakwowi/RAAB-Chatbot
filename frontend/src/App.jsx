@@ -13,6 +13,7 @@ class App extends React.Component {
       messages: [],
       activeConversation: null,
       loading: true,
+      chatTitle: ""
     };
     this.userId = localStorage.getItem("userId");
   }
@@ -26,28 +27,8 @@ class App extends React.Component {
       this.socket.connect();
     }
 
-    this.fetchConversations();
-
-    if(this.state.conversations.length > 0) {
-      const savedActiveConversation = sessionStorage.getItem("activeConversation");
-      if (savedActiveConversation) {
-        this.setState({ activeConversation: savedActiveConversation }, () => {
-          console.log(
-            "Active conversation set from localStorage:",
-            this.state.activeConversation
-          );
-        });
-        this.fetchMessages(savedActiveConversation);
-      }
-    } else {
-      const savedActiveConversation = sessionStorage.getItem("activeConversation");
-      if (savedActiveConversation) {
-        sessionStorage.removeItem("activeConversation");
-        console.log(
-          "No conversations found, removing active conversation from sessionStorage."
-        );
-      }
-    };
+    this.fetchConversations(this.getActiveConversation);
+   
 
     //  const savedConversation = localStorage.getItem("messages");
     // if (savedConversation) {
@@ -70,8 +51,32 @@ class App extends React.Component {
     // this.socket.off("botMessage");
   };
 
-  fetchConversations = () => {
-    // const userId = localStorage.getItem("userId") || "default";
+  getActiveConversation = () => {
+     console.log(this.state.conversations)
+
+    if(this.state.conversations.length > 0) {
+      const savedActiveConversation = sessionStorage.getItem("activeConversation");
+      if (savedActiveConversation) {
+        this.setState({ activeConversation: savedActiveConversation }, () => {
+          console.log(
+            "Active conversation set from localStorage:",
+            this.state.activeConversation
+          );
+        });
+        this.fetchMessages(savedActiveConversation);
+      }
+    } else {
+      const savedActiveConversation = sessionStorage.getItem("activeConversation");
+      if (savedActiveConversation) {
+        sessionStorage.removeItem("activeConversation");
+        console.log(
+          "No conversations found, removing active conversation from sessionStorage."
+        );
+      }
+    };
+  };
+
+  fetchConversations = (callback = "") => {
     fetch(`http://localhost:3000/conversations/${this.userId}`, {
       method: "GET",
       headers: {
@@ -83,20 +88,17 @@ class App extends React.Component {
         this.setState({
           conversations: data,
           loading: false,
+        }, () => {
+          if (typeof callback === "function") {
+            callback();
+          }
         });
-        // if (data.length < 1) {
-        //   const activeConversation = sessionStorage.getItem("activeConversation");
-        //   if(activeConversation) {
-        //     sessionStorage.removeItem("activeConversation");
-        //   }
-        // }
       })
       .catch((error) => {
         console.error("Error fetching conversations:", error);
         this.setState({ loading: false });
       });
   };
-
   // saveMessagesToDb = (messages) => {
   //   const { activeConversation } = this.state;
   //   if (!activeConversation) {
@@ -132,9 +134,9 @@ class App extends React.Component {
     return result;
   };
 
-  createNewConversation = (UserMessage=[]) => {
+  createNewConversation = (callback = () => {console.log("hello world")}) => {
     const convid = this.generateRandomId();
-    console.log("user message in createNewConversation", UserMessage);
+    // console.log("user message in createNewConversation", UserMessage);
     fetch("http://localhost:3000/conversations", {
       method: "POST",
       headers: {
@@ -143,7 +145,7 @@ class App extends React.Component {
       body: JSON.stringify({
         conversationId: convid,
         userId: localStorage.getItem("userId"),
-        messages: UserMessage
+        messages: [],
       }),
     })
       .then((response) => response.json())
@@ -152,16 +154,45 @@ class App extends React.Component {
           (prevState) => ({
             conversations: [data, ...prevState.conversations],
             activeConversation: data.conversationId,
-            messages: UserMessage,
+            messages: [],
           }),
           () => {
             this.fetchConversations();
+            // this.saveMessagesToDb(UserMessage);
             sessionStorage.setItem("activeConversation", data.conversationId);
           }
         );
         // console.log(data)
       })
       .catch((error) => console.error(error));
+  };
+
+  saveMessagesToDb = (messages) => {
+    console.log("Saving messages to DB:", messages);
+    const { activeConversation } = this.state;
+    if (!activeConversation) {
+      console.error("No active conversation to save messages to.");
+      return;
+    }
+    // console.log("active conversation => ",this.props.activeConversation);
+    // console.log("messages to save => ", messages, this.props.activeConversation);
+    fetch("http://localhost:3000/conversations", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: messages,
+        conversationId: activeConversation,
+        userId: localStorage.getItem("userId") || "default",
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log("Messages saved successfully:", data);
+        this.fetchConversations();
+      })
+      .catch((error) => console.error("Error saving messages:", error));
   };
 
   fetchMessages = (conversationId) => {
@@ -194,6 +225,16 @@ class App extends React.Component {
       });
   };
 
+  setActiveConversation = (value) => {
+    this.setState({
+      activeConversation: value,
+    });
+  };
+
+  setChatTitle = (title) => {
+    this.setState({chatTitle: title})
+  };
+
   render() {
     return (
       <div className="container">
@@ -203,12 +244,16 @@ class App extends React.Component {
           conversations={this.state.conversations}
           activeConversation={this.state.activeConversation}
           loading={this.state.loading}
+          chatTitle={this.state.chatTitle}
         />
         <ChatWindow
           createNewConversation={this.createNewConversation}
           fetchConversations={this.fetchConversations}
           activeConversation={this.state.activeConversation}
           messages={this.state.messages}
+          saveMessagesToDb={this.saveMessagesToDb}
+          setActiveConversation={this.setActiveConversation}
+          setChatTitle={this.setChatTitle}
         />
       </div>
     );
