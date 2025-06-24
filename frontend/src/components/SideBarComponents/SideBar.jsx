@@ -164,6 +164,7 @@ class SideBar extends React.Component {
           // console.log("Conversation:", conversation);
           <Chats
             key={conversation.conversationId}
+            title={conversation.title}
             fetchMessages={this.fetchMessages}
             conversationId={conversation.conversationId}
             classActive={

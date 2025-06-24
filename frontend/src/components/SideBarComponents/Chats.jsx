@@ -22,7 +22,7 @@ class ChatsHistory extends React.Component {
                 <button id="chat" className={this.props.classActive} title="Open this chat" onClick={this.handleChatClick}>
                     <div className="chat-title-time">
                         <div className="chat-title">
-                            {this.props.chatTitle}
+                            {this.props.title}
                         </div>
                         <div className="chat-time">
                             {this.props.chatTime}

@@ -39,6 +39,7 @@ const getAzureOpenAIResponse = async (prompt) => {
 }
 
 const generateConversationTitle = async (messages) => {
+  // console.log(messages)
   // const response = fetch(`${process.env.AZURE_OPENAI_ENDPOINT}`, {
   //   method: "POST",
   //   headers: {
