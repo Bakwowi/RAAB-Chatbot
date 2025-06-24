@@ -7,6 +7,7 @@ button {
     cursor: pointer;
 }
 #chat{
+    position: relative;
     width: 97%;
     /* background-color: burlywood; */
     margin-top: 5px;
@@ -18,6 +19,7 @@ button {
     text-align: left;
     background-color: #ffffff00;
     /* transition: 0.1s; */
+    /* overflow: hidden; */
 }
 #chat.active {
     background-color: var(--active-color);
@@ -27,6 +29,28 @@ button {
 }
 #chat.active:hover{
     background-color: var(--hover-active-color);
+}
+#chat .button-mock{
+    position: absolute;
+    top: 40%;
+    right: 6%;
+    /* transform: translateY(-50%); */
+    border-radius: 50px;
+    /* background-color: rgba(35, 35, 35, 0.371); */
+    padding: 0.3rem;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    display: none;
+    transition: all 0.2s;
+}
+#chat:hover .button-mock{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#chat .button-mock:hover{
+    background-color: var(--hover-color);
 }
 #chat .chat-title-time{
     /* background-color: aquamarine; */
