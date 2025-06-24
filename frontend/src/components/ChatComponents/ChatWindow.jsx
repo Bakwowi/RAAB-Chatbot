@@ -141,9 +141,11 @@ class ChatWindow extends React.Component {
   };
     
   sendMessage = (message) => {
-    // if(this.props.activeConversation == null){
-    //   console.log("Active conversation => null")
-    // }
+    if(this.props.activeConversation == null){
+      console.log("Active conversation => null");
+      this.props.createNewConversation({ role: "user", content: message });
+    //   return console.log(response);
+    }
 
     this.setState({ isBotTyping: true, isNewChat: false });
     // console.log(this.state.isBotTyping);

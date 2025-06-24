@@ -137,7 +137,7 @@ class App extends React.Component {
     return result;
   };
 
-  createNewConversation = (callback = () => {console.log("hello world")}) => {
+  createNewConversation = (message="") => {
     const convid = this.generateRandomId();
     // console.log("user message in createNewConversation", UserMessage);
     fetch("http://localhost:3000/conversations", {
@@ -165,11 +165,12 @@ class App extends React.Component {
             sessionStorage.setItem("activeConversation", data.conversationId);
           }
         );
+        return "success"
         // console.log(data)
       })
       .catch((error) => console.error(error));
   };
-
+  
   // saveMessagesToDb = (messages) => {
   //   console.log("Saving messages to DB:", messages);
   //   const { activeConversation } = this.state;
