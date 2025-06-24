@@ -137,39 +137,38 @@ class App extends React.Component {
     return result;
   };
 
-  createNewConversation = (message="") => {
-    const convid = this.generateRandomId();
-    // console.log("user message in createNewConversation", UserMessage);
-    fetch("http://localhost:3000/conversations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        conversationId: convid,
-        userId: localStorage.getItem("userId"),
-        messages: [],
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState(
-          (prevState) => ({
-            conversations: [data, ...prevState.conversations],
-            activeConversation: data.conversationId,
-            messages: [],
-          }),
-          () => {
-            this.fetchConversations();
-            // this.saveMessagesToDb(UserMessage);
-            sessionStorage.setItem("activeConversation", data.conversationId);
+  createNewConversation = (message = "", callback) => {
+  const convid = this.generateRandomId();
+  fetch("http://localhost:3000/conversations", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      conversationId: convid,
+      userId: localStorage.getItem("userId"),
+      messages: [],
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      this.setState(
+        (prevState) => ({
+          conversations: [data, ...prevState.conversations],
+          activeConversation: data.conversationId,
+          messages: [],
+        }),
+        () => {
+          this.fetchConversations();
+          sessionStorage.setItem("activeConversation", data.conversationId);
+          if (typeof callback === "function") {
+            callback(data.conversationId); // Pass the new conversationId
           }
-        );
-        return "success"
-        // console.log(data)
-      })
-      .catch((error) => console.error(error));
-  };
+        }
+      );
+    })
+    .catch((error) => console.error(error));
+};
   
   // saveMessagesToDb = (messages) => {
   //   console.log("Saving messages to DB:", messages);

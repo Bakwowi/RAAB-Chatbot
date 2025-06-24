@@ -178,7 +178,7 @@ class SideBar extends React.Component {
               Array.isArray(conversation.messages) &&
               conversation.messages.length > 1 &&
               conversation.messages[1].content
-                ? conversation.messages[1].content.slice(0, 20) + "..."
+                ? conversation.messages[1].content.slice(0, 40) + "..."
                 : "No messages yet"
             }
           />

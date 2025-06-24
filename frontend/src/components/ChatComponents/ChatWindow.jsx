@@ -141,41 +141,50 @@ class ChatWindow extends React.Component {
   };
     
   sendMessage = (message) => {
-    if(this.props.activeConversation == null){
-      console.log("Active conversation => null");
-      this.props.createNewConversation({ role: "user", content: message });
-    //   return console.log(response);
-    }
-
-    this.setState({ isBotTyping: true, isNewChat: false });
-    // console.log(this.state.isBotTyping);
-    this.setState((previousState) => ({
-      messages: [...previousState.messages, { role: "user", content: message }],
-    }), () => {
-      this.socket.emit("clientMessage",  [this.state.messages, this.props.activeConversation, localStorage.getItem("userId")]);
-      // this.saveMessagesToDb(this.state.messages);
-      // console.log("Message sent to server:", message);
+  if (this.props.activeConversation == null) {
+    console.log("Active conversation => null");
+    // Pass a callback to createNewConversation
+    this.props.createNewConversation({ role: "user", content: message }, (newConversationId) => {
+      // Now that the conversation exists, update state and send the message
+      this.setState({ isBotTyping: true, isNewChat: false }, () => {
+        this.setState((previousState) => ({
+          messages: [...previousState.messages, { role: "user", content: message }],
+        }), () => {
+          this.socket.emit("clientMessage", [
+            this.state.messages,
+            newConversationId,
+            localStorage.getItem("userId"),
+          ]);
+          this.setState((previousState) => ({
+            messages: [
+              ...previousState.messages,
+              { role: "assistant", content: "Typing..." },
+            ],
+          }));
+        });
+      });
     });
-    
+    return; // Prevent the rest of the function from running
+  }
+
+  // Existing logic for when activeConversation exists
+  this.setState({ isBotTyping: true, isNewChat: false });
+  this.setState((previousState) => ({
+    messages: [...previousState.messages, { role: "user", content: message }],
+  }), () => {
+    this.socket.emit("clientMessage", [
+      this.state.messages,
+      this.props.activeConversation,
+      localStorage.getItem("userId"),
+    ]);
     this.setState((previousState) => ({
       messages: [
         ...previousState.messages,
         { role: "assistant", content: "Typing..." },
       ],
     }));
-
-    // if (this.props.activeConversation === null) {
-    //   this.props.createNewConversation({ role: "user", content: message });
-    // };
-
-
-    // this.lastUserMessage = message;
-    // console.log("last user message => ", this.lastUserMessage);
-    // this.socket.emit("client-message", {role: "user", content: message});
-
-  // console.log("Sending message:", message);
-   
-  };
+  });
+};
 
   saveMessagesToDb = (messages) => {
     // console.log("Saving messages to DB:", messages);

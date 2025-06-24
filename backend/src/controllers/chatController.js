@@ -56,18 +56,18 @@ const chatController = async (clientMessage) => {
 
   messageCount++;
   try {
-  if (true) {
-    isTitleGenerated = true;
+  if (messageCount < 3) {
+    // isTitleGenerated = true;
     const title = await generateConversationTitle(chatHistory.slice(1)) || "Untitled chat";
     // console.log("Generated title:", title);
     // getTitle(title);
     chatTitle = title;
-    messageCount = 0;
+    // messageCount = 0;
   }
 } catch (error) {
   console.error("Error generating conversation title:", error);
   chatTitle = "Untitled Conversation";
-  isTitleGenerated = false;
+  // isTitleGenerated = false;
   messageCount = 0;
 }
   // console.log("test");
