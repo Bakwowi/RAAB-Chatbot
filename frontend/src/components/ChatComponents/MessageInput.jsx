@@ -85,7 +85,7 @@ class MessageInput extends React.Component {
             }}
           ></textarea>
           <button id="add-file-btn" title="Add file">
-            <img src={AddFileSvg} />
+            <img src={AddFileSvg} alt="Add-file"/>
           </button>
         </div>
         <button
@@ -95,7 +95,7 @@ class MessageInput extends React.Component {
           title="Send message"
           disabled={this.state.isInputEmpty && !this.props.isBotTyping}
         >
-          <img src={this.props.isBotTyping == true ? StopSVG : SendSvg} />
+          <img src={this.props.isBotTyping == true ? StopSVG : SendSvg} alt="send-message"/>
         </button>
       </div>
     );

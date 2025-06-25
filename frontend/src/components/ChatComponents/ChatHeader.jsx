@@ -92,6 +92,7 @@ class ChatHeader extends React.Component {
   render() {
     return (
       <div className="chat-header">
+        <div className="menu-btn">Menu-btn</div>
         <div className="chat-title">{this.props.chatTitle}</div>
         <div className="menu">
           <button id="menu-btn" title="Menu" onClick={this.toggleMenu}>

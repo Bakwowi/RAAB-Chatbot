@@ -278,8 +278,8 @@ class ChatWindow extends React.Component {
               ))}
           </div>
           <div className="scroll-to-bottom">
-            <button id="scroll-to-bottom-btn">
-              <img src={ArrowDownSvg} />
+            <button id="scroll-to-bottom-btn" title="scroll-to-bottom">
+              <img src={ArrowDownSvg} alt="scroll"/>
             </button>
           </div>
         </div>

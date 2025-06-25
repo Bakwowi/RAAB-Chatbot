@@ -196,7 +196,7 @@ class SideBar extends React.Component {
           title="New chat"
           onClick={(e) => {this.props.createNewConversation()}}
         >
-          <img src={NewChatSvg} id="new-chat-svg" />
+          <img src={NewChatSvg} id="new-chat-svg" alt="New Chat"/>
         </button>
         </div>
       </div>
@@ -238,7 +238,7 @@ class SideBar extends React.Component {
           settingsDiv.classList.toggle("open");
         }}
         >
-        <img src={SettingsSvg} id="settings-svg" /> Settings
+        <img src={SettingsSvg} id="settings-svg" alt="settings"/> Settings
         </button>
         <div id="settings">
         <div className="settings-container">

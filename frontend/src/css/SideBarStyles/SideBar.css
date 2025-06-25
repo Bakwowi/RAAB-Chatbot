@@ -2,9 +2,9 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    --webkit-user-select: none;
-    -moz-user-select: none;
+    -webkit-user-select: none;
     user-select: none;
+    /* -moz-user-select: none; */
 }
 button {
     cursor: pointer;
@@ -12,6 +12,7 @@ button {
 .side-bar{
     position: relative;
     width: 24rem;
+    min-width: 24rem;
     height: 100%;
     background-color: var(--secondary-color);
     display: flex;
@@ -42,6 +43,7 @@ button {
     font-size: 1.8rem;
     font-weight: 900;
     color: var(--primary-color);
+    -webkit-user-select: none;
     user-select: none;
     /* background-color: aqua; */
     display: flex;
@@ -375,4 +377,11 @@ button {
 }
 .side-bar .settings #settings .settings-container .settings-content .theme .theme-select .theme-options .theme-option.active svg{
     display: block;
+}
+
+
+@media (max-width: 1024px) {
+    .side-bar{
+        display: none;
+    }
 }

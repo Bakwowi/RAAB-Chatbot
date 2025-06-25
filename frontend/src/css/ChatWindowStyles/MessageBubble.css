@@ -81,7 +81,7 @@
   padding-top: 0.5rem;
   /* justify-content: flex-end; */
 }
-.message-bubble-container .copy-div #copy{
+.message-bubble-container .copy-div .copy{
   /* width: 1.5rem;
   height: 1.5rem; */
   background-color: transparent;
@@ -99,12 +99,12 @@
   transition: all 0.3s ease;
   opacity: 0;
 }
-.message-bubble-container .copy-div #copy img{
+.message-bubble-container .copy-div .copy img{
   width: 1rem;
   height: 1rem;
   object-fit: fill;
 }
-.message-bubble-container .copy-div #copy:hover{
+.message-bubble-container .copy-div .copy:hover{
   background-color: #ffffff17;
 }
 .message-bubble-container .copy-div.user-copy{
@@ -119,7 +119,7 @@
   align-items: center;
   justify-content: flex-start;
 }
-.message-bubble-container:hover > .copy-div #copy {
+.message-bubble-container:hover > .copy-div .copy {
   /* display: flex; */
   opacity: 1;
 }

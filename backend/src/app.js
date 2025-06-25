@@ -38,7 +38,9 @@ app.get("/conversations/:userId", async (req, res) => {
   try {
     const conversations = await Conversation.find({ userId: req.params.userId });
     res.json(conversations);
+    // console.log(conversations)
   } catch (error) {
+    // console.log(error);
     res.status(500).json({ error: "Error fetching conversations" });
   }
 });
