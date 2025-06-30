@@ -16,9 +16,6 @@ class ChatsHistory extends React.Component {
     sessionStorage.setItem("activeConversation", this.props.conversationId);
   };
 
-  handleChatClick = () => {
-    console.log("the chat menu button has been menu")
-  };
 
   render() {
     return (

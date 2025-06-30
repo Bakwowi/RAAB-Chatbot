@@ -35,7 +35,7 @@ class SideBar extends React.Component {
       const themeOptions = document.querySelector(".theme-options");
       if (
         selectThemeBtn &&
-        !selectThemeBtn.contains(e.target) && // If the click is not on the select theme button
+        !selectThemeBtn.contains(e.target) &&
         themeOptions &&
         !themeOptions.contains(e.target)
       ) {
@@ -45,10 +45,18 @@ class SideBar extends React.Component {
       }
     };
 
+    const savedTheme = sessionStorage.getItem("theme");
+    if (savedTheme) {
+      const themeBtn = document.getElementById(`${savedTheme}-theme`);
+      if (themeBtn) {
+        themeBtn.classList.add("active");
+      }
+    }
+  
+
     this.handleSettingsClick = (e) => {
       const settingsDiv = document.querySelector("#settings");
       const themeOptions = document.querySelector(".theme-options");
-      // If the click is on a theme option or inside the theme options, do nothing
       if (themeOptions && themeOptions.contains(e.target)) {
         return;
       }
@@ -107,49 +115,6 @@ class SideBar extends React.Component {
     sessionStorage.setItem("theme", theme);
   };
 
-  componentDidMount = () => {
-    // ...existing code...
-    // Set active class for theme option based on localStorage
-    const savedTheme = sessionStorage.getItem("theme");
-    if (savedTheme) {
-      const themeBtn = document.getElementById(`${savedTheme}-theme`);
-      if (themeBtn) {
-        themeBtn.classList.add("active");
-      }
-    }
-    // ...rest of your componentDidMount code...
-    this.handleDocumentClick = (e) => {
-      const selectThemeBtn = document.querySelector(".select-theme-btn");
-      const themeOptions = document.querySelector(".theme-options");
-      if (
-        selectThemeBtn &&
-        !selectThemeBtn.contains(e.target) &&
-        themeOptions &&
-        !themeOptions.contains(e.target)
-      ) {
-        if (themeOptions) {
-          themeOptions.classList.remove("open");
-        }
-      }
-    };
-
-    this.handleSettingsClick = (e) => {
-      const settingsDiv = document.querySelector("#settings");
-      const themeOptions = document.querySelector(".theme-options");
-      if (themeOptions && themeOptions.contains(e.target)) {
-        return;
-      }
-      if (e.target === settingsDiv) {
-        settingsDiv.classList.remove("open");
-      }
-    };
-
-    document.addEventListener("click", this.handleDocumentClick);
-    const settingsDiv = document.querySelector("#settings");
-    if (settingsDiv) {
-      settingsDiv.addEventListener("click", this.handleSettingsClick);
-    }
-  };
 
   render() {
     const sortedConversations = this.props.conversations
