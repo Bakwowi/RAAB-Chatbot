@@ -10,6 +10,9 @@
     align-items: center;
     justify-content: space-between;
 }
+/* .chat-window .chat-area .chat-header .menu-btn{
+    color: #ffffff;
+} */
 .chat-window .chat-area .chat-header .chat-title{
     width: 80%;
     height: 100%;
