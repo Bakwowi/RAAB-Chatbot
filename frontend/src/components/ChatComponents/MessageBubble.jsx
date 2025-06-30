@@ -40,7 +40,7 @@ class MessageBubble extends React.Component {
       </div>
       <div className={`copy-div ${this.props.id === "user" ? "user-copy" : "bot-copy"}`}>
           <button
-            id="copy"
+            className="copy"
             onClick={() => {
               if (navigator && navigator.clipboard) {
                 navigator.clipboard.writeText(this.props.message);

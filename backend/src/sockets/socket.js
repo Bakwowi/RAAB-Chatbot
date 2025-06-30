@@ -1,4 +1,4 @@
-const chatController = require("../controllers/chatController.js");
+const {chatController} = require("../controllers/chatController.js");
 const dotenv = require("dotenv");
 dotenv.config();
 

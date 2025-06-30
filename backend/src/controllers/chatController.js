@@ -1,4 +1,5 @@
 const { getAzureOpenAIResponse, generateConversationTitle } = require("../config/azure-openai");
+const Conversation = require("../models/conversationModel.js");
 
 const systemInstructions = `You are TrailMate, a friendly, knowledgeable hiking assistant designed to help users plan and enjoy outdoor adventures.
     
@@ -33,14 +34,21 @@ const systemInstructions = `You are TrailMate, a friendly, knowledgeable hiking 
     If the user says something off-topic, politely steer the conversation back to hiking or outdoor exploration.
     `;
 
-let chatHistory = [{ role: "assistant", content: systemInstructions }];
+let chatHistory = [{ role: "system", content: systemInstructions }];
 let messageCount = 0;
 let chatTitle = "";
 // let isTitleGenerated = false;
 // let isNewConversation = true;
 
-const chatController = async (userMessage) => {
+
+const getTitle = () => {
+  return chatTitle;
+};
+
+
+const chatController = async (clientMessage) => {
   // console.log("User message:", userMessage);
+  const userMessage = clientMessage[0]
   for( let i = 0; i < userMessage.length; i++) {
       chatHistory.push(userMessage[i]);
   };
@@ -48,17 +56,18 @@ const chatController = async (userMessage) => {
 
   messageCount++;
   try {
-  if (true) {
-    isTitleGenerated = true;
-    const title = await generateConversationTitle(chatHistory);
+  if (messageCount < 3) {
+    // isTitleGenerated = true;
+    const title = await generateConversationTitle(chatHistory.slice(1)) || "Untitled chat";
     // console.log("Generated title:", title);
+    // getTitle(title);
     chatTitle = title;
-    messageCount = 0;
+    // messageCount = 0;
   }
 } catch (error) {
   console.error("Error generating conversation title:", error);
   chatTitle = "Untitled Conversation";
-  isTitleGenerated = false;
+  // isTitleGenerated = false;
   messageCount = 0;
 }
   // console.log("test");
@@ -67,7 +76,7 @@ const chatController = async (userMessage) => {
     chatHistory.push(response);
     // console.log("Response from Azure OpenAI:", response);
   
-    return response;
+    return [response, chatTitle];
   } catch (error) {
     console.error("Error in chatController:", error);
     return "An error occurred while processing your request.";
@@ -84,4 +93,6 @@ const chatController = async (userMessage) => {
 //     }
 // }
 
-module.exports = chatController;
+
+
+module.exports = {chatController, getTitle};

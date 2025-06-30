@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // If a theme is stored in localStorage
         if (saveTheme === "system") {
             // If stored theme is "system", use system preference
-            theme = prefersDarkScheme ? "dark" : "light";
+            theme = "system";
         } else {
             // If stored theme is "light" or "dark"
             const systemTheme = prefersDarkScheme ? "dark" : "light";
@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     } else {
         // No theme stored, use system preference
-        theme = prefersDarkScheme ? "dark" : "light";
+        theme = "system";
+        sessionStorage.setItem("theme", "system")
     }
     setTheme(theme);
 });

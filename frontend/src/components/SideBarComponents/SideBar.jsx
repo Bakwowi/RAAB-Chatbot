@@ -164,6 +164,7 @@ class SideBar extends React.Component {
           // console.log("Conversation:", conversation);
           <Chats
             key={conversation.conversationId}
+            title={conversation.title}
             fetchMessages={this.fetchMessages}
             conversationId={conversation.conversationId}
             classActive={
@@ -177,7 +178,7 @@ class SideBar extends React.Component {
               Array.isArray(conversation.messages) &&
               conversation.messages.length > 1 &&
               conversation.messages[1].content
-                ? conversation.messages[1].content.slice(0, 20) + "..."
+                ? conversation.messages[1].content.slice(0, 40) + "..."
                 : "No messages yet"
             }
           />
@@ -193,9 +194,9 @@ class SideBar extends React.Component {
         <button
           id="new-chat-btn"
           title="New chat"
-          onClick={this.props.createNewConversation}
+          onClick={(e) => {this.props.createNewConversation()}}
         >
-          <img src={NewChatSvg} id="new-chat-svg" />
+          <img src={NewChatSvg} id="new-chat-svg" alt="New Chat"/>
         </button>
         </div>
       </div>
@@ -237,7 +238,7 @@ class SideBar extends React.Component {
           settingsDiv.classList.toggle("open");
         }}
         >
-        <img src={SettingsSvg} id="settings-svg" /> Settings
+        <img src={SettingsSvg} id="settings-svg" alt="settings"/> Settings
         </button>
         <div id="settings">
         <div className="settings-container">

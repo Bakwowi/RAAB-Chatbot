@@ -3,6 +3,7 @@ import "../../css/ChatWindowStyles/ChatHeader.css";
 // import ShareSvg from "../../assets/svgs/ShareIcon.svg";
 // import MenuSvg from "../../assets/svgs/MenuIcon.svg";
 import DeleteIcon from "../../assets/svgs/DeleteIcon.svg";
+import logo from "../../assets/images/RAAB-logo.png";
 
 class ChatHeader extends React.Component {
   constructor(props) {
@@ -92,6 +93,7 @@ class ChatHeader extends React.Component {
   render() {
     return (
       <div className="chat-header">
+        {/* <div className="menu-btn">Menu-btn</div> */}
         <div className="chat-title">{this.props.chatTitle}</div>
         <div className="menu">
           <button id="menu-btn" title="Menu" onClick={this.toggleMenu}>

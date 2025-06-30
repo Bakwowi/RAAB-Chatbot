@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const Message = require("./models/messageModel.js");
 const Conversation = require("./models/conversationModel.js");
+const {getTitle} = require("./controllers/chatController.js");
 // const connectDB = require("./config/db.js");
 dotenv.config();
 
@@ -37,7 +38,9 @@ app.get("/conversations/:userId", async (req, res) => {
   try {
     const conversations = await Conversation.find({ userId: req.params.userId });
     res.json(conversations);
+    // console.log(conversations)
   } catch (error) {
+    // console.log(error);
     res.status(500).json({ error: "Error fetching conversations" });
   }
 });
@@ -48,19 +51,20 @@ app.patch("/conversations", async (req, res) => {
   const { messages, conversationId, userId } = req.body;
   // const { conversationId } = req.params;
 
-  console.log("start of body", req.body, "end of body");
+  // console.log("start of body", req.body, "end of body");
 
   if (!messages || !conversationId || !userId) {
     return res.status(400).json({ error: "No conversationid, message, or userId" });
   }
 
   try {
+    // console.log(getTitle());
     const conversation = await Conversation.findOneAndUpdate(
       { userId: userId, conversationId: conversationId },
-      { $set: { messages: messages, updated_at: new Date() } },
+      { $set: { messages: messages, updated_at: new Date(), title: getTitle() } },
       { new: true }
     );
-
+    // console.log("conversations patched");
     if (!conversation) {
       return res.status(404).json({ error: "Conversation not found." });
     }
@@ -71,12 +75,14 @@ app.patch("/conversations", async (req, res) => {
   }
 });
 
+// app.patch("/conversations/title")
+
 app.post("/conversations", async (req, res) => {
   if (!req.body.userId) {
     return res.status(400).json({ error: "userId is required." });
   }
   // console.log("request body ",req.body);
-  console.log("Creating new conversation with body:", req.body);
+  // console.log("Creating new conversation with body:", req.body.userId, req.body.conversationId, req.body.messages);
   const conversation = new Conversation({
     conversationId: req.body.conversationId || "exampleConversation",
     userId: req.body.userId,
